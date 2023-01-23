@@ -1,0 +1,47 @@
+version: '3.6'
+services:
+  web:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'gitlab.mydevopsrealprojects.com'
+    environment:
+      GITLAB_ROOT_PASSWORD: "Password2023#"
+      EXTERNAL_URL: "http://gitlab.mydevopsrealprojects.com"
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['initial_root_password'] = "Password2023#"
+        gitlab_rails['store_initial_root_password'] = true
+        gitlab_rails['display_initial_root_password'] = true
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8822:22'
+      # - '5005:5005'
+      # for Windows
+      - '5055:5005'
+    volumes:
+      - 'gitlab_config:/etc/gitlab'
+      - 'gitlab_log:/var/log/gitlab'
+      - 'gitlab_data:/var/opt/gitlab'
+    shm_size: '256m'
+  hello-world:
+    image: ghcr.io/briansu2004/colorweb:latest
+    ports:
+    - 8080:8080
+  gitlab-runner:
+    image: 'gitlab/gitlab-runner:latest'
+    restart: always
+    user: root
+    volumes:
+      - 'gitlab_runner_config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/usr/bin/docker:/usr/bin/docker'
+      - '/etc/hosts:/etc/hosts'
+volumes:
+  gitlab_data:
+    driver: local
+  gitlab_log:
+    driver: local
+  gitlab_config:
+    driver: local
+  gitlab_runner_config:
+    driver: local
