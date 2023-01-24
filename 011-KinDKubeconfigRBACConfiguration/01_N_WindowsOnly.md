@@ -4,9 +4,9 @@ Windows only
 
 ## Steps
 
-### 1. Install Kind from Release Binaries
+### 1. Make sure Docker has been installed
 
-To install Kind on Linux, follow these steps: (see installation guide [here](https://kind.sigs.k8s.io/docs/user/quick-start/))
+### 2. Install Kind from Release Binaries
 
 ```dos
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
@@ -14,7 +14,9 @@ chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 ```
 
-### 2. Create a Cluster
+[The full installation guide](https://kind.sigs.k8s.io/docs/user/quick-start/))
+
+### 3. Create a Cluster
 
 Use below command to create a Kubernetes cluster:
 
@@ -23,6 +25,7 @@ kind create cluster
 ```
 
 Once it is ready, you can run below command to test it out:
+
 > Note: Ensure to install [**kubectl**](https://www.google.com/search?channel=fs&client=ubuntu&q=install+kubectl+) before proceeding, if it hasn't been installed
 
 ```dos
@@ -40,7 +43,7 @@ kubectl config current-context
 
 Then create below file as `readonly-manifest.yaml`
 
-```yml
+```yml  
 ---
 apiVersion: v1
 kind: ServiceAccount
