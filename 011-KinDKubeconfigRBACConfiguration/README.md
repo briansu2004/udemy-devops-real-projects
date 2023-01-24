@@ -26,13 +26,13 @@ In this lab, you will learn how to generate a kubeconfig file with read-only acc
 |---|---|---|---|---|
 | 1 | Windows only | N | N |   |
 | 2 | Windows + Ubuntu | Y | Y |   |
-| 3 | Mac only | ? | N |   |
+| 3 | Mac only | N | N |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
 
-[Windows Only](01_N_WindowsOnly.md)
+[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 <!--
-[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
+[Windows Only](01_N_WindowsOnly.md)
 
 [Mac Only](03_YN_MacOnly.md)
 
