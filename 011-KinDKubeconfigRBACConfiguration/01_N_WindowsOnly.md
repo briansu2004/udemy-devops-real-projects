@@ -47,7 +47,7 @@ kubectl get node
 kubectl -n default create deploy test --image=nginx
 ```
 
-### 3. Create a Role ans Service Account
+### 5. Create a Role ans Service Account
 
 We will use a manifest to create a role and service account in your current context using kubectl. Please ensure you have the correct context before proceeding. You can check your current context using the following command:
 
@@ -57,7 +57,9 @@ kubectl config current-context
 
 Then create below file as `readonly-manifest.yaml`
 
-```yml  
+```dos
+cat > ~/readonly-manifest.yaml <<EOF
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -123,23 +125,25 @@ subjects:
   - kind: ServiceAccount
     name: readonly
     namespace: default
+EOF
 ```
 
 Apply the manifest file:
 
-```
+```dos
 kubectl apply -f readonly-manifest.yaml 
 ```
 
+<!--
 > Note: As mentioned in this [ticket](https://stackoverflow.com/questions/72256006/service-account-secret-is-not-listed-how-to-fix-it), since 1.24, ServiceAccount token secrets are no longer automatically generated. (See [this note](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.24.md#urgent-upgrade-notes))
 Also, the Secret is no longer used to mount credentials into Pods and you also need to manually create it. (ref: <https://kubernetes.io/docs/concepts/configuration/secret/#service-account-token-secrets>)
+-->
 
-### 4. Create ReadOnly Kubeconfig
+### 6. Create ReadOnly Kubeconfig
 
-You can now run the below script to generate a new readonly kubeconfig
+Run the below script to generate a new readonly kubeconfig
 
-```
-
+```dos
 server=$(kubectl config view --minify --output jsonpath='{.clusters[*].cluster.server}')
 ca=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.ca\.crt}')
 token=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.token}' | base64 --decode)
