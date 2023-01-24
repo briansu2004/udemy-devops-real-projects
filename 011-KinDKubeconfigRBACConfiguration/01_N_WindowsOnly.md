@@ -6,7 +6,23 @@ Windows only
 
 ### 1. Make sure Docker has been installed
 
-### 2. Install Kind from Release Binaries
+### 2. Install kubectl
+
+[Install and Set Up kubectl on Linux](https://www.google.com/search?channel=fs&client=ubuntu&q=install+kubectl+)
+
+```dos
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+kubectl version --client --output=yaml
+```
+
+### 3. Install Kind
 
 ```dos
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
@@ -16,7 +32,7 @@ sudo mv ./kind /usr/local/bin/kind
 
 [The full installation guide](https://kind.sigs.k8s.io/docs/user/quick-start/))
 
-### 3. Create a Cluster
+### 4. Create a Cluster
 
 Use below command to create a Kubernetes cluster:
 
@@ -25,8 +41,6 @@ kind create cluster
 ```
 
 Once it is ready, you can run below command to test it out:
-
-> Note: Ensure to install [**kubectl**](https://www.google.com/search?channel=fs&client=ubuntu&q=install+kubectl+) before proceeding, if it hasn't been installed
 
 ```dos
 kubectl get node
