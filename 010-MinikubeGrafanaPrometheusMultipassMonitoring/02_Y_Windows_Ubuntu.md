@@ -8,23 +8,48 @@ Works!
 
 ### Monitor Kuberentes Nodes and Containers
 
-#### 1. Install **Minikube**  
+#### 1. Install Docker
+
+#### 2. Install Minikube
 
 ```dos
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
-[Minikube installation guid](https://minikube.sigs.k8s.io/docs/start/)
+[Minikube installation guide](https://minikube.sigs.k8s.io/docs/start/)
 
-#### 2. Start Minikube
+#### 3. Start Minikube
 
 ```dos
 minikube start
 minikube status
 ```
 
-Once the Minikube starts, you can download the **kubectl** from [k8s official website](https://kubernetes.io/docs/tasks/tools/)
+->
+
+```dos
+minikube start --extra-config=kubeadm.ignore-preflight-errors=NumCPU --force --cpus=1
+minikube status
+```
+
+Download kubectl
+
+[k8s official website](https://kubernetes.io/docs/tasks/tools/)
+
+[Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+
+```dos
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+kubectl version --client --output=yaml
+```
 
 ```dos
 minikube kubectl
@@ -37,9 +62,7 @@ NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
 
-#### 2. Enable Minikube Dashboard
-
-You can also enable your **Minikube dashboard** by running below command:
+#### 4. Enable Minikube Dashboard
 
 ```dos
 minikube dashboard
@@ -47,10 +70,9 @@ minikube dashboard
 
 A Kuberentes Dashboard will pop out in your browser immediately. You can explore all Minikube resources in this UI website.
 
-#### 3. Install Helm v3.x
+#### 5. Install Helm v3.x
 
-Run the following commands to install **Helm v3.x**:
-> ref: <https://helm.sh/docs/intro/install/>
+<https://helm.sh/docs/intro/install/>
 
 ```dos
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 > get_helm.sh
@@ -58,7 +80,7 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
-#### 4. Deploy Metrics Server
+#### 5. Deploy Metrics Server
 
 In order to collect more metrics from the cluster, you should install **metrics server** on the cluster first. You can download the manifest file as follows:
 
@@ -106,7 +128,7 @@ NAME       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
 minikube   622m         7%     2411Mi          15%  
 ```
 
-#### 5. Add Helm Repo
+#### 6. Add Helm Repo
 
 Once Helm is set up properly, **add** the **repo** as follows:
 
@@ -116,15 +138,15 @@ helm repo update
 helm search repo prometheus-community
 ```
 
-#### 6. Deploy Prometheus Helm Chart
+#### 7. Deploy Prometheus Helm Chart
 
-**Install** Prometheus Helm Chart by running below command:
+Install Prometheus Helm Chart by running below command:
 
 ```dos
 helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
 ```
 
-#### 7. Configure Grafana Dashboard Manually
+#### 8. Configure Grafana Dashboard Manually
 
 Once the deployment is settle, you can **port-forward** to the Grafana service to access the portal from your local:
 
@@ -240,23 +262,23 @@ topk(5,avg(container_memory_usage_bytes{}) by (pod) /1024/1024/1024)
 and click **Run queries** to execute the query.Expanding the **Time series** section in the top right and search for **Bar gauge** to apply. You can also change the layout orientation in **Bar gauge** -> **Orientation** section.
 ![Top 5 Memory Intense Pods](images/top-5-memory-intense-pod.png)
 
-#### 8. Configure Dashboard by Importing Json file
+#### 9. Configure Dashboard by Importing Json file
 
 Instead of manually configuring the dashboard, you can also **import the pre-defined dashboard from a json file**. </br>
 In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then you should see the dashboard imported. You can adjust some queries/graph/setting as your needs.
 
-#### 9. Download Dashboard Template
+#### 10. Download Dashboard Template
 
 A variety of dashboard templates are available to meet different needs in [**Grafana Labs**](https://grafana.com/grafana/dashboards/). you can go to the [website](https://grafana.com/grafana/dashboards/) and search for any dashboard you like, and just need to copy the **ID** and paste to **Grafana website** -> **Dashboard** -> **Import** -> **Import via grafana.com** and click **Load** to load the template from the website.
 ![Template ID](images/template-id.png)
 ![Template Import](images/template-import.png)
 
-#### 10. Find Help from Your AI Friend
+#### 11. Find Help from Your AI Friend
 
 You can also take advanage of your AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
 ![chatgpg](images/chatgpg.png)
 
-### <a name="vm">Monitor VMs</a>
+### Monitor VMs
 
 You can use Prometheus to monitor VMs outside of the Kubernetes cluster in addition to containers. Below are the steps to do so.
 
@@ -363,7 +385,7 @@ The graph will appear as shown below.
 ![grafana-query](images/grafana-query.png)
 One useful node expertor dashboard template is available in [this website](https://grafana.com/grafana/dashboards/15172-node-exporter-for-prometheus-dashboard-based-on-11074/) or in `vm-health-status.json` file under the same folder as this README.
 
-### <a name="alert">Alert Manager</a>
+### Alert Manager
 
 The next crucial step in setting up the monitoring system is to properly configure **alerts**. The alert configuration will be handled by the **Alert Manager service**, which will then forward the alerts to various messaging platforms, including but not limited to Slack, Telegram, Discord, and Microsoft Teams. In our laboratory, we will utilize **Slack** as the messaging platform. Participants can either create their own Slack channel (see [here](https://api.slack.com/messaging/webhooks) how to create a Slack webhook) or contact me at **chance.chen21@gmail.com** to join the existing one. </br>
 
