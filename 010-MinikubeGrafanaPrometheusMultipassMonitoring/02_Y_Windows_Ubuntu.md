@@ -8,9 +8,16 @@ Works!
 
 ### Monitor Kuberentes Nodes and Containers
 
-#### 1. Start Minikube
+#### 1. Install **Minikube**  
 
-You can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/). Once it is installed, **start** the Minikube by running below command:
+```dos
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+
+[Minikube installation guid](https://minikube.sigs.k8s.io/docs/start/)
+
+#### 2. Start Minikube
 
 ```dos
 minikube start
