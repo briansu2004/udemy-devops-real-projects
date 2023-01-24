@@ -175,16 +175,16 @@ KUBECONFIG=~/.kube/config:readonly-kubeconfig.yml kubectl config view --flatten 
 mv /tmp/merged-config ~/.kube/config
 ```
 
+<!--
 Note: If you are using **AKS**, you should have a **service account** `readonly-sa` already, which has been associated with an existing readonly cluster role. You can just run below script instead:
 
-```
+```dos
 api_server=$(kubectl config view -o jsonpath='{.clusters[0].cluster.server}')
 cluster_name=$(kubectl config view -o jsonpath='{.clusters[0].name}')
 serviceaccount_name=$(kubectl -n default get serviceaccount/readonly-sa -o jsonpath='{.secrets[0].name}')
 ca=$(kubectl -n default get secret/$serviceaccount_name -o jsonpath='{.data.ca\.crt}')
 token=$(kubectl -n default get secret/$serviceaccount_name -o jsonpath='{.data.token}' | base64 --decode)
 namespace=$(kubectl -n default get secret/$serviceaccount_name -o jsonpath='{.data.namespace}' | base64 --decode)
-
 
 echo "
 apiVersion: v1
@@ -211,19 +211,20 @@ cp ~/.kube/config ~/.kube/config.$(date +%Y%m%d).bak
 KUBECONFIG=~/.kube/config:readonly.config kubectl config view --flatten > /tmp/merged-config
 mv /tmp/merged-config ~/.kube/config
 ```
+-->
 
-### 5. Test
+### 7. Test
 
-Run below command to switch to the new readonly context:
+Switch to the new readonly context:
 
-```
+```dos
 kubectl config use-context readonly
 kubectl config current-context
 ```
 
 With the new readonly kubeconfig, you can only **list**/**watch**/**exec** the Pod, but cannot **create**/**delete** any Pod. Let's test it out
 
-```
+```dos
 kubectl get node
 kubectl -n default get pod --watch
 kubectl exec -it $(kubectl get pod --no-headers|awk '{print $1}') -- bash
@@ -231,28 +232,21 @@ kubectl exec -it $(kubectl get pod --no-headers|awk '{print $1}') -- bash
 
 Try creating or deleting an object:
 
-```
+```dos
 kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
 kubectl create deploy test2 --image=nginx
 ```
 
 The error below indicates a permission issue, which means the kubeconfig works as expected
 
-```
+```dos
 Error from server (Forbidden): pods "test-75d6d47c7f-5dshd" is forbidden: User "system:serviceaccount:default:readonly" cannot delete resource "pods" in API group "" in the namespace "default"
 ```
 
-## <a name="post_project">Post Project</a>
+## Post Project
 
-You can delete the cluster as following command:
+Delete the cluster
 
-```
+```dos
 kind delete cluster
 ```
-
-## <a name="troubleshooting">Troubleshooting</a>
-
-## <a name="reference">Reference</a>
-
-- [Read Only Kubeconfig](https://docs.hava.io/importing/kubernetes/getting-started-with-kubernetes/read-only-kubeconfig)
-- [Limited Kubeconfig](https://codeforphilly.github.io/chime/operations/limited-kubeconfigs/limited-kubeconfigs.html)
