@@ -329,7 +329,9 @@ You can use Prometheus to monitor VMs outside of the Kubernetes cluster in addit
 
 #### 1. [Option] Deploy a test VM
 
-If you don't want to install **node exporter** in your local machine directly, you can just spin up a fresh new VM by [multipass](https://multipass.run/install). If you are using Ubunut, you can run below commands to create a new VM via `multipass`:
+If you don't want to install **node exporter** in your local machine directly, you can just spin up a fresh new VM by [multipass](https://multipass.run/install).
+
+If you are using Ubunut, you can run below commands to create a new VM via `multipass`:
 
 ```dos
 snap install multipass
@@ -491,7 +493,6 @@ Then, you can update the Prometheus Helm Deployment by running following command
 
 ```dos
 helm upgrade prometheus prometheus-community/prometheus -f values.prometheus-only.yaml
-
 ```
 
 #### 3. Test
