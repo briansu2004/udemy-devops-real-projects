@@ -25,8 +25,8 @@ In this lab, we will deploy the **Prometheus-Grafana** **Helm** chart on **Minik
 | #  | Env  | Y/N  | Recommended   |  Comment |
 |---|---|---|---|---|
 | 1 | Windows only | N | N |   |
-| 2 | Windows + Ubuntu | N | N |   |
-| 3 | Mac only | N | N |   |
+| 2 | Windows + Ubuntu | Y | Y |   |
+| 3 | Mac only | Y | Y |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
 
 [Mac Only](03_Y_MacOnly.md)
