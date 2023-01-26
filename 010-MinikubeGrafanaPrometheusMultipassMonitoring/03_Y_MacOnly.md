@@ -26,26 +26,29 @@ minikube start
 minikube status
 ```
 
-->
-
-```dos
-minikube start --extra-config=kubeadm.ignore-preflight-errors=NumCPU --force --cpus=1
-minikube status
-```
-
-Download kubectl
+#### 4. Install kubectl
 
 [k8s official website](https://kubernetes.io/docs/tasks/tools/)
 
-[Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+[Install and Set Up kubectl on macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
 
 ```dos
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+brew install kubectl
+```
 
-curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
-echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+or
 
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```dos
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl.sha256"
+
+echo "$(cat kubectl.sha256)  kubectl" | shasum -a 256 --check
+
+chmod +x ./kubectl
+
+sudo mv ./kubectl /usr/local/bin/kubectl
+sudo chown root: /usr/local/bin/kubectl
 
 kubectl version --client
 kubectl version --client --output=yaml
@@ -62,7 +65,7 @@ NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
 
-#### 4. Enable Minikube Dashboard
+#### 5. Enable Minikube Dashboard
 
 ```dos
 minikube dashboard
@@ -70,7 +73,7 @@ minikube dashboard
 
 A Kuberentes Dashboard will pop out in your browser immediately. You can explore all Minikube resources in this UI website.
 
-#### 5. Install Helm v3.x
+#### 6. Install Helm v3.x
 
 <https://helm.sh/docs/intro/install/>
 
@@ -80,11 +83,13 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
-#### 5. Deploy Metrics Server
+#### 7. Deploy Metrics Server
 
 In order to collect more metrics from the cluster, you should install **metrics server** on the cluster first. You can download the manifest file as follows:
 
 ```dos
+brew install wget
+
 wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
 
@@ -108,6 +113,28 @@ metadata:
 ...
 ```
 
+```yml
+      - args:
+        - --cert-dir=/tmp
+        - --secure-port=4443
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        - --kubelet-use-node-status-port
+        - --metric-resolution=15s
+```
+
+->
+
+```yml
+      - args:
+        - --cert-dir=/tmp
+        - --secure-port=4443
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        - --kubelet-use-node-status-port
+        - --metric-resolution=15s
+        - --kubelet-insecure-tls
+        - --kubelet-preferred-address-types=InternalIP
+```
+
 Lastly, **apply** the manifest:
 
 ```dos
@@ -128,7 +155,7 @@ NAME       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
 minikube   622m         7%     2411Mi          15%  
 ```
 
-#### 6. Add Helm Repo
+#### 8. Add Helm Repo
 
 Once Helm is set up properly, **add** the **repo** as follows:
 
@@ -138,7 +165,7 @@ helm repo update
 helm search repo prometheus-community
 ```
 
-#### 7. Deploy Prometheus Helm Chart
+#### 9. Deploy Prometheus Helm Chart
 
 Install Prometheus Helm Chart by running below command:
 
@@ -146,7 +173,7 @@ Install Prometheus Helm Chart by running below command:
 helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
 ```
 
-#### 8. Configure Grafana Dashboard Manually
+#### 10. Configure Grafana Dashboard Manually
 
 Once the deployment is settle, you can **port-forward** to the Grafana service to access the portal from your local:
 
@@ -160,13 +187,19 @@ Open your **brower** and then type the URL: [http://localhost:8888](http://local
 kubectl get secret prometheus-grafana -o=jsonpath="{.data.admin-password}"|base64 -d
 ```
 
-Enter the username (**admin**) and the password you got above (e.g. **prom-operator**), then you should be logged in the Grafana welcome board. </br>
-Go to the **Dashboards** section in the left navigation lane, and click **+New dashboard** to open a new dashboard. Follow below steps to add some **variables** before creating a panel.</br>
-a. Click **Dashboard settings**(the gear icon) in the top right </br>
-b. Go to **Variables** section </br>
-c. Click **Add variable** and add below variables </br>
+Enter the username (**admin**) and the password you got above (e.g. **prom-operator**), then you should be logged in the Grafana welcome board.
 
-**Node** </br>
+Go to the **Dashboards** section in the left navigation lane, and click **+New dashboard** to open a new dashboard. Follow below steps to add some **variables** before creating a panel.
+
+a. Click **Dashboard settings**(the gear icon) in the top right
+
+b. Go to **Variables** section
+
+c. Click **Add variable** and add below variables
+
+```dos
+**Node**
+
 ---
 
 - **Select variable type**: Query
@@ -183,9 +216,10 @@ c. Click **Add variable** and add below variables </br>
 - **Include All option**: Selected
 - **Custom all value**: .\*
 
-Click **Apply** to save the change</br>
+Click **Apply** to save the change
 
 **Container**
+
 ---
 
 - **Select variable type**: Query
@@ -202,9 +236,10 @@ Click **Apply** to save the change</br>
 - **Include All option**: Selected
 - **Custom all value**: .\*
 
-Click **Apply** to save the change</br>
+Click **Apply** to save the change
 
 **Namespace**
+
 ---
 
 - **Select variable type**: Query
@@ -221,9 +256,10 @@ Click **Apply** to save the change</br>
 - **Include All option**: Selected
 - **Custom all value**: .\*
 
-Click **Apply** to save the change</br>
+Click **Apply** to save the change
 
 **interval**
+
 ---
 
 - **Select variable type**: Interval
@@ -232,50 +268,59 @@ Click **Apply** to save the change</br>
 - Description: Interval
 - **Data source**: Prometheus
 - **Values**: 1m,10m,30m,1h,6h,12h,1d,7d,14d,30d
-- Auto Option: Enable (Default)
-- Step count: 1 (Default)
-- Min interval: 2m (Default)
-Click **Apply** to save the change</br>
-Click **Save** to save the dashboard. Name it as **Container Health Status** </br>
-Once you go back to the Dashboard, you will see the **Node**/**Container**/**Namespace**/**Interval** sections are available in the top left with dropdown menu for choosing. </br>
-</br>
-</br>
+- Auto Option: Enable
+- Step count: 1
+- Min interval: 2m
+
+Click **Apply** to save the change
+```
+
+Click **Save** to save the dashboard. Name it as **Container Health Status**
+
+Once you go back to the Dashboard, you will see the **Node**/**Container**/**Namespace**/**Interval** sections are available in the top left with dropdown menu for choosing.
+
 Now we are going to add a new **Panel**. Click **Add Panel** in the top right and click **Add a new panel** area. In the section **A**, type below query in the **Enter a PromQL query** field:
 
 ```dos
 sum(kube_pod_status_phase{pod=~"^$Container.*",namespace=~"default"}) by (phase)
 ```
 
-and click **Run queries** to execute the query. Make sure to choose **All** in top **Container** dropdown menu. You should see a line chart in above display area. </br>
-</br>
-In order to make the graph more readable, we can change the type of charts. Just expanding the **Time series** section in the top right and search for **bar gauge** to apply. </br>
-</br>
-Before saving the change, go to **Panel options** section in the right lane and type the name in **Title** field, for example, **Pod Status in Default Namespace**. And click **Apply** to save the change.</br>
-</br>
-</br>
+and click **Run queries** to execute the query. Make sure to choose **All** in top **Container** dropdown menu. You should see a line chart in above display area.
+
+In order to make the graph more readable, we can change the type of charts. Just expanding the **Time series** section in the top right and search for **bar gauge** to apply.
+
+Before saving the change, go to **Panel options** section in the right lane and type the name in **Title** field, for example, **Pod Status in Default Namespace**. And click **Apply** to save the change.
+
 Next, we will create a **panel** to monitor the **top 5 memory intense Pods**. Again, click **Add panel** and then choose **Add a new panel**. Copy and paste below query in the query field:
 
 ```dos
 topk(5,avg(container_memory_usage_bytes{}) by (pod) /1024/1024/1024)
 ```
 
-and click **Run queries** to execute the query.Expanding the **Time series** section in the top right and search for **Bar gauge** to apply. You can also change the layout orientation in **Bar gauge** -> **Orientation** section.
+and click **Run queries** to execute the query.
+
+Expanding the **Time series** section in the top right and search for **Bar gauge** to apply. You can also change the layout orientation in **Bar gauge** -> **Orientation** section.
+
 ![Top 5 Memory Intense Pods](images/top-5-memory-intense-pod.png)
 
-#### 9. Configure Dashboard by Importing Json file
+#### 11. Configure Dashboard by Importing Json file
 
-Instead of manually configuring the dashboard, you can also **import the pre-defined dashboard from a json file**. </br>
-In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then you should see the dashboard imported. You can adjust some queries/graph/setting as your needs.
+Instead of manually configuring the dashboard, you can also **import the pre-defined dashboard from a json file**.
 
-#### 10. Download Dashboard Template
+In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then you should see the dashboard imported.
 
-A variety of dashboard templates are available to meet different needs in [**Grafana Labs**](https://grafana.com/grafana/dashboards/). you can go to the [website](https://grafana.com/grafana/dashboards/) and search for any dashboard you like, and just need to copy the **ID** and paste to **Grafana website** -> **Dashboard** -> **Import** -> **Import via grafana.com** and click **Load** to load the template from the website.
+#### 12. Download Dashboard Template
+
+A variety of dashboard templates are available to meet different needs in [**Grafana Labs**](https://grafana.com/grafana/dashboards/). you can go to there and search for any dashboard you like, and just need to copy the **ID** and paste to **Grafana website** -> **Dashboard** -> **Import** -> **Import via grafana.com** and click **Load** to load the template from the website.
+
 ![Template ID](images/template-id.png)
+
 ![Template Import](images/template-import.png)
 
-#### 11. Find Help from Your AI Friend
+#### 13. Find Help from Your AI Friend
 
 You can also take advanage of your AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
+
 ![chatgpg](images/chatgpg.png)
 
 ### Monitor VMs
@@ -373,7 +418,7 @@ export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/
 kubectl --namespace monitoring port-forward $POD_NAME 3000
 ```
 
-**Login** with the password from above and the username: `admin` in [http://localhost:3000](http://localhost:3000) via your browser. Go to **Configuration** (gear icon in the left lane) -> **Data sources** -> Click **Add data source** -> Choose **Prometheus**. In the URL, enter `http://prometheus-server` and then **Save & test** the change. </br>
+**Login** with the password from above and the username: `admin` in [http://localhost:3000](http://localhost:3000) via your browser. Go to **Configuration** (gear icon in the left lane) -> **Data sources** -> Click **Add data source** -> Choose **Prometheus**. In the URL, enter `http://prometheus-server` and then **Save & test** the change.
 Go to **Explorer** and type below query in the PromQL query field
 
 ```dos
@@ -387,7 +432,7 @@ One useful node expertor dashboard template is available in [this website](https
 
 ### Alert Manager
 
-The next crucial step in setting up the monitoring system is to properly configure **alerts**. The alert configuration will be handled by the **Alert Manager service**, which will then forward the alerts to various messaging platforms, including but not limited to Slack, Telegram, Discord, and Microsoft Teams. In our laboratory, we will utilize **Slack** as the messaging platform. Participants can either create their own Slack channel (see [here](https://api.slack.com/messaging/webhooks) how to create a Slack webhook) or contact me at **chance.chen21@gmail.com** to join the existing one. </br>
+The next crucial step in setting up the monitoring system is to properly configure **alerts**. The alert configuration will be handled by the **Alert Manager service**, which will then forward the alerts to various messaging platforms, including but not limited to Slack, Telegram, Discord, and Microsoft Teams. In our laboratory, we will utilize **Slack** as the messaging platform. Participants can either create their own Slack channel (see [here](https://api.slack.com/messaging/webhooks) how to create a Slack webhook) or contact me at **chance.chen21@gmail.com** to join the existing one.
 
 ### 1. Update Configuration
 
@@ -516,13 +561,13 @@ Above are all steps to deploy/setup Premotheus-Grafana in a Kubernetes cluster.
 
 ## <a name="reference">Reference</a>
 
-- [Prometheus Overview](https://prometheus.io/docs/introduction/overview/)</br>
-- [Grafana Github README](https://github.com/grafana/helm-charts/blob/main/charts/grafana/README.md)</br>
-- [Grafana Awesome Alert](https://awesome-prometheus-alerts.grep.to/)</br>
+- [Prometheus Overview](https://prometheus.io/docs/introduction/overview/)
+- [Grafana Github README](https://github.com/grafana/helm-charts/blob/main/charts/grafana/README.md)
+- [Grafana Awesome Alert](https://awesome-prometheus-alerts.grep.to/)
 - [Prometheus Queries Example Official](https://prometheus.io/docs/prometheus/latest/querying/examples/)
-- [Prometheus Queries Example 1](https://www.opsramp.com/guides/prometheus-monitoring/prometheus-alerting/)</br>
-- [Prometheus Queries Example 2](https://sysdig.com/blog/prometheus-query-examples/)</br>
-- [Prometheus Queries Example 3](https://sysdig.com/blog/getting-started-with-promql-cheatsheet/)</br>
+- [Prometheus Queries Example 1](https://www.opsramp.com/guides/prometheus-monitoring/prometheus-alerting/)
+- [Prometheus Queries Example 2](https://sysdig.com/blog/prometheus-query-examples/)
+- [Prometheus Queries Example 3](https://sysdig.com/blog/getting-started-with-promql-cheatsheet/)
 - [Prometheus Queries Example 4](https://www.containiq.com/post/promql-cheat-sheet-with-examples)
 - [Node Exporter Installation](https://prometheus.io/docs/guides/node-exporter/)
 - [Step-by-step guide to setting up Prometheus Alertmanager with Slack, PagerDuty, and Gmail](https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/)
@@ -546,39 +591,4 @@ curl -XPOST -H "Content-Type: application/json" $url -d '[{"status": "resolved",
 - [Alert Script 3](https://gist.github.com/carinadigital/fd2960fdccd77dbdabc849656c43a070)
 - [stress-ng USAGE](https://stackoverflow.com/questions/45317515/stress-ng-ram-testing-commands)
 - [Multipass Commandline](https://multipass.run/docs/launch-command)
--->
-
-## Prerequisites
-
-- Ubuntu 20.04 OS (Minimum 2 core CPU/8GB RAM/30GB Disk)
-- Docker
-- Docker Compose
-
-## Vagrant home
-
-- Windows
-
-`c:\devbox`
-
-- Mac
-
-`~/devbox`
-
-## Environments
-
-| #  | Env  | Y/N  | Recommended   |  Comment |
-|---|---|---|---|---|
-| 1 | Windows only | N | N |   |
-| 2 | Windows + Ubuntu | Y | Y |   |
-| 3 | Mac only | N | N |   |
-| 4 | Mac + Ubuntu | Y | Y |   |
-
-[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
-
-<!--
-[Windows Only](01_N_WindowsOnly.md)
-
-[Mac Only](03_YN_MacOnly.md)
-
-[With_Mac_Ubuntu](04_Y_Mac_Ubuntu.md)
 -->
