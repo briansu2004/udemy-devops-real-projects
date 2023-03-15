@@ -1,0 +1,73 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cronjob
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          initContainers:
+          - name: vault-backup
+            image: {{ .Values.cronjob.imageVault }}
+            command:
+              - /bin/sh
+            args:
+              - -ec
+              - |
+                apk update && apk add jq
+                export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_APPROLE_ROLE_ID secret_id=$VAULT_APPROLE_SECRET_ID -format=json |jq -r .auth.client_token);
+                echo "vault kv get -format=json $MOUNT_POINT/$SECRET_PATH"
+                vault kv get -format=json $MOUNT_POINT/$SECRET_PATH > /backup/vault-backup-`date +%Y%m%d%H%M`.json
+
+
+            env:
+              {{- range $key, $val := .Values.env }}
+              - name: "{{ $key }}"
+                value: "{{ $val }}"
+              {{- end }}
+            volumeMounts:
+            - mountPath: /backup
+              name: backup-dir
+#          - name: consul-snapshot
+#            image: {{ .Values.cronjob.imageConsul }}
+#            command:
+#              - /bin/sh
+#              - -ec
+#              - |
+#                consul snapshot save /backup/consul-backup-`date +%Y%m%d%H%M`.snap
+#            env:
+#              {{- range $key, $val := .Values.env }}
+#              - name: "{{ $key }}"
+#                value: "{{ $val }}"
+#              {{- end }}
+#            volumeMounts:
+#            - mountPath: /backup
+#              name: backup-dir
+          containers:
+          - name: upload
+            image: {{ .Values.cronjob.imageUpload }}
+            command:
+              - /bin/sh
+              - /upload/upload.sh
+            env:
+              {{- range $key, $val := .Values.env }}
+              - name: "{{ $key }}"
+                value: "{{ $val }}"
+              {{- end }}
+            imagePullPolicy: Always
+            volumeMounts:
+            - mountPath: /backup
+              name: backup-dir
+            - mountPath: /upload
+              name: upload
+          restartPolicy: OnFailure
+          volumes:
+          - name: backup-dir
+            emptyDir: {}
+          - name: upload
+            configMap:
+              name: upload
+              defaultMode: 0777
+      backoffLimit: 3
