@@ -63,10 +63,17 @@ echo y | sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compo
 sudo chmod 666 /var/run/docker.sock
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube start
 EOF
 
 chmod 777 install_docker_minikube.sh
 ./install_docker_minikube.sh
+```
+
+Start minikube cluster
+
+```bash
+minikube start
 ```
 
 ## DNS
@@ -104,3 +111,12 @@ apt install net-tools
 apt update && apt upgrade
 apt install iputils-ping
 ```
+
+<!--
+## Troubleshooting
+
+### Exiting due to RSRC_INSUFFICIENT_CORES: Requested cpu count 2 is greater than the available cpus of 1
+
+
+
+-->
