@@ -42,4 +42,24 @@ Project 008: Install Jenkins Using Ansible
 Project 009: Helm Deployment in K8s
 Project 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Containers and VMs
 Project 011: Create Read Only Kubeconfig File
+Project 012: Backup Vault in Minio
+Project 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
+```
+
+## Status
+
+```dos
+Project 001: Done
+Project 002: Done
+Project 003: Done
+Project 004: Done
+Project 005: Done
+Project 006: Done
+Project 007: Done
+Project 008: Done
+Project 009: Done
+Project 010: Done
+Project 011: Done
+Project 012: WIP
+Project 013: WIP
 ```
