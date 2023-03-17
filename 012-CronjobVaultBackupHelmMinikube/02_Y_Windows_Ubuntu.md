@@ -1,10 +1,10 @@
 # Project 012: Backup Vault in Minio
 
-Windows Only
-
 <!--
-Windows + Ubuntu (vagrant vbox)
+Windows Only
 -->
+
+Windows + Ubuntu (vagrant vbox)
 
 ## Project Goal
 
