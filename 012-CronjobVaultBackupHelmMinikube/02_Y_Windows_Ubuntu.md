@@ -25,7 +25,7 @@ Once the Minikube starts, you can download the **kubectl** from [k8s official we
 
 ```bash
 minikube kubectl
-alias k="kubectl"
+alias k="minikube kubectl"
 ```
 
 Then, when you run the command `kubectl get node` or `k get node`, you should see below output:
