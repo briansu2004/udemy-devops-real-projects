@@ -39,19 +39,24 @@ This one doesn't work -
 
 Output:
 
-```dos
-PS C:\devbox> minikube start --kubernetes-version=v1.26.1
-* minikube v1.29.0 on Microsoft Windows 10 Enterprise 10.0.19044.2604 Build 19044.2604
-* Using the docker driver based on existing profile
-* Starting control plane node minikube in cluster minikube
-* Pulling base image ...
-* Updating the running docker "minikube" container ...
-* Preparing Kubernetes v1.26.1 on Docker 20.10.23 ...
-* Configuring bridge CNI (Container Networking Interface) ...
-* Verifying Kubernetes components...
-  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
-* Enabled addons: storage-provisioner, default-storageclass
-* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+```bash
+DevOps 🚀 _Code % minikube start --kubernetes-version=v1.26.1
+😄  minikube v1.29.0 on Darwin 13.1
+✨  Automatically selected the docker driver. Other choices: virtualbox, ssh
+📌  Using Docker Desktop driver with root privileges
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+    > gcr.io/k8s-minikube/kicbase...:  407.19 MiB / 407.19 MiB  100.00% 7.87 Mi
+🔥  Creating docker container (CPUs=2, Memory=4000MB) ...
+🐳  Preparing Kubernetes v1.26.1 on Docker 20.10.23 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
 Check status:
@@ -60,7 +65,7 @@ Check status:
 
 Output:
 
-```dos
+```bash
 PS C:\devbox> minikube status
 minikube
 type: Control Plane
@@ -72,14 +77,16 @@ kubeconfig: Configured
 
 Once the Minikube starts, you can download the kubectl
 
-```dos
+```bash
 minikube kubectl
 ```
 
 Output:
 
-```dos
-PS C:\devbox> minikube kubectl
+```bash
+DevOps 🚀 _Code % minikube kubectl
+    > kubectl.sha256:  64 B / 64 B [-------------------------] 100.00% ? p/s 0s
+    > kubectl:  51.28 MiB / 51.28 MiB [------------] 100.00% 11.58 MiB p/s 4.6s
 kubectl controls the Kubernetes cluster manager.
 
  Find more information at: https://kubernetes.io/docs/reference/kubectl/
@@ -94,7 +101,7 @@ Basic Commands (Beginner):
 
 Then, when you run the command `kubectl get node`, you should see below output:
 
-```dos
+```bash
 NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
@@ -103,7 +110,7 @@ minikube   Ready    control-plane   4m37s   v1.25.3
 
 You can also enable your **Minikube dashboard** by running below command:
 
-```dos
+```bash
 minikube dashboard
 ```
 
@@ -113,29 +120,36 @@ You should see a Kuberentes Dashboard page pop out in your browser immediately. 
 
 Follow the instruction here [Helm v3.x](https://helm.sh/docs/intro/install/)
 
-```dos
-choco install kubernetes-helm
+```bash
+brew install helm
 ```
 
 ### 5. Add Helm Repo
 
 Once Helm is set up properly, **add** the **repo** as follows:
 
-```dos
+```bash
 helm repo add minio https://charts.min.io/
+```
+
+Output:
+
+```bash
+DevOps 🚀 _Code % helm repo add minio https://charts.min.io/
+"minio" has been added to your repositories
 ```
 
 ### 6. Create a namespace
 
 Create a `minio` namespace
 
-```dos
+```bash
 kubectl create ns minio
 ```
 
 Output:
 
-```dos
+```bash
 PS C:\devbox> kubectl create ns minio
 namespace/minio created
 ```
@@ -144,27 +158,27 @@ namespace/minio created
 
 Since we are using Minikube cluster which has only 1 node, we just deploy the Minio in a test mode.
 
-```dos
+```bash
 helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
 ```
 
 Output:
 
-```dos
-PS C:\devbox> helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
-NAME: minio-1679172101
-LAST DEPLOYED: Sat Mar 18 16:41:42 2023
+```bash
+DevOps 🚀 _Code % helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
+NAME: minio-1679181453
+LAST DEPLOYED: Sat Mar 18 19:17:33 2023
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
 MinIO can be accessed via port 9000 on the following DNS name from within your cluster:
-minio-1679172101.default.svc.cluster.local
+minio-1679181453.default.svc.cluster.local
 
 To access MinIO from localhost, run the below commands:
 
-  1. export POD_NAME=$(kubectl get pods --namespace default -l "release=minio-1679172101" -o jsonpath="{.items[0].metadata.name}")
+  1. export POD_NAME=$(kubectl get pods --namespace default -l "release=minio-1679181453" -o jsonpath="{.items[0].metadata.name}")
 
   2. kubectl port-forward $POD_NAME 9000 --namespace default
 
@@ -174,16 +188,17 @@ You can now access MinIO server on http://localhost:9000. Follow the below steps
 
   1. Download the MinIO mc client - https://min.io/docs/minio/linux/reference/minio-mc.html#quickstart
 
-  2. export MC_HOST_minio-1679172101-local=http://$(kubectl get secret --namespace default minio-1679172101 -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret --namespace default minio-1679172101 -o jsonpath="{.data.rootPassword}" | base64 --decode)@localhost:9000
+  2. export MC_HOST_minio-1679181453-local=http://$(kubectl get secret --namespace default minio-1679181453 -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret --namespace default minio-1679181453 -o jsonpath="{.data.rootPassword}" | base64 --decode)@localhost:9000
 
-  3. mc ls minio-1679172101-local
+  3. mc ls minio-1679181453-local
+DevOps 🚀 _Code % 
 ```
 
 ### 8. Update the configure file
 
 Check the minio service name and update in the `vault-backup-values.yaml` in `MINIO_ADDR` env var
 
-```dos
+```bash
 $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
 echo "Minio POD name is $POD_NAME"
 kubectl port-forward $POD_NAME 9000 --namespace default
@@ -194,7 +209,7 @@ echo "Minio service name is $MINIO_SERVICE_NAME"
 
 Output:
 
-```dos
+```bash
 PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
 PS C:\devbox>
 PS C:\devbox> echo "Minio POD name is $POD_NAME"
@@ -206,7 +221,7 @@ Forwarding from [::1]:9000 -> 9000
 ```
 
 <!--
-```dos
+```bash
 PS C:\devbox> kubectl get svc
 NAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 kubernetes                 ClusterIP   10.96.0.1       <none>        443/TCP    2d
@@ -218,7 +233,7 @@ minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   
 Update the minio username and password in `vault-backup-values.yaml`
 
 <!--
-```dos
+```bash
 MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
 echo "MINIO_USERNAME is $MINIO_USERNAME"
 MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
@@ -226,7 +241,7 @@ echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 ```
 -->
 
-```dos
+```bash
 $MINIO_USERNAME = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"
 
 echo "MINIO_USERNAME is $MINIO_USERNAME"
@@ -244,14 +259,14 @@ In order to access the Minio console, you need to port forward it to your local
 kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
 -->
 
-```dos
+```bash
 kubectl get svc | findstr console
 kubectl port-forward svc/minio-1679175880-console 9001:9001
 ```
 
 Output:
 
-```dos
+```bash
 PS C:\devbox> kubectl get svc | findstr console
 minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   24m
 
@@ -270,7 +285,7 @@ Go to *Buckets* section in the left lane and click *Create Bucket* with a name `
 
 We are going to deploy a Vault helm chart in the Minikube cluster. Create a `vault-values.yaml` first:
 
-```dos
+```bash
 cat <<EOF > vault-values.yaml
 
 injector:
@@ -290,7 +305,7 @@ EOF
 
 Run below commands to apply the helm chart:
 
-```dos
+```bash
 helm repo add hashicorp https://helm.releases.hashicorp.com
 kubectl create ns vault-test
 helm -n vault-test install vault hashicorp/vault -f vault-values.yaml
@@ -298,7 +313,7 @@ helm -n vault-test install vault hashicorp/vault -f vault-values.yaml
 
 Initiate the Vault
 
-```dos
+```bash
 kubectl -n vault-test exec vault-0 -- vault operator init
 kubectl -n vault-test exec vault-0 -- vault operator unseal <unseal key from .vault.key>
 kubectl -n vault-test exec vault-0 -- vault operator unseal <unseal key from .vault.key>
@@ -338,7 +353,7 @@ echo SECRET_ID is $SECRET_ID
 
 ### 9. Deploy Vault Backup Helm Chart
 
-```dos
+```bash
 kubectl -n vault-test create configmap upload --from-file=upload.sh
 helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-values.yaml
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
@@ -348,7 +363,7 @@ kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-c
 
 Port forward Minio console to your local host:
 
-```dos
+```bash
 MINIO_CONSOLE_ADDR=$(kubectl -n minio get svc|grep console|awk '{print $1}')
 kubectl -n minio port-forward svc/$MINIO_CONSOLE_ADDR 9001:9001
 ```
