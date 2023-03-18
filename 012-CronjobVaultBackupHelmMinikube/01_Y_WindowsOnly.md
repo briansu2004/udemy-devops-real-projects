@@ -28,14 +28,59 @@ This one doesn't work -
 `minikube start --cpus=1`
 -->
 
+Output:
+
+```dos
+PS C:\devbox> minikube start --kubernetes-version=v1.26.1
+* minikube v1.29.0 on Microsoft Windows 10 Enterprise 10.0.19044.2604 Build 19044.2604
+* Using the docker driver based on existing profile
+* Starting control plane node minikube in cluster minikube
+* Pulling base image ...
+* Updating the running docker "minikube" container ...
+* Preparing Kubernetes v1.26.1 on Docker 20.10.23 ...
+* Configuring bridge CNI (Container Networking Interface) ...
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: storage-provisioner, default-storageclass
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+```
+
 Check status:
 
 `minikube status`
+
+Output:
+
+```dos
+PS C:\devbox> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+```
 
 Once the Minikube starts, you can download the kubectl
 
 ```dos
 minikube kubectl
+```
+
+Output:
+
+```dos
+PS C:\devbox> minikube kubectl
+kubectl controls the Kubernetes cluster manager.
+
+ Find more information at: https://kubernetes.io/docs/reference/kubectl/
+
+Basic Commands (Beginner):
+  create          Create a resource from a file or from stdin
+  expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
+  run             Run a particular image on the cluster
+  set             Set specific features on objects
+...
 ```
 
 Then, when you run the command `kubectl get node`, you should see below output:
@@ -77,6 +122,13 @@ Create a `minio` namespace
 
 ```dos
 kubectl create ns minio
+```
+
+Output:
+
+```dos
+PS C:\devbox> kubectl create ns minio
+namespace/minio created
 ```
 
 ### 7. Install Minio Helm Chart
@@ -123,7 +175,8 @@ You can now access MinIO server on http://localhost:9000. Follow the below steps
 Check the minio service name and update in the `vault-backup-values.yaml` in `MINIO_ADDR` env var
 
 ```dos
-$POD_NAME = kubectl get pods --namespace default -l "release=minio-1679172101" -o jsonpath="{.items[0].metadata.name}"
+$POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
+echo "Minio POD name is $POD_NAME"
 kubectl port-forward $POD_NAME 9000 --namespace default
 
 $MINIO_SERVICE_NAME = kubectl get svc -n minio -o jsonpath="{.items[1].metadata.name}"
@@ -133,7 +186,11 @@ echo "Minio service name is $MINIO_SERVICE_NAME"
 Output:
 
 ```dos
-PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679172101" -o jsonpath="{.items[0].metadata.name}"
+PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
+PS C:\devbox>
+PS C:\devbox> echo "Minio POD name is $POD_NAME"
+Minio POD name is minio-1679175880-74bc6487b8-lqmqx
+PS C:\devbox>
 PS C:\devbox> kubectl port-forward $POD_NAME 9000 --namespace default
 Forwarding from 127.0.0.1:9000 -> 9000
 Forwarding from [::1]:9000 -> 9000
@@ -162,9 +219,11 @@ echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 
 ```dos
 $MINIO_USERNAME = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"
+
 echo "MINIO_USERNAME is $MINIO_USERNAME"
 
 $MINIO_PASSWORD = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"
+
 echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 ```
 
@@ -172,9 +231,13 @@ echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 
 In order to access the Minio console, you need to port forward it to your local
 
+<!--
+kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
+-->
+
 ```dos
 kubectl get svc | findstr console
-kubectl port-forward svc/minio-1679172101-console 9001:9001
+kubectl port-forward svc/minio-1679175880-console 9001:9001
 ```
 
 Output:
