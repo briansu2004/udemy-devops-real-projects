@@ -16,5 +16,5 @@ env:
     BUCKET_NAME: 'test'
     MINIO_USERNAME: 'cm9vdHVzZXI=' # rootuser
     MINIO_PASSWORD: 'VGVzdDEyMzQh' # Test1234!
-    MINIO_ADDR: 'minio-1679172101.minio'
+    MINIO_ADDR: 'minio-1679181453.minio'
 

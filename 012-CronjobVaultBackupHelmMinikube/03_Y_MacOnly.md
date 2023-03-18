@@ -199,54 +199,27 @@ DevOps 🚀 _Code %
 Check the minio service name and update in the `vault-backup-values.yaml` in `MINIO_ADDR` env var
 
 ```bash
-$POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
-echo "Minio POD name is $POD_NAME"
-kubectl port-forward $POD_NAME 9000 --namespace default
+MINIO_SERVICE_NAME=$(kubectl get svc -n default -o=jsonpath="{.items[1].metadata.name}")
 
-$MINIO_SERVICE_NAME = kubectl get svc -n minio -o jsonpath="{.items[1].metadata.name}"
-echo "Minio service name is $MINIO_SERVICE_NAME"
+echo Minio service name is $MINIO_SERVICE_NAME
 ```
 
 Output:
 
 ```bash
-PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
-PS C:\devbox>
-PS C:\devbox> echo "Minio POD name is $POD_NAME"
-Minio POD name is minio-1679175880-74bc6487b8-lqmqx
-PS C:\devbox>
-PS C:\devbox> kubectl port-forward $POD_NAME 9000 --namespace default
-Forwarding from 127.0.0.1:9000 -> 9000
-Forwarding from [::1]:9000 -> 9000
+DevOps 🚀 _Code % MINIO_SERVICE_NAME=$(kubectl get svc -n default -o=jsonpath="{.items[1].metadata.name}")
+DevOps 🚀 _Code % echo Minio service name is $MINIO_SERVICE_NAME
+Minio service name is minio-1679181453
 ```
-
-<!--
-```bash
-PS C:\devbox> kubectl get svc
-NAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-kubernetes                 ClusterIP   10.96.0.1       <none>        443/TCP    2d
-minio-1679172101           ClusterIP   10.97.104.42    <none>        9000/TCP   10m
-minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   10m
-```
--->
 
 Update the minio username and password in `vault-backup-values.yaml`
 
-<!--
 ```bash
 MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
+
 echo "MINIO_USERNAME is $MINIO_USERNAME"
+
 MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
-echo "MINIO_PASSWORD is $MINIO_PASSWORD"
-```
--->
-
-```bash
-$MINIO_USERNAME = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"
-
-echo "MINIO_USERNAME is $MINIO_USERNAME"
-
-$MINIO_PASSWORD = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"
 
 echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 ```
@@ -255,22 +228,14 @@ echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 
 In order to access the Minio console, you need to port forward it to your local
 
-<!--
-kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
--->
-
 ```bash
-kubectl get svc | findstr console
-kubectl port-forward svc/minio-1679175880-console 9001:9001
+kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
 ```
 
 Output:
 
 ```bash
-PS C:\devbox> kubectl get svc | findstr console
-minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   24m
-
-PS C:\devbox> kubectl port-forward svc/minio-1679172101-console 9001:9001
+DevOps 🚀 _Code % kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
 Forwarding from 127.0.0.1:9001 -> 9001
 Forwarding from [::1]:9001 -> 9001
 ```
