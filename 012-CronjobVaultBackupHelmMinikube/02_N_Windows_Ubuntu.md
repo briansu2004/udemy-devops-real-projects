@@ -6,6 +6,19 @@ Windows Only
 
 Windows + Ubuntu (vagrant vbox)
 
+Issue:
+
+
+```bash
+😄  minikube v1.29.0 on Ubuntu 20.04 (vbox/amd64)
+✨  Automatically selected the docker driver. Other choices: none, ssh
+
+⛔  Exiting due to RSRC_INSUFFICIENT_CORES: Requested cpu count 2 is greater than the available cpus of 1
+```
+
+
+<!--
+
 ## Project Goal
 
 In this lab, you will deploy a helm chart with a cronjob to backup vault periodically into the Minio storage
@@ -211,4 +224,5 @@ Login to the Minio console [http://localhost:9001](http://localhost:9001) and go
 Reference
 
 [Minio Helm Deployment](https://github.com/minio/minio/tree/master/helm/minio)
+-->
 -->

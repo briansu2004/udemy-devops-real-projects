@@ -1,10 +1,10 @@
 # Project 012: Backup Vault in Minio
 
-<!--
 Windows Only
--->
 
-Windows + Ubuntu (vagrant vbox)
+`Windows + Ubuntu (vagrant vbox)` doesn't work for 1 CPU Windows.
+
+But it will work with Docker.
 
 ## Project Goal
 
@@ -23,7 +23,9 @@ Once it is installed, start the minikube by running below command:
 `minikube start`
 
 <!--
-`minikube start --cpus 1`
+This one doesn't work -
+
+`minikube start --cpus=1`
 -->
 
 Check status:
@@ -32,94 +34,171 @@ Check status:
 
 Once the Minikube starts, you can download the kubectl
 
-```bash
+```dos
 minikube kubectl
 ```
 
 Then, when you run the command `kubectl get node`, you should see below output:
 
-```bash
+```dos
 NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
 
-Update the minio username and password in `vault-backup-values.yaml`
-
-```bash
-MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
-echo "MINIO_USERNAME is $MINIO_USERNAME"
-MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
-echo "MINIO_PASSWORD is $MINIO_PASSWORD"
-```
-
-### 2. Enable Minikube Dashboard
+### 3. Enable Minikube Dashboard (Optional)
 
 You can also enable your **Minikube dashboard** by running below command:
 
-```bash
+```dos
 minikube dashboard
 ```
 
 You should see a Kuberentes Dashboard page pop out in your browser immediately. You can explore all Minikube resources in this UI website.
 
-### 3. Install Helm v3.x
+### 4. Install Helm v3.x
 
-Run the following commands to install **Helm v3.x**:
-> ref: <https://helm.sh/docs/intro/install/>
+Follow the instruction here [Helm v3.x](https://helm.sh/docs/intro/install/)
 
-```bash
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 > get_helm.sh
-chmod 700 get_helm.sh
-./get_helm.sh
+```dos
+choco install kubernetes-helm
 ```
 
-### 4. Add Helm Repo
+### 5. Add Helm Repo
 
 Once Helm is set up properly, **add** the **repo** as follows:
 
-```bash
+```dos
 helm repo add minio https://charts.min.io/
 ```
 
-### 5. Create a namespace
+### 6. Create a namespace
 
 Create a `minio` namespace
 
-```bash
+```dos
 kubectl create ns minio
 ```
 
-### 6. Install Minio Helm Chart
+### 7. Install Minio Helm Chart
 
 Since we are using Minikube cluster which has only 1 node, we just deploy the Minio in a test mode.
 
-```bash
+```dos
 helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
 ```
 
-Check the minio service name and update in the `vault-backup-values.yaml` in `MINIO_ADDR` env var
+Output:
 
-```bash
-MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath={.items[0].metadata.name})
-echo Minio service name is $MINIO_SERVICE_NAME
+```dos
+PS C:\devbox> helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
+NAME: minio-1679172101
+LAST DEPLOYED: Sat Mar 18 16:41:42 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+MinIO can be accessed via port 9000 on the following DNS name from within your cluster:
+minio-1679172101.default.svc.cluster.local
+
+To access MinIO from localhost, run the below commands:
+
+  1. export POD_NAME=$(kubectl get pods --namespace default -l "release=minio-1679172101" -o jsonpath="{.items[0].metadata.name}")
+
+  2. kubectl port-forward $POD_NAME 9000 --namespace default
+
+Read more about port forwarding here: http://kubernetes.io/docs/user-guide/kubectl/kubectl_port-forward/
+
+You can now access MinIO server on http://localhost:9000. Follow the below steps to connect to MinIO server with mc client:
+
+  1. Download the MinIO mc client - https://min.io/docs/minio/linux/reference/minio-mc.html#quickstart
+
+  2. export MC_HOST_minio-1679172101-local=http://$(kubectl get secret --namespace default minio-1679172101 -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret --namespace default minio-1679172101 -o jsonpath="{.data.rootPassword}" | base64 --decode)@localhost:9000
+
+  3. mc ls minio-1679172101-local
 ```
 
-### 7. Create a Bucket in the Minio Console
+### 8. Update the configure file
+
+Check the minio service name and update in the `vault-backup-values.yaml` in `MINIO_ADDR` env var
+
+```dos
+$POD_NAME = kubectl get pods --namespace default -l "release=minio-1679172101" -o jsonpath="{.items[0].metadata.name}"
+kubectl port-forward $POD_NAME 9000 --namespace default
+
+$MINIO_SERVICE_NAME = kubectl get svc -n minio -o jsonpath="{.items[1].metadata.name}"
+echo "Minio service name is $MINIO_SERVICE_NAME"
+```
+
+Output:
+
+```dos
+PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679172101" -o jsonpath="{.items[0].metadata.name}"
+PS C:\devbox> kubectl port-forward $POD_NAME 9000 --namespace default
+Forwarding from 127.0.0.1:9000 -> 9000
+Forwarding from [::1]:9000 -> 9000
+```
+
+<!--
+```dos
+PS C:\devbox> kubectl get svc
+NAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+kubernetes                 ClusterIP   10.96.0.1       <none>        443/TCP    2d
+minio-1679172101           ClusterIP   10.97.104.42    <none>        9000/TCP   10m
+minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   10m
+```
+-->
+
+Update the minio username and password in `vault-backup-values.yaml`
+
+<!--
+```dos
+MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
+echo "MINIO_USERNAME is $MINIO_USERNAME"
+MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
+echo "MINIO_PASSWORD is $MINIO_PASSWORD"
+```
+-->
+
+```dos
+$MINIO_USERNAME = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"
+echo "MINIO_USERNAME is $MINIO_USERNAME"
+
+$MINIO_PASSWORD = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"
+echo "MINIO_PASSWORD is $MINIO_PASSWORD"
+```
+
+### 9. Create a Bucket in the Minio Console
 
 In order to access the Minio console, you need to port forward it to your local
 
-```bash
-kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
+```dos
+kubectl get svc | findstr console
+kubectl port-forward svc/minio-1679172101-console 9001:9001
 ```
 
-Open your browser and go to this URL [http://localhost:9001](http://localhost:9001), and login with the username/password as `rootUser`/`rootPassword` setup above. Go to *Buckets* section in the left lane and click *Create Bucket* with a name `test`, with all other setting as default.
+Output:
+
+```dos
+PS C:\devbox> kubectl get svc | findstr console
+minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   24m
+
+PS C:\devbox> kubectl port-forward svc/minio-1679172101-console 9001:9001
+Forwarding from 127.0.0.1:9001 -> 9001
+Forwarding from [::1]:9001 -> 9001
+```
+
+Open your browser and go to this URL [http://localhost:9001](http://localhost:9001), and login with the username/password as `rootUser`/`rootPassword` setup above.
+
+Go to *Buckets* section in the left lane and click *Create Bucket* with a name `test`, with all other setting as default.
+
 ![minio-bucket.png](images/minio-bucket.png)
 
 ### 8. Install Vault Helm Chart
 
 We are going to deploy a Vault helm chart in the Minikube cluster. Create a `vault-values.yaml` first:
 
-```bash
+```dos
 cat <<EOF > vault-values.yaml
 
 injector:
@@ -139,7 +218,7 @@ EOF
 
 Run below commands to apply the helm chart:
 
-```bash
+```dos
 helm repo add hashicorp https://helm.releases.hashicorp.com
 kubectl create ns vault-test
 helm -n vault-test install vault hashicorp/vault -f vault-values.yaml
@@ -147,7 +226,7 @@ helm -n vault-test install vault hashicorp/vault -f vault-values.yaml
 
 Initiate the Vault
 
-```bash
+```dos
 kubectl -n vault-test exec vault-0 -- vault operator init
 kubectl -n vault-test exec vault-0 -- vault operator unseal <unseal key from .vault.key>
 kubectl -n vault-test exec vault-0 -- vault operator unseal <unseal key from .vault.key>
@@ -187,7 +266,7 @@ echo SECRET_ID is $SECRET_ID
 
 ### 9. Deploy Vault Backup Helm Chart
 
-```bash
+```dos
 kubectl -n vault-test create configmap upload --from-file=upload.sh
 helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-values.yaml
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
@@ -197,7 +276,7 @@ kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-c
 
 Port forward Minio console to your local host:
 
-```bash
+```dos
 MINIO_CONSOLE_ADDR=$(kubectl -n minio get svc|grep console|awk '{print $1}')
 kubectl -n minio port-forward svc/$MINIO_CONSOLE_ADDR 9001:9001
 ```

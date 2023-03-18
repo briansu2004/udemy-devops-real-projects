@@ -14,7 +14,7 @@ env:
     MOUNT_POINT: 'kv-v2'
     SECRET_PATH: 'devops-secret'
     BUCKET_NAME: 'test'
-    MINIO_USERNAME: 'rootuser'
-    MINIO_PASSWORD: 'Test1234!'
-    MINIO_ADDR: '<MINIO SERVICE NAME>.minio'
+    MINIO_USERNAME: 'cm9vdHVzZXI=' # rootuser
+    MINIO_PASSWORD: 'VGVzdDEyMzQh' # Test1234!
+    MINIO_ADDR: 'minio-1679172101.minio'
 
