@@ -1,10 +1,8 @@
 # Project 012: Backup Vault in Minio
 
-Windows Only
+Mac Only
 
-`Windows + Ubuntu (vagrant vbox)` doesn't work for 1 CPU Windows.
-
-But it will work with Docker.
+![6 core](images/0001.png)
 
 ## Project Goal
 
@@ -16,11 +14,22 @@ In this lab, you will deploy a helm chart with a cronjob to backup vault periodi
 
 Follow the instruction here [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
 
+Install Minikube on Mac
+
+```bash
+curl -LO <https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64>
+sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+```
+
 ### 2. Start Minikube
 
 Once it is installed, start the minikube by running below command:
 
 `minikube start`
+
+or
+
+`minikube start --kubernetes-version=v1.26.1`
 
 <!--
 This one doesn't work -
