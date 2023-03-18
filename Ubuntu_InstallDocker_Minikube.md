@@ -76,6 +76,18 @@ Start minikube cluster
 minikube start
 ```
 
+Check status
+
+```bash
+minikube status
+```
+
+Download kubectl
+
+```bash
+minikube kubectl
+```
+
 ## DNS
 
 Make sure there are valid nameserver entries in `/etc/resolv.conf`
