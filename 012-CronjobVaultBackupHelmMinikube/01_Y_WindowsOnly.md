@@ -12,31 +12,29 @@ In this lab, you will deploy a helm chart with a cronjob to backup vault periodi
 
 ## Steps
 
-### 1. Start Minikube
+### 1. Install Minikube
 
-You can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
+Follow the instruction here [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
+
+### 2. Start Minikube
 
 Once it is installed, start the minikube by running below command:
 
 `minikube start`
 
-or
-
+<!--
 `minikube start --cpus 1`
+-->
 
 Check status:
 
 `minikube status`
 
-Once the Minikube starts, you can download the **kubectl** from [k8s official website](https://kubernetes.io/docs/tasks/tools/)
+Once the Minikube starts, you can download the kubectl
 
 ```bash
 minikube kubectl
 ```
-
-This alias is handy -
-
-`alias k="minikube kubectl"`
 
 Then, when you run the command `kubectl get node`, you should see below output:
 
