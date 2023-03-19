@@ -29,6 +29,10 @@ Once it is installed, start the minikube by running below command:
 
 or
 
+`minikube start --kubernetes-version=v1.25.3`
+
+or
+
 `minikube start --kubernetes-version=v1.26.1`
 
 <!--
@@ -150,7 +154,7 @@ kubectl create ns minio
 Output:
 
 ```bash
-PS C:\devbox> kubectl create ns minio
+DevOps 🚀 _Code % kubectl create ns minio
 namespace/minio created
 ```
 
@@ -159,26 +163,26 @@ namespace/minio created
 Since we are using Minikube cluster which has only 1 node, we just deploy the Minio in a test mode.
 
 ```bash
-helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234 --generate-name minio/minio
 ```
 
 Output:
 
 ```bash
-DevOps 🚀 _Code % helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
-NAME: minio-1679181453
-LAST DEPLOYED: Sat Mar 18 19:17:33 2023
+DevOps 🚀 _Code % helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio    
+NAME: minio-1679183256
+LAST DEPLOYED: Sat Mar 18 19:47:36 2023
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
 MinIO can be accessed via port 9000 on the following DNS name from within your cluster:
-minio-1679181453.default.svc.cluster.local
+minio-1679183256.default.svc.cluster.local
 
 To access MinIO from localhost, run the below commands:
 
-  1. export POD_NAME=$(kubectl get pods --namespace default -l "release=minio-1679181453" -o jsonpath="{.items[0].metadata.name}")
+  1. export POD_NAME=$(kubectl get pods --namespace default -l "release=minio-1679183256" -o jsonpath="{.items[0].metadata.name}")
 
   2. kubectl port-forward $POD_NAME 9000 --namespace default
 
@@ -188,10 +192,14 @@ You can now access MinIO server on http://localhost:9000. Follow the below steps
 
   1. Download the MinIO mc client - https://min.io/docs/minio/linux/reference/minio-mc.html#quickstart
 
-  2. export MC_HOST_minio-1679181453-local=http://$(kubectl get secret --namespace default minio-1679181453 -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret --namespace default minio-1679181453 -o jsonpath="{.data.rootPassword}" | base64 --decode)@localhost:9000
+  2. export MC_HOST_minio-1679183256-local=http://$(kubectl get secret --namespace default minio-1679183256 -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret --namespace default minio-1679183256 -o jsonpath="{.data.rootPassword}" | base64 --decode)@localhost:9000
 
-  3. mc ls minio-1679181453-local
-DevOps 🚀 _Code % 
+  3. mc ls minio-1679183256-local
+
+DevOps 🚀 _Code % export POD_NAME=$(kubectl get pods --namespace default -l "release=minio-1679183256" -o jsonpath="{.items[0].metadata.name}")
+DevOps 🚀_Code % kubectl port-forward $POD_NAME 9000 --namespace default
+Forwarding from 127.0.0.1:9000 -> 9000
+Forwarding from [::1]:9000 -> 9000
 ```
 
 ### 8. Update the configure file
