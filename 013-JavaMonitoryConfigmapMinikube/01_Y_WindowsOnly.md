@@ -8,7 +8,7 @@ Windows + Ubuntu (vagrant vbox)
 
 ## Project Goal
 
-In this lab, you will learn how to develop a **Java application** that interacts with the Kubernetes API to **monitor changes** to a file that is mounted by a **ConfigMap**.
+In this lab, you will learn how to develop a Java application that interacts with the Kubernetes API to **monitor changes** to a file that is mounted by a **ConfigMap**.
 
 It is important to note that **the file mounted by the ConfigMap is mounted as a symbolic link** (e.g. `/config/game.properties` -> `/config/..data/game.properties`-> `/config/..2023_03_02_15_51_59.1603915861/game.properties`), so your Java code should read the **symlink** instead of the file directly.
 
@@ -83,15 +83,6 @@ minikube   Ready    control-plane   2d4h   v1.26.1
 ```
 -->
 
-Update the minio username and password in `vault-backup-values.yaml`
-
-```dos
-MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
-echo "MINIO_USERNAME is $MINIO_USERNAME"
-MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
-echo "MINIO_PASSWORD is $MINIO_PASSWORD"
-```
-
 ### 2. Build Image
 
 Run below command to **build** the image:
@@ -123,7 +114,31 @@ $Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
 ```
 
 ```dos
-
+...
+[INFO] Building jar: /target/file-monitor-1.0.0.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  46.979 s
+[INFO] Finished at: 2023-03-21T01:41:43Z
+[INFO] ------------------------------------------------------------------------
+Removing intermediate container 63f6e62f6d74
+ ---\> cec9a921b029
+Step 5/8 : From maven:3.6.3-openjdk-17
+ ---\> ed4610831120
+Step 6/8 : COPY --from=builder target/file-monitor-1.0.0.jar file-monitor-1.0.0.jar
+ ---\> 179a251b0a2e
+Step 7/8 : EXPOSE 8080
+ ---\> Running in 32fbc1fc2b1c
+Removing intermediate container 32fbc1fc2b1c
+ ---\> 7fdb40cdb32f
+Step 8/8 : ENTRYPOINT ["java", "-jar", "file-monitor-1.0.0.jar"]
+ ---\> Running in a537c8bb0bee
+Removing intermediate container a537c8bb0bee
+ ---\> a75d1de61853
+Successfully built a75d1de61853
+Successfully tagged java-monitor-file:v2.0
+SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.
 ```
 -->
 
@@ -133,11 +148,25 @@ $Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
 kubectl apply -f configmap.yaml
 ```
 
+<!--
+```dos
+PS C:\devbox\devopsdaydayup\013-JavaMonitoryConfigmapMinikube> kubectl apply -f configmap.yaml
+configmap/game-demo created
+```
+-->
+
 ### 3. Deploy Pod
 
 ```dos
 kubectl apply -f pod.yaml
 ```
+
+<!--
+```dos
+PS C:\devbox\devopsdaydayup\013-JavaMonitoryConfigmapMinikube> kubectl apply -f pod.yaml
+pod/configmap-demo-pod created
+```
+-->
 
 ### 4. Verification
 
@@ -155,15 +184,32 @@ kubectl edit cm game-demo
 
 **Update** anything within below **data** section
 
+From
+
 ```dos
-# From
 data:
   game.properties: "enemy.types=aliens,monsters\nplayer.maximum-lives=5\\n"
+```
 
-# To
+To
+
+```dos
 data:
   game.properties: "enemy.types=alienstest,monsters\nplayer.maximum-lives=5\\n"
 ```
+
+![1679363205929](image/01_Y_WindowsOnly/1679363205929.png)
+
+->
+
+![1679363245390](image/01_Y_WindowsOnly/1679363245390.png)
+
+<!--
+```dos
+PS C:\devbox> kubectl edit cm game-demo
+configmap/game-demo edited
+```
+-->
 
 Then wait for about 1 min and you should see below message in the log
 
@@ -173,12 +219,15 @@ $ kubectl logs -f configmap-demo-pod
 Content has changed!
 ```
 
-> Note: You can also update `spec.containers.args` in `pod.yaml` if you would like to monitor another file path.
-
-## <a name="post_project">Post Project</a>
-
-Stop Minikube
-
+<!--
 ```dos
-minikube stop
+PS C:\devbox\devopsdaydayup\013-JavaMonitoryConfigmapMinikube> kubectl logs -f configmap-demo-pod
+Content has changed!
 ```
+-->
+
+<!--
+> Note: You can also update `spec.containers.args` in `pod.yaml` if you would like to monitor another file path.
+-->
+
+![1679363428176](image/01_Y_WindowsOnly/1679363428176.png)
