@@ -22,14 +22,14 @@ sudo apt remove metricbeat
 | 1 | Windows only | YN | YN |   |
 | 2 | Windows + Ubuntu | Y | Y |   |
 | 3 | Mac only | Y | Y |   |
-| 4 | Mac + Ubuntu | Y | Y |   |
+| 4 | Mac + Ubuntu | N | N |   |
 
-[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
+[Windows Only doesn't work](01_N_WindowsOnly.md)
 
 <!--
-[Windows Only doesn't work](01_N_WindowsOnly.md)
+[With_Windows_Ubuntu](02_N_Windows_Ubuntu.md)
 
 [Mac Only doesn't work](03_N_MacOnly.md)
 
-[With_Mac_Ubuntu](04_Y_Mac_Ubuntu.md)
+[With_Mac_Ubuntu](04_N_Mac_Ubuntu.md)
 -->
