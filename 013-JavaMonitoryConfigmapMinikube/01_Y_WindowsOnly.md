@@ -14,32 +14,78 @@ It is important to note that **the file mounted by the ConfigMap is mounted as a
 
 ## Steps
 
-### 1. Start Minikube
+### 1. Start Docker
+
+Minikube needs Docker.
+
+### 2. Start Minikube
 
 You can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/). Once it is installed, start the minikube by running below command:
 
-```bash
+```dos
 minikube start
 minikube status
 ```
 
+<!--
+```dos
+PS C:\devbox> minikube start
+* minikube v1.29.0 on Microsoft Windows 10 Enterprise 10.0.19044.2604 Build 19044.2604
+* Using the docker driver based on existing profile
+* Starting control plane node minikube in cluster minikube
+* Pulling base image ...
+* Restarting existing docker container for "minikube" ...
+* Preparing Kubernetes v1.26.1 on Docker 20.10.23 ...
+* Configuring bridge CNI (Container Networking Interface) ...
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+  - Using image docker.io/kubernetesui/dashboard:v2.7.0
+  - Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+* Some dashboard features require the metrics-server addon. To enable all features please run:
+
+        minikube addons enable metrics-server
+
+* Enabled addons: storage-provisioner, default-storageclass, dashboard
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+PS C:\devbox> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+```
+-->
+
 Once the Minikube starts, you can download the **kubectl** from [k8s official website](https://kubernetes.io/docs/tasks/tools/)
 
-```bash
+```dos
 minikube kubectl
-alias k="kubectl"
 ```
+
+<!--
+alias k="kubectl"
+-->
 
 Then, when you run the command `kubectl get node` or `k get node`, you should see below output:
 
-```bash
+```dos
 NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
 
+<!--
+```dos
+PS C:\devbox> kubectl get node
+NAME       STATUS   ROLES           AGE    VERSION
+minikube   Ready    control-plane   2d4h   v1.26.1
+```
+-->
+
 Update the minio username and password in `vault-backup-values.yaml`
 
-```bash
+```dos
 MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
 echo "MINIO_USERNAME is $MINIO_USERNAME"
 MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
@@ -50,22 +96,46 @@ echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 
 Run below command to **build** the image:
 
-```bash
+```dos
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects\013-JavaMonitoryConfigmapMinikube
+docker build -t java-monitor-file:v2.0 .
+```
+
+<!--
+```dos
 git clone https://github.com/chance2021/devopsdaydayup.git
 cd 013-JavaMonitoryConfigmapMinikube
 eval $(minikube docker-env)
 docker build -t java-monitor-file:v2.0 .
 ```
+-->
+
+<!--
+```dos
+PS C:\devbox> minikube docker-env
+$Env:DOCKER_TLS_VERIFY = "1"
+$Env:DOCKER_HOST = "tcp://127.0.0.1:2775"
+$Env:DOCKER_CERT_PATH = "C:\Users\x239757\.minikube\certs"
+$Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
+# To point your shell to minikube's docker-daemon, run:
+# & minikube -p minikube docker-env --shell powershell | Invoke-Expression
+```
+
+```dos
+
+```
+-->
 
 ### 2. Deploy ConfigMap
 
-```bash
+```dos
 kubectl apply -f configmap.yaml
 ```
 
 ### 3. Deploy Pod
 
-```bash
+```dos
 kubectl apply -f pod.yaml
 ```
 
@@ -73,19 +143,19 @@ kubectl apply -f pod.yaml
 
 You can modify the contents of the ConfigMap and verify if the activity is captured in the log. First **stream the log**:
 
-```bash
+```dos
 kubectl logs -f configmap-demo-pod
 ```
 
 Then open another terminal to **modify the ConfigMap**
 
-```bash
+```dos
 kubectl edit cm game-demo
 ```
 
 **Update** anything within below **data** section
 
-```bash
+```dos
 # From
 data:
   game.properties: "enemy.types=aliens,monsters\nplayer.maximum-lives=5\\n"
@@ -97,7 +167,7 @@ data:
 
 Then wait for about 1 min and you should see below message in the log
 
-```bash
+```dos
 $ kubectl logs -f configmap-demo-pod
 
 Content has changed!
@@ -105,125 +175,10 @@ Content has changed!
 
 > Note: You can also update `spec.containers.args` in `pod.yaml` if you would like to monitor another file path.
 
-## Troubleshooting
+## <a name="post_project">Post Project</a>
 
-### Issue 1: How to Dockerize a Java Application
+Stop Minikube
 
-Run a Docker container and install java/mvn package:
-
-```bash
-docker pull ubuntu
-docker run -it --name ubuntu-java-build ubuntu bash
-
-# Install Java
-wget https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_linux-x64_bin.tar.gz
-tar -xvf openjdk-13.0.1_linux-x64_bin.tar.gz
-mv jdk-13.0.1 /opt/
-JAVA_HOME='/opt/jdk-13.0.1'
-PATH="$JAVA_HOME/bin:$PATH"
-export PATH
-java -version
-
-# Install mvn
-wget https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-tar -xvf apache-maven-3.6.3-bin.tar.gz
-mv apache-maven-3.6.3 /opt/
-M2_HOME='/opt/apache-maven-3.6.3'
-PATH="$M2_HOME/bin:$PATH"
-export PATH
-mvn -version
-
-# Open another terminal and copy `src/main/java/FileMonitor.java` and `pom.xml` into the container
-docker cp src/main/java/FileMonitor.java ubuntu-java-build:/
-docker cp pom.xml ubuntu-java-build:/
-
-# Go back to the container and run below command to compile the java code
-mvn clean package
-
-# You should be able to see a file called `file-monitor-1.0.0.jar` under `target` folder`. You can copy it into your host
-exit
-docker cp ubuntu-java-build:/target/file-monitor-1.0.0.jar .
+```dos
+minikube stop
 ```
-
-ref: <https://www.digitalocean.com/community/tutorials/install-maven-linux-ubuntu>
-
-### Issue 2: Install app in mvn container
-
-**Solution**:
-Please use below command to install any app you want
-
-```bash
-microdnf install <app_name>
-```
-
-### Issue 3: Upload the jar into Github Package repo
-
-Add below section in `pom.xml` (Note: make sure to replace `YOUR_GITHUB_USERNAME` and `YOUR_GITHUB_REPO` accordingly):
-
-```bash
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/[YOUR_GITHUB_USERNAME]/[YOUR_GITHUB_REPO]</url>
-        </repository>
-    </distributionManagement>
-```
-
-Then create `.m2` folder under your home folder, if it doesn't exist
-
-```bash
-mkdir ~/.m2/
-```
-
-Create `settings.xml` with below content (Note: make sure to replace `YOUR_GITHUB_USERNAME` and `YOUR_GITHUB_TOKEN` accordingly):
-
-```xml
-<settings>
-    <servers>
-        <server>
-        <id>github</id>
-            <username>[YOUR_GITHUB_USERNAME]</username>
-            <password>[YOUR_GITHUB_TOKEN]</password>
-        </server>
-    </servers>
-</settings>
-```
-
-Then run below command to upload the artifacts to Github Package repo:
-
-```bash
-mvn --batch-mode deploy
-```
-
-You should see output like this:
-
-```bash
-[INFO] Downloading from github: https://maven.pkg.github.com/chance2021/devopsdaydayup/com/example/file-monitor/maven-metadata.xml
-[INFO] Downloaded from github: https://maven.pkg.github.com/chance2021/devopsdaydayup/com/example/file-monitor/maven-metadata.xml (221 B at 505 B/s)
-[INFO] Uploading to github: https://maven.pkg.github.com/chance2021/devopsdaydayup/com/example/file-monitor/maven-metadata.xml
-[INFO] Uploaded to github: https://maven.pkg.github.com/chance2021/devopsdaydayup/com/example/file-monitor/maven-metadata.xml (330 B at 990 B/s)
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  15.020 s
-[INFO] Finished at: 2023-03-02T20:56:50Z
-```
-
-The package will appear in the Github page after the upload successfully.
-![github-package.png](images/github-package.png)
-You can download the artifact by below commands:
-
-```bash
-wget --header "Authorization: token <GITHUB_TOKEN>" https://maven.pkg.github.com/chance2021/devopsdaydayup/com/example/file-monitor/1.0.0/file-monitor-1.0.0.jar
-```
-
-ref: <https://docs.github.com/en/actions/publishing-packages/publishing-java-packages-with-maven>
-
-<!--
-Reference
-
-- [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/)
-- [AliCloud Build an Image for a Java app via Dockerfile](https://static-aliyun-doc.oss-cn-hangzhou.aliyuncs.com/download%2Fpdf%2F60719%2FBest_Practices_reseller_en-US.pdf)
-- [Pushing directly to the in-cluster Docker daemon (docker-env)](https://minikube.sigs.k8s.io/docs/handbook/pushing/#1-pushing-directly-to-the-in-cluster-docker-daemon-docker-env)
--->
