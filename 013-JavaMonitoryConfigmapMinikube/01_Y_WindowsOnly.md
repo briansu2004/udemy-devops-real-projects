@@ -14,7 +14,9 @@ Minikube needs Docker.
 
 ### 2. Start Minikube
 
-You can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/). Once it is installed, start the minikube by running below command:
+You can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
+
+Once it is installed, start the minikube by running below command:
 
 ```dos
 minikube start
@@ -34,7 +36,7 @@ NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   2d4h   v1.26.1
 ```
 
-### 2. Build Image
+### 3. Build Image
 
 Run below command to **build** the image:
 
@@ -44,19 +46,19 @@ cd udemy-devops-real-projects\013-JavaMonitoryConfigmapMinikube
 docker build -t java-monitor-file:v2.0 .
 ```
 
-### 3. Deploy ConfigMap
+### 4. Deploy ConfigMap
 
 ```dos
 kubectl apply -f configmap.yaml
 ```
 
-### 4. Deploy Pod
+### 5. Deploy Pod
 
 ```dos
 kubectl apply -f pod.yaml
 ```
 
-### 5. Verification
+### 6. Verification
 
 You can modify the contents of the ConfigMap and verify if the activity is captured in the log.
 
