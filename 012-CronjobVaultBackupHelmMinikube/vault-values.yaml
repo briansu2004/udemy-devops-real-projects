@@ -1,13 +1,12 @@
-
 injector:
-  enabled: "-"
+  enabled: '-'
   replicas: 1
   image:
-    repository: "hashicorp/vault-k8s"
-    tag: "1.1.0"
+    repository: 'hashicorp/vault-k8s'
+    tag: '1.1.0'
 
 server:
-  enabled: "-"
+  enabled: '-'
   image:
-    repository: "hashicorp/vault"
-    tag: "1.12.1"
+    repository: 'hashicorp/vault'
+    tag: '1.12.1'

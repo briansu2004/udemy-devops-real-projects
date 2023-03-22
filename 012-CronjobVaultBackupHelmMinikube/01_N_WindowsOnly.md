@@ -26,6 +26,14 @@ Once it is installed, start the minikube by running below command:
 
 `minikube start`
 
+or
+
+`minikube start --kubernetes-version=v1.25.3`
+
+or
+
+`minikube start --kubernetes-version=v1.26.1`
+
 <!--
 This one doesn't work -
 
@@ -268,7 +276,7 @@ echo "Minio service name is $MINIO_SERVICE_NAME"
 Output:
 
 ```dos
-PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679175880" -o jsonpath="{.items[0].metadata.name}"
+PS C:\devbox> $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679442603" -o jsonpath="{.items[0].metadata.name}"
 PS C:\devbox>
 PS C:\devbox> echo "Minio POD name is $POD_NAME"
 Minio POD name is minio-1679175880-74bc6487b8-lqmqx
@@ -332,6 +340,9 @@ kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9
 ```dos
 kubectl get svc | findstr console
 kubectl port-forward svc/minio-1679439883-console 9001:9001
+
+
+kubectl port-forward svc/minio-1679442603-console 9001:9001
 ```
 
 <!--
