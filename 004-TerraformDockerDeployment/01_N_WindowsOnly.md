@@ -21,8 +21,11 @@ Initializing the backend...
 Error refreshing state: Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempts
 ```
 
+Root cause:
 
+Need to configure the certificate.
 
+And can't do the same steps for Windows.
 
 ## Prerequisites
 
