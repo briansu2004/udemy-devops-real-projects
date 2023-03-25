@@ -55,6 +55,28 @@ has changed. Terraform will now check for existing state in the backends.
 │ above error and try again.
 -->
 
+<!--
+After docker restart,
+
+terraform init -backend-config=config/test/config.tfbackend -migrate-state
+
+Initializing the backend...
+Backend configuration changed!
+
+Terraform has detected that the configuration specified for the backend
+has changed. Terraform will now check for existing state in the backends.
+
+╷
+│ Error: Error loading state:
+│     Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempt(s): Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": EOF
+│
+│ Terraform failed to load the default state from the "http" backend.
+│ State migration cannot occur unless the state can be loaded. Backend
+│ modification and state migration has been aborted. The state in both the
+│ source and the destination remain unmodified. Please resolve the
+│ above error and try again.
+-->
+
 ## Prerequisites
 
 ### 1. Install and start Vagrant
