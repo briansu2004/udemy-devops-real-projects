@@ -4,7 +4,9 @@ Mac + Ubuntu
 
 Issues:
 
-Has issues to install Terraform in Ubuntu!!!
+There are issues to install Terraform in Ubuntu (in Mac).
+
+But no issues to nstall Terraform in Ubuntu (in Windows)!
 
 <!--
 ## <a name="prerequisites">Prerequisites</a>

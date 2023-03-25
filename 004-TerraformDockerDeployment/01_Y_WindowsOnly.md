@@ -116,7 +116,7 @@ Add these 2 entries in the Windows hosts file `C:\Windows\System32\drivers\etc\h
 ```
 -->
 
-## 3. Docker compose
+## 3. Start the docker compose
 
 ```dos
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
