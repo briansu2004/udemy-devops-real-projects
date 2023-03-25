@@ -81,6 +81,29 @@ if sudo vim /etc/hosts
 0.0.0.0 gitlab.mydevopsrealprojects.com
 0.0.0.0 registry.gitlab.mydevopsrealprojects.com
 
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ curl --header "Private-Token: glpat-dzsSWZYNpowWZsTngr1U" "https://gitlab.mydevopsrealprojects.com/api/v4/projects"
+curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gitlab.mydevopsrealprojects.com:443 
+
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ openssl s_client -connect gitlab.mydevopsrealprojects.com:443
+CONNECTED(00000003)
+write:errno=0
+---
+no peer certificate available      
+---
+No client certificate CA names sent
+---
+SSL handshake has read 0 bytes and written 323 bytes
+Verification: OK
+---
+New, (NONE), Cipher is (NONE)
+Secure Renegotiation IS NOT supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+Early data was not sent
+Verify return code: 0 (ok)
+---
+
 -->
 
 ## Prerequisites
