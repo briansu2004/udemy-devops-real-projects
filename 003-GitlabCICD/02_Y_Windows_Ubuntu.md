@@ -46,7 +46,7 @@ Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts`
     environment:
       GITLAB_ROOT_PASSWORD: "Password2023#"
       EXTERNAL_URL: "http://gitlab.mydevopsrealprojects.com"
-      GITLAB_OMNIBUS_CONFIG: |ping gitlab.mydevopsrealprojects.com
+      GITLAB_OMNIBUS_CONFIG: 
         gitlab_rails['initial_root_password'] = "Password2023#"
 ```
 -->
