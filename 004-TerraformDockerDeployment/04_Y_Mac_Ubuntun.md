@@ -1,6 +1,6 @@
 # Project 004: Deploy Docker with Terraform Script
 
-Mac Only
+Mac + Ubuntu
 
 <!--
 ## <a name="prerequisites">Prerequisites</a>
@@ -11,7 +11,20 @@ Mac Only
 - Terraform (see installation guide [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli))
 -->
 
-## Project Steps
+## Prerequisites
+
+### 1. Install and start Vagrant
+
+```bash
+vagrant up 
+vagrant ssh
+```
+
+### 2. Install Docker in Vagrant
+
+...
+
+## Steps
 
 ### 1. Deploy a gitlab server to store the terraform state file
 
@@ -21,11 +34,13 @@ cd udemy-devops-real-projects/004-TerraformDockerDeployment
 docker-compose up
 ```
 
+<!--
 > Note: Once the gitlab container is fully up running, you can run below command to retrieve the initial password, if you haven't specified it in the deployment file. The default admin username should be `root`
 
 ```bash
 sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
+-->
 
 ### 2. Add the new DNS record in your local hosts file
 
@@ -33,9 +48,13 @@ In your `docker-compose.yaml`, you have defined your gitlab server hostname in `
 
 ```bash
 export Your_Local_Host_IP=<Your_Local_Host_IP>
-echo "${Your_Local_Host_IP}  gitlab.<Your_Gitlab_Hostname>" |sudo tee -a /etc/hosts
-i.g.
-echo "${Your_Local_Host_IP}  gitlab.example20221106.com" |sudo tee -a /etc/hosts
+echo "${Your_Local_Host_IP}  gitlab.<Your_Gitlab_Hostname>" | sudo tee -a /etc/hosts
+```
+
+e.g.
+
+```bash
+echo "${Your_Local_Host_IP}  gitlab.example20221106.com" | sudo tee -a /etc/hosts
 ```
 
 Then you should be able to access the Gitlab website via `https://<Your_Gitlab_Hostname>`
