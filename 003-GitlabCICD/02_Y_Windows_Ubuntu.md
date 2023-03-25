@@ -78,13 +78,13 @@ cd udemy-devops-9projects-free/003-GitlabCICD
 docker compose up
 ```
 
-## 5. Login to the GitLab
+## 4. Login to the GitLab
 
 Wait for about **5 ~ 10 minutes** for the server to fully start up.
 
 Then go to [http://gitlab.mydevopsrealprojects.com](http://gitlab.mydevopsrealprojects.com) and login the username `root` and the password `Password2023#`.
 
-## 6. Get the GitLab registration token
+## 5. Get the GitLab registration token
 
 Click **"New project"** to create your first project
 
@@ -110,7 +110,7 @@ Click **"New project"** to create your first project
 
 We need to use the URL `http://gitlab.mydevopsrealprojects.com/` (not `https`) and the registration token to Register the runner.
 
-## 7. Update the certificates
+## 6. Update the certificates
 
 Since the initial Gitlab server **certificate** is missing some info and can't be used by the gitlab runner, we may have to **regenerate** a new one and **reconfigure** in the gitlab server.
 
@@ -148,7 +148,7 @@ cat registry.gitlab.$YOUR_GITLAB_DOMAIN.crt
 exit
 ```
 
-## 8. Enable the container register
+## 7. Enable the container register
 
 Add below lines in the bottom of the file `/etc/gitlab/gitlab.rb`.
 
@@ -194,7 +194,7 @@ gitlab-ctl restart
 exit
 ```
 
-## 9. Update the certificates for the docker client
+## 8. Update the certificates for the docker client
 
 In order to make **docker login** work, we need to add the **certificate** in the docker certs folder.
 
@@ -247,7 +247,7 @@ e.g. `docker build -t registry.gitlab.mydevopsrealprojects.com:5005/gitlab-insta
 
 ![1674337330164](image/02_Y_Windows_Ubuntu/1674337330164.png)
 
-## 10. Configure the **gitlab-runner**
+## 9. Configure the **gitlab-runner**
 
 Login to gitlab-runner and run commands below.
 
@@ -397,7 +397,7 @@ Once you finish above step, you should be able to see an available running in th
 
 ![1674338440742](image/02_Y_Windows_Ubuntu/1674338440742.png)
 
-## 11. Prepare the GitLab project repo
+## 10. Prepare the GitLab project repo
 
 **git clone** from your gitlab project repo to your local and copy necessary files from the repo (in the same folder as this README.md)
 
@@ -423,7 +423,7 @@ Once you push the code, you should be able to see the pipeline is automatically 
 
 ![1674347770248](image/02_Y_Windows_Ubuntu/1674347770248.png)
 
-## 12. Enjoy the GitLab pipeline
+## 11. Enjoy the GitLab pipeline
 
 - Check the hello-world app
 
