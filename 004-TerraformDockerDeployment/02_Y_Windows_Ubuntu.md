@@ -183,6 +183,8 @@ openssl req -new -x509 -days 365 -key ca.key -addext basicConstraints=critical,C
 
 Login to our Gitlab server website (`https://gitlab.mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Project name"**, e.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"**
 
+![1679781263992](image/02_Y_Windows_Ubuntu/1679781263992.png)
+
 ![1679779492105](image/01_Y_WindowsOnly/1679779492105.png)
 
 ![1679779521707](image/01_Y_WindowsOnly/1679779521707.png)
@@ -193,7 +195,7 @@ Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type 
 
 Make a note of the new token generated as we will need to apply it in the next step.
 
-<!-- glpat-YtPyrWH5u1729j2HJPze -->
+<!-- glpat-VRVfpf7pwEUPjJGh6-Ks -->
 
 ![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
 
