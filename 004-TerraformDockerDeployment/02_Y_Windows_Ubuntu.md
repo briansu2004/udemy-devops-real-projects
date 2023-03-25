@@ -104,6 +104,11 @@ Early data was not sent
 Verify return code: 0 (ok)
 ---
 
+root@gitlab:/etc/gitlab# openssl s_client -connect gitlab.mydevopsrealprojects.com:443
+139977655887168:error:0200206F:system library:connect:Connection refused:crypto/bio/b_sock2.c:110:
+139977655887168:error:2008A067:BIO routines:BIO_connect:connect error:crypto/bio/b_sock2.c:111:
+connect:errno=111
+
 -->
 
 ## Prerequisites
@@ -205,6 +210,11 @@ cd udemy-devops-real-projects/004-TerraformDockerDeployment
 docker-compose up
 ```
 
+<!--
+In this lab, the docker compose is not necessary? 
+Because there is only 1 container.
+-->
+
 Note: the GitLab server need a few minutes to start.
 
 <!--
@@ -266,6 +276,22 @@ gitlab-ctl restart
 
 exit
 ```
+
+<!--
+```bash
+root@gitlab:/etc/gitlab/ssl# ls -l
+total 36
+-rw-r--r-- 1 root root 1285 Mar 25 23:29 ca.crt
+-rw------- 1 root root 1675 Mar 25 23:29 ca.key
+-rw-r--r-- 1 root root   41 Mar 25 23:30 ca.srl
+-rw-r--r-- 1 root root 1289 Mar 25 23:29 gitlab.mydevopsrealprojects.com.crt
+-rw-r--r-- 1 root root  997 Mar 25 23:29 gitlab.mydevopsrealprojects.com.csr
+-rw------- 1 root root 1704 Mar 25 23:29 gitlab.mydevopsrealprojects.com.key
+-rw-r--r-- 1 root root 1346 Mar 25 23:30 registry.gitlab.mydevopsrealprojects.com.crt
+-rw-r--r-- 1 root root  997 Mar 25 23:30 registry.gitlab.mydevopsrealprojects.com.csr
+-rw------- 1 root root 1704 Mar 25 23:30 registry.gitlab.mydevopsrealprojects.com.key
+```
+-->
 
 Note: the GitLab server need a few minutes to start.
 
