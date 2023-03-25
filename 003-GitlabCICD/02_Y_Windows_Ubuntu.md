@@ -16,28 +16,29 @@ We need it in the `docker-compose.yml` file.
 
 ## 2. Configure the **hosts** file
 
+<!--  
 Windows: `C:\Windows\System32\drivers\etc\hosts`
+-->
 
-In local Windows's hosts file `C:\Windows\System32\drivers\etc\hosts`
+Add these 2 entries in Windows's hosts file `C:\Windows\System32\drivers\etc\hosts`
 
 ```dos
 192.168.33.10 gitlab.mydevopsrealprojects.com
 192.168.33.10 registry.gitlab.mydevopsrealprojects.com
 ```
 
+<!--
 Unix / Mac: `/etc/hosts`
+-->
 
-In Vagrant Ubuntu's hosts file `/etc/hosts`
-
-```bash
-sudo vi /etc/hosts
-```
+Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts`
 
 ```bash
 127.0.0.1 gitlab.mydevopsrealprojects.com
 127.0.0.1 registry.gitlab.mydevopsrealprojects.com
 ```
 
+<!--
 ## 3. Config the root password
 
 ```yml
@@ -48,8 +49,9 @@ sudo vi /etc/hosts
       GITLAB_OMNIBUS_CONFIG: |ping gitlab.mydevopsrealprojects.com
         gitlab_rails['initial_root_password'] = "Password2023#"
 ```
+-->
 
-## 4. Docker compose
+## 3. Docker compose
 
 <!--
 Docker login with the GitHub token

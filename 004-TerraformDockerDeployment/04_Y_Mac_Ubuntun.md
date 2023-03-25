@@ -72,17 +72,20 @@ In local Windows's hosts file `C:\Windows\System32\drivers\etc\hosts`
 Unix / Mac: `/etc/hosts`
 
 In Vagrant Ubuntu's hosts file `/etc/hosts`
--->
 
 ```bash
 sudo vi /etc/hosts
 ```
+-->
+
+Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts` -
 
 ```bash
 127.0.0.1 gitlab.mydevopsrealprojects.com
 127.0.0.1 registry.gitlab.mydevopsrealprojects.com
 ```
 
+<!--
 ## 3. Config the root password
 
 ```yml
@@ -90,11 +93,14 @@ sudo vi /etc/hosts
     environment:
       GITLAB_ROOT_PASSWORD: "Password2023#"
       EXTERNAL_URL: "http://gitlab.mydevopsrealprojects.com"
-      GITLAB_OMNIBUS_CONFIG: |ping gitlab.mydevopsrealprojects.com
+      GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['initial_root_password'] = "Password2023#"
+        gitlab_rails['store_initial_root_password'] = true
+        gitlab_rails['display_initial_root_password'] = true
 ```
+-->
 
-## 4. Docker compose
+## 3. Docker compose
 
 <!--
 ### 1. Deploy a gitlab server to store the terraform state file
@@ -129,7 +135,7 @@ echo "${Your_Local_Host_IP}  gitlab.example20221106.com" | sudo tee -a /etc/host
 Then you should be able to access the Gitlab website via `https://<Your_Gitlab_Hostname>`
 -->
 
-### 3. Update the Gitlab original Certificate
+### 4. Update the Gitlab original Certificate
 
 Since the initial Gitlab server **certificate** is missing some info, you may have to **regenerate** a new one and **reconfigure** in the gitlab server. Run below commands:
 
