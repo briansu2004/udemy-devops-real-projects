@@ -1,7 +1,7 @@
-export PROJECT_ID="2"
-export TF_USERNAME="root"
-export TF_PASSWORD="glpat-VRVfpf7pwEUPjJGh6-Ks"
-export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name"
+# export PROJECT_ID="2"
+# export TF_USERNAME="root"
+# export TF_PASSWORD="glpat-VRVfpf7pwEUPjJGh6-Ks"
+# export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name"
 
 # Note: Please replace above variables into below
 # ---

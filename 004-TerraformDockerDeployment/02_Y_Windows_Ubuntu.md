@@ -227,6 +227,7 @@ sudo vim config/test/config.tfbackend
 Init
 
 ```dos
+cd ~/udemy-devops-real-projects/004-TerraformDockerDeployment
 terraform init -backend-config=config/test/config.tfbackend
 ```
 
