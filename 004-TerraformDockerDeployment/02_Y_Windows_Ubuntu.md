@@ -76,8 +76,6 @@ has changed. Terraform will now check for existing state in the backends.
 │ source and the destination remain unmodified. Please resolve the
 │ above error and try again.
 
-
-
 if sudo vim /etc/hosts
 
 0.0.0.0 gitlab.mydevopsrealprojects.com
@@ -156,6 +154,9 @@ We will use it in our `docker-compose.yml` file.
 ->
 192.168.33.10 gitlab.mydevopsrealprojects.com
 192.168.33.10 registry.gitlab.mydevopsrealprojects.com
+->
+0.0.0.0 gitlab.mydevopsrealprojects.com
+0.0.0.0 registry.gitlab.mydevopsrealprojects.com
 ```
 
 <!--
