@@ -10,6 +10,14 @@ Has issues to install Terraform in Ubuntu???
 
 ### 1. Install and start Docker for Windows
 
+...
+
+### 2. Install Terraform for Windows
+
+```dos
+choco install terraform
+```
+
 <!--
 ### 1. Install and start Vagrant
 
@@ -124,6 +132,8 @@ cd udemy-devops-real-projects/004-TerraformDockerDeployment
 docker-compose up
 ```
 
+Note: the GitLab server need a few minutes to start.
+
 <!--
 ### 1. Deploy a gitlab server to store the terraform state file
 
@@ -133,15 +143,15 @@ cd udemy-devops-real-projects/004-TerraformDockerDeployment
 docker-compose up
 ```
 
-> Note: Once the gitlab container is fully up running, you can run below command to retrieve the initial password, if you haven't specified it in the deployment file. The default admin username should be `root`
+> Note: Once the gitlab container is fully up running, we can run below command to retrieve the initial password, if we haven't specified it in the deployment file. The default admin username should be `root`
 
 ```dos
 sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
-### 2. Add the new DNS record in your local hosts file
+### 2. Add the new DNS record in our local hosts file
 
-In your `docker-compose.yaml`, you have defined your gitlab server hostname in `hostname` field. Add it to your local hosts file so that you can use it to git clone the repo from your gitlab server.
+In our `docker-compose.yaml`, we have defined our gitlab server hostname in `hostname` field. Add it to our local hosts file so that we can use it to git clone the repo from our gitlab server.
 
 ```dos
 export Your_Local_Host_IP=<Your_Local_Host_IP>
@@ -154,13 +164,13 @@ e.g.
 echo "${Your_Local_Host_IP}  gitlab.mydevopsrealprojects.com" | sudo tee -a /etc/hosts
 ```
 
-Then you should be able to access the Gitlab website via `https://mydevopsrealprojects.com`
+Then we should be able to access the Gitlab website via `https://mydevopsrealprojects.com`
 -->
 
 <!--
 ### 4. Update the Gitlab original Certificate
 
-Since the initial Gitlab server **certificate** is missing some info, you may have to **regenerate** a new one and **reconfigure** in the gitlab server. Run below commands:
+Since the initial Gitlab server **certificate** is missing some info, we may have to **regenerate** a new one and **reconfigure** in the gitlab server. Run below commands:
 
 ```dos
 docker exec -it gitlab bash
@@ -170,7 +180,7 @@ cd /etc/gitlab/ssl
 openssl genrsa -out ca.key 2048
 openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
 
-# Note: Make sure to replace below `YOUR_GITLAB_DOMAIN` with your own domain name. For example, mydevopsrealprojects.com.
+# Note: Make sure to replace below `YOUR_GITLAB_DOMAIN` with our own domain name. For example, mydevopsrealprojects.com.
 # Certificate for gitlab server
 export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
 openssl req -newkey rsa:2048 -nodes -keyout gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out gitlab.$YOUR_GITLAB_DOMAIN.csr
@@ -184,9 +194,9 @@ gitlab-ctl restart
 exit
 ```
 
-### 4. Import the gitlab new certificate in your local host CA chains
+### 4. Import the gitlab new certificate in our local host CA chains
 
-In order to make your local host be able to talk to the gitlab server via TLS, you have to import the new gitlab certificate, which is generated previous step, into your local host CA store chains. Login to your local host and run below command:
+In order to make our local host be able to talk to the gitlab server via TLS, we have to import the new gitlab certificate, which is generated previous step, into our local host CA store chains. Login to our local host and run below command:
 
 ```dos
 export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
@@ -194,7 +204,7 @@ sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/
 sudo update-ca-certificates
 ```
 
-> Note: If you are using CentOS, you may need to include "-addext basicConfstraints=critical,CA:TRUE" in the ca.crt file and use `update-ca-trust` command instead.
+> Note: If we are using CentOS, we may need to include "-addext basicConfstraints=critical,CA:TRUE" in the ca.crt file and use `update-ca-trust` command instead.
 
 ```dos
 # For CentOS
@@ -202,28 +212,38 @@ openssl req -new -x509 -days 365 -key ca.key -addext basicConstraints=critical,C
 ```
 -->
 
-### 5. Create a new project in your Gitlab server and generate a personal access token
+### 5. Create a new project in our Gitlab server and generate a personal access token
 
-Login to your Gitlab server website (`https://mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Project name"**, i.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"** </br>
+Login to our Gitlab server website (`https://gitlab.mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Project name"**, e.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"**
 
-Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type a customized token name in **Token name** field, i.ig  *terraform-token* , Select a role **"Maintainer"** in *Select a role field*, Select scopes **"api/read_api/read_repositry/write_repository"** </br>
+![1679779492105](image/01_Y_WindowsOnly/1679779492105.png)
 
-Make a note of the new token generated as you will need to apply it in the next step.
+![1679779521707](image/01_Y_WindowsOnly/1679779521707.png)
 
-<!-- glpat-y7Rs81efD5hSVZxX_TZ3 -->
+Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type a customized token name in **Token name** field, e.g. *terraform-token* , Select a role **"Maintainer"** in *Select a role field*, Select all scopes **"api/read_api/read_repositry/write_repository"**
 
-![gitlab-personal-accees-token](images/gitlab-personal-accees-token.png)
+![1679779621958](image/01_Y_WindowsOnly/1679779621958.png)
+
+Make a note of the new token generated as we will need to apply it in the next step.
+
+<!-- glpat-YtPyrWH5u1729j2HJPze -->
+
+![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
 
 ### 6. Update `config.tfbackend`
 
-Before running `terraform init`, you have to update `config/test/config.tfbackend` file with the credential/gitlab server info accordingly. The below is the definition for the variables:</br>
+Before running `terraform init`, we have to update `config/test/config.tfbackend` file with the credential/gitlab server info accordingly. The below is the definition for the variables:</br>
 
-- **PROJECT_ID:** Go to the project and head to **"Setting"** -> **"General"**, and you will see **"Project ID"** in the page. </br>
-- **TF_USERNAME:** If you haven't created your own user, the default user should be `root` </br>
-- **TF_PASSWORD:** This is the gitlab **personal access token**, which you can fetch from previous step </br>
-- **TF_ADDRESS:** This is URL to store your **terraform state file**.
-  The pattern is like `https://<your gitlab server url>/api/v4/projects/<your project id>/terraform/state/old-state-name`.
+- **PROJECT_ID:** Go to the project and head to **"Setting"** -> **"General"**, and we will see **"Project ID"** in the page.
+- **TF_USERNAME:** If we haven't created our own user, the default user should be `root`
+- **TF_PASSWORD:** This is the gitlab **personal access token**, which we can fetch from previous step
+- **TF_ADDRESS:** This is URL to store our **terraform state file**.
+
+  The pattern is like `https://<our gitlab server url>/api/v4/projects/<our project id>/terraform/state/old-state-name`.
+
   For example: `https://gitlab.mydevopsrealprojects.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name`
+
+![1679779555678](image/01_Y_WindowsOnly/1679779555678.png)
 
 <!--
 ```dos
@@ -255,7 +275,7 @@ terraform apply deploy.tfplan
 
 ### 8. Verification
 
-You should be able to visit the website via `http://0.0.0.0:8080`
+we should be able to visit the website via `http://0.0.0.0:8080`
 
 ![hello-world](images/hello-world.png)
 

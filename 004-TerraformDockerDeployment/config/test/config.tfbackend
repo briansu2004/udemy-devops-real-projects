@@ -1,7 +1,7 @@
-export PROJECT_ID="2"
-export TF_USERNAME="root"
-export TF_PASSWORD="glpat-y7Rs81efD5hSVZxX_TZ3"
-export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name"
+# export PROJECT_ID="2"
+# export TF_USERNAME="root"
+# export TF_PASSWORD="glpat-YtPyrWH5u1729j2HJPze"
+# export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name"
 
 # Note: Please replace above variables into below
 # ---
@@ -18,7 +18,7 @@ address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/sta
 lock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
 unlock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
 username="root"
-password="glpat-y7Rs81efD5hSVZxX_TZ3"
+password="glpat-YtPyrWH5u1729j2HJPze"
 lock_method="POST"
 unlock_method="DELETE"
 retry_wait_min=5

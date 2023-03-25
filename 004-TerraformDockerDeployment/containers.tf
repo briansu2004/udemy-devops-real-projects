@@ -6,4 +6,3 @@ resource "docker_container" "hello_world" {
     external = 8080
   }
 }
-

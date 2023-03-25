@@ -10,4 +10,3 @@ terraform {
 }
 
 provider "docker" {}
-
