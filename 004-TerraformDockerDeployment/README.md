@@ -13,7 +13,7 @@ In this article, you will learn the terraform basic usage and use terraform scri
 | 3 | Mac only | YN | Y |   |
 | 4 | Mac + Ubuntu | N | N |   |
 
-[Windows Only](01_Y_WindowsOnly.md)
+[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 <!--
 [Windows Only](01_Y_WindowsOnly.md)

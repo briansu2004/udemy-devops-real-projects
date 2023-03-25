@@ -2,9 +2,24 @@
 
 Windows only
 
-Issues???
+(No issues to install Terraform in Ubuntu.)
 
-Has issues to install Terraform in Ubuntu???
+Issues:
+
+terraform init -backend-config=config/test/config.tfbackend has issues.
+
+```dos
+C:\devbox\udemy-devops-real-projects\004-TerraformDockerDeployment>terraform init -backend-config=config/test/config.tfbackend
+
+Initializing the backend...
+2023/03/25 17:33:48 [DEBUG] GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name
+2023/03/25 17:33:49 [ERR] GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name request failed: Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": EOF
+2023/03/25 17:33:49 [DEBUG] GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name: retrying in 5s (2 left)
+2023/03/25 17:33:54 [ERR] GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name request failed: Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": EOF
+2023/03/25 17:33:54 [DEBUG] GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name: retrying in 10s (1 left)
+2023/03/25 17:34:04 [ERR] GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name request failed: Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": EOF
+Error refreshing state: Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempts
+```
 
 ## Prerequisites
 
