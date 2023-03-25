@@ -6,6 +6,55 @@ Issues:
 
 ???
 
+<!--
+if sudo vim /etc/hosts
+
+192.168.33.10 gitlab.mydevopsrealprojects.com
+192.168.33.10 registry.gitlab.mydevopsrealprojects.com
+```
+
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform init -backend-config=config/test/config.tfbackend -migrate-state
+
+Initializing the backend...
+Backend configuration changed!
+
+Terraform has detected that the configuration specified for the backend  
+has changed. Terraform will now check for existing state in the backends.
+
+╷
+│ Error: Error loading state:
+│     Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempt(s): Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": dial tcp 192.168.33.10:443: connect: connection refused
+│
+│ Terraform failed to load the default state from the "http" backend.
+│ State migration cannot occur unless the state can be loaded. Backend
+│ modification and state migration has been aborted. The state in both the
+│ source and the destination remain unmodified. Please resolve the
+│ above error and try again.
+
+if sudo vim /etc/hosts
+
+127.0.0.1 gitlab.mydevopsrealprojects.com
+127.0.0.1 registry.gitlab.mydevopsrealprojects.com
+
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform init -backend-config=config/test/config.tfbackend -migrate-state
+
+Initializing the backend...
+Backend configuration changed!
+
+Terraform has detected that the configuration specified for the backend
+has changed. Terraform will now check for existing state in the backends.
+
+╷
+│ Error: Error loading state:
+│     Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempt(s): Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": read tcp 127.0.0.1:52600->127.0.0.1:443: read: connection reset by peer
+│
+│ Terraform failed to load the default state from the "http" backend.
+│ State migration cannot occur unless the state can be loaded. Backend
+│ modification and state migration has been aborted. The state in both the
+│ source and the destination remain unmodified. Please resolve the
+│ above error and try again.
+-->
+
 ## Prerequisites
 
 ### 1. Install and start Vagrant
@@ -74,6 +123,9 @@ We will use it in our `docker-compose.yml` file.
 ```bash
 127.0.0.1 gitlab.mydevopsrealprojects.com
 127.0.0.1 registry.gitlab.mydevopsrealprojects.com
+->
+192.168.33.10 gitlab.mydevopsrealprojects.com
+192.168.33.10 registry.gitlab.mydevopsrealprojects.com
 ```
 
 <!--
@@ -162,6 +214,27 @@ exit
 ```
 
 Note: the GitLab server need a few minutes to start.
+
+<!--
+Need to restart docker container???
+
+docker restart gitlab
+docker compose up
+
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ docker ps
+CONTAINER ID   IMAGE                     COMMAND             CREATED          STATUS                    PORTS
+           NAMES
+126b1543f62b   gitlab/gitlab-ce:latest   "/assets/wrapper"   46 minutes ago   Up 46 minutes (healthy)   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:2222->22/tcp, :::2222->22/tcp   gitlab
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ docker restart
+"docker restart" requires at least 1 argument.
+See 'docker restart --help'.
+
+Usage:  docker restart [OPTIONS] CONTAINER [CONTAINER...]
+
+Restart one or more containers
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ docker restart 12
+12
+-->
 
 ### 5. Import the gitlab new certificate in our local host CA chains
 
