@@ -2,6 +2,10 @@
 
 Mac + Ubuntu
 
+Issues:
+
+Has issues to install Terraform in Ubuntu!!!
+
 <!--
 ## <a name="prerequisites">Prerequisites</a>
 
