@@ -22,10 +22,81 @@ vagrant ssh
 
 ### 2. Install Docker in Vagrant
 
-...
+```bash
+cat > install_docker.sh <<EOF
+
+sudo apt-get update
+echo y | sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+sudo mkdir -p /etc/apt/keyrings
+sudo rm -f /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+sudo apt-get update
+echo y | sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo chmod 666 /var/run/docker.sock
+EOF
+
+chmod 777 install_docker.sh
+./install_docker.sh
+```
 
 ## Steps
 
+## 1. Config the GitLab domain name
+
+In this lab, we will use `mydevopsrealprojects.com` as the GitLab domain name.
+
+Hence the gitlab URL is `http://gitlab.mydevopsrealprojects.com`
+
+We need it in the `docker-compose.yml` file.
+
+## 2. Configure the **hosts** file
+
+<!--
+Windows: `C:\Windows\System32\drivers\etc\hosts`
+
+In local Windows's hosts file `C:\Windows\System32\drivers\etc\hosts`
+
+```dos
+192.168.33.10 gitlab.mydevopsrealprojects.com
+192.168.33.10 registry.gitlab.mydevopsrealprojects.com
+```
+
+Unix / Mac: `/etc/hosts`
+
+In Vagrant Ubuntu's hosts file `/etc/hosts`
+-->
+
+```bash
+sudo vi /etc/hosts
+```
+
+```bash
+127.0.0.1 gitlab.mydevopsrealprojects.com
+127.0.0.1 registry.gitlab.mydevopsrealprojects.com
+```
+
+## 3. Config the root password
+
+```yml
+    hostname: 'gitlab.mydevopsrealprojects.com'
+    environment:
+      GITLAB_ROOT_PASSWORD: "Password2023#"
+      EXTERNAL_URL: "http://gitlab.mydevopsrealprojects.com"
+      GITLAB_OMNIBUS_CONFIG: |ping gitlab.mydevopsrealprojects.com
+        gitlab_rails['initial_root_password'] = "Password2023#"
+```
+
+## 4. Docker compose
+
+<!--
 ### 1. Deploy a gitlab server to store the terraform state file
 
 ```bash
@@ -34,13 +105,11 @@ cd udemy-devops-real-projects/004-TerraformDockerDeployment
 docker-compose up
 ```
 
-<!--
 > Note: Once the gitlab container is fully up running, you can run below command to retrieve the initial password, if you haven't specified it in the deployment file. The default admin username should be `root`
 
 ```bash
 sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
--->
 
 ### 2. Add the new DNS record in your local hosts file
 
@@ -58,6 +127,7 @@ echo "${Your_Local_Host_IP}  gitlab.example20221106.com" | sudo tee -a /etc/host
 ```
 
 Then you should be able to access the Gitlab website via `https://<Your_Gitlab_Hostname>`
+-->
 
 ### 3. Update the Gitlab original Certificate
 
@@ -95,12 +165,14 @@ sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/
 sudo update-ca-certificates
 ```
 
+<!--
 > Note: If you are using CentOS, you may need to include "-addext basicConfstraints=critical,CA:TRUE" in the ca.crt file and use `update-ca-trust` command instead.
 
 ```bash
 # For CentOS
 openssl req -new -x509 -days 365 -key ca.key -addext basicConstraints=critical,CA:TRUE -subj "/C=CN/ST=GD/L=SZ/0=Acme, Inc./CN=Acme Root CA"  -out ca.crt
 ```
+-->
 
 ### 5. Create a new project in your Gitlab server and generate a personal access token
 
