@@ -1,4 +1,4 @@
-# Project Name: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
+# Project 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
 
 ## Project Goal
 
