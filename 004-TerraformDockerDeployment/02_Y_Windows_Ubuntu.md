@@ -75,6 +75,14 @@ has changed. Terraform will now check for existing state in the backends.
 │ modification and state migration has been aborted. The state in both the
 │ source and the destination remain unmodified. Please resolve the
 │ above error and try again.
+
+
+
+if sudo vim /etc/hosts
+
+0.0.0.0 gitlab.mydevopsrealprojects.com
+0.0.0.0 registry.gitlab.mydevopsrealprojects.com
+
 -->
 
 ## Prerequisites
@@ -328,6 +336,14 @@ sudo vim config/test/config.tfbackend
 -->
 
 ### 8. Run terraform script to deploy the infra
+
+<!--
+This is a quick and dirty way to clean up Terraform state -
+
+```bash
+rm -rf .terraform
+```
+-->
 
 Init
 
