@@ -29,7 +29,13 @@ chmod 777 install_docker.sh
 ./install_docker.sh
 ```
 
-## Install minikube  in Ubuntu
+## Install Docker Compose in Ubuntu
+
+```bash
+sudo apt install docker-compose
+```
+
+## Install minikube in Ubuntu
 
 <!--<https://minikube.sigs.k8s.io/docs/start/>-->
 
