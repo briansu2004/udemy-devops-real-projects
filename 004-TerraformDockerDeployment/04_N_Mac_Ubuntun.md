@@ -100,6 +100,7 @@ docker exec -it gitlab bash
 #mkdir /etc/gitlab/ssl_backup
 #mv /etc/gitlab/ssl/* /etc/gitlab/ssl_backup
 
+mkdir /etc/gitlab/ssl
 cd /etc/gitlab/ssl
 
 # ca.key
@@ -122,7 +123,7 @@ openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:
 openssl req -newkey rsa:2048 -nodes -keyout registry.gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out registry.gitlab.$YOUR_GITLAB_DOMAIN.csr
 
 # registry.gitlab.mydevopsrealprojects.com.crt
-openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN,DNS:registry.gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in registry.gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out registry.gitlab.$YOUR_GITLAB_DOMAIN.crt
+  openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN,DNS:registry.gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in registry.gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out registry.gitlab.$YOUR_GITLAB_DOMAIN.crt
 
 gitlab-ctl reconfigure
 
@@ -182,7 +183,17 @@ Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type 
 
 Make a note of the new token generated as you will need to apply it in the next step.
 
-<!-- glpat-y7Rs81efD5hSVZxX_TZ3 -->
+<!-- glpat-UnvMJckVQ_xFsny7rhCC-->
+
+GitLab API verification with token:
+
+```bash
+curl --header "Private-Token: glpat-UnvMJckVQ_xFsny7rhCC" https://gitlab.mydevopsrealprojects.com/api/v4/projects
+
+
+curl --header "Private-Token: glpat-fpMjQW8LB8ZKjskLFCW1" https://gitlab.mydevopsrealprojects.com/api/v4/projects
+```
+
 
 ![gitlab-personal-accees-token](images/gitlab-personal-accees-token.png)
 
