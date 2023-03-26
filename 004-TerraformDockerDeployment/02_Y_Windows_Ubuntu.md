@@ -87,6 +87,9 @@ if sudo vim /etc/hosts
 0.0.0.0 gitlab.mydevopsrealprojects.com
 0.0.0.0 registry.gitlab.mydevopsrealprojects.com
 
+
+curl --header "Private-Token: glpat-zWxz3_jCGi-SiLQ9F5HH " "https://gitlab.mydevopsrealprojects.com/api/v4/projects"
+
 vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ curl --header "Private-Token: glpat-dzsSWZYNpowWZsTngr1U" "https://gitlab.mydevopsrealprojects.com/api/v4/projects"
 curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gitlab.mydevopsrealprojects.com:443 
 

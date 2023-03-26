@@ -11,7 +11,13 @@ Mac Only
 - Terraform (see installation guide [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli))
 -->
 
-## Project Steps
+## Prerequisites
+
+### 1. Install Docker for Mac
+
+### 2. Install Terraform for Mac
+
+## Steps
 
 ### 1. Deploy a gitlab server to store the terraform state file
 
@@ -29,16 +35,25 @@ sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 
 ### 2. Add the new DNS record in your local hosts file
 
+<!--
 In your `docker-compose.yaml`, you have defined your gitlab server hostname in `hostname` field. Add it to your local hosts file so that you can use it to git clone the repo from your gitlab server.
 
 ```bash
 export Your_Local_Host_IP=<Your_Local_Host_IP>
 echo "${Your_Local_Host_IP}  gitlab.<Your_Gitlab_Hostname>" |sudo tee -a /etc/hosts
 i.g.
-echo "${Your_Local_Host_IP}  gitlab.example20221106.com" |sudo tee -a /etc/hosts
+echo "${Your_Local_Host_IP}  gitlab.mydevopsrealprojects.com" |sudo tee -a /etc/hosts
 ```
 
 Then you should be able to access the Gitlab website via `https://<Your_Gitlab_Hostname>`
+-->
+
+- Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts`
+
+```bash
+127.0.0.1 gitlab.mydevopsrealprojects.com
+127.0.0.1 registry.gitlab.mydevopsrealprojects.com
+```
 
 ### 3. Update the Gitlab original Certificate
 
@@ -46,23 +61,29 @@ Since the initial Gitlab server **certificate** is missing some info, you may ha
 
 ```bash
 docker exec -it gitlab bash
-mkdir /etc/gitlab/ssl_backup
-mv /etc/gitlab/ssl/* /etc/gitlab/ssl_backup
+
+# mkdir /etc/gitlab/ssl_backup
+# mv /etc/gitlab/ssl/* /etc/gitlab/ssl_backup
+
 cd /etc/gitlab/ssl
+
 openssl genrsa -out ca.key 2048
 openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
 
-# Note: Make sure to replace below `YOUR_GITLAB_DOMAIN` with your own domain name. For example, example20221106.com.
+export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
+
 # Certificate for gitlab server
-export YOUR_GITLAB_DOMAIN=example20221106.com
 openssl req -newkey rsa:2048 -nodes -keyout gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out gitlab.$YOUR_GITLAB_DOMAIN.csr
 openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out gitlab.$YOUR_GITLAB_DOMAIN.crt
 
 # Certificate for container registry
 openssl req -newkey rsa:2048 -nodes -keyout registry.gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out registry.gitlab.$YOUR_GITLAB_DOMAIN.csr
 openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN,DNS:registry.gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in registry.gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out registry.gitlab.$YOUR_GITLAB_DOMAIN.crt
+
 gitlab-ctl reconfigure
+
 gitlab-ctl restart
+
 exit
 ```
 
@@ -71,17 +92,23 @@ exit
 In order to make your local host be able to talk to the gitlab server via TLS, you have to import the new gitlab certificate, which is generated previous step, into your local host CA store chains. Login to your local host and run below command:
 
 ```bash
-export YOUR_GITLAB_DOMAIN=example20221106.com
-sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
-sudo update-ca-certificates
+export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
+
+docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
+
+update-ca-certificates
+->
+sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" /usr/local/share/ca-certificates/gitlab.$YOUR_GITLAB_DOMAIN.crt
 ```
 
+<!--
 > Note: If you are using CentOS, you may need to include "-addext basicConfstraints=critical,CA:TRUE" in the ca.crt file and use `update-ca-trust` command instead.
 
 ```bash
 # For CentOS
 openssl req -new -x509 -days 365 -key ca.key -addext basicConstraints=critical,CA:TRUE -subj "/C=CN/ST=GD/L=SZ/0=Acme, Inc./CN=Acme Root CA"  -out ca.crt
 ```
+-->
 
 ### 5. Create a new project in your Gitlab server and generate a personal access token
 

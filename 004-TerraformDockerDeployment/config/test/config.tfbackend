@@ -14,11 +14,11 @@
 #unlock_method=DELETE
 #retry_wait_min=5
 
-address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/3/terraform/state/old-state-name"
-lock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/3/terraform/state/old-state-name/lock"
-unlock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/3/terraform/state/old-state-name/lock"
+address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name"
+lock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
+unlock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
 username="root"
-password="glpat-CcEJKCn4jjgsdCFNMycJ"
+password="glpat-GE6AScBWdbs2HNXe_rMm"
 lock_method="POST"
 unlock_method="DELETE"
 retry_wait_min=5
