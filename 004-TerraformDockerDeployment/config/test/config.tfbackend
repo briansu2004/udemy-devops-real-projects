@@ -1,4 +1,4 @@
-# export PROJECT_ID="2"
+# export PROJECT_ID="4"
 # export TF_USERNAME="root"
 # export TF_PASSWORD="glpat-moigx-sCKzk2KzG9YGP_"
 # export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name"
@@ -14,13 +14,13 @@
 #unlock_method=DELETE
 #retry_wait_min=5
 
-# address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/4 /terraform/state/old-state-name"
-# lock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/4 /terraform/state/old-state-name/lock"
-# unlock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/4 /terraform/state/old-state-name/lock"
+# address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/4/terraform/state/old-state-name"
+# lock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/4/terraform/state/old-state-name/lock"
+# unlock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/4/terraform/state/old-state-name/lock"
 
-address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/4 /terraform/state/old-state-name"
-lock_address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/4 /terraform/state/old-state-name/lock"
-unlock_address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/4 /terraform/state/old-state-name/lock"
+address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/4/terraform/state/old-state-name"
+lock_address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/4/terraform/state/old-state-name/lock"
+unlock_address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/4/terraform/state/old-state-name/lock"
 username="root"
 password="glpat-moigx-sCKzk2KzG9YGP_"
 lock_method="POST"

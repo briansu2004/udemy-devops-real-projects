@@ -290,7 +290,10 @@ rm -rf .terraform
 Init
 
 ```dos
-cd ~/udemy-devops-real-projects/004-TerraformDockerDeployment
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/004-TerraformDockerDeployment
+cat config/test/config.tfbackend
+rm -rf .terraform
 terraform init -backend-config=config/test/config.tfbackend
 ```
 
