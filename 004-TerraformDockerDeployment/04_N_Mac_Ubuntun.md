@@ -55,6 +55,8 @@ chmod 777 install_docker.sh
 sudo apt install docker-compose
 ```
 
+No need to install Terram in Ubuntu.
+
 ## Steps
 
 ## 1. Config the GitLab domain name
