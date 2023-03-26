@@ -127,13 +127,17 @@ Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type 
 
 Make a note of the new token generated as we will need to apply it in the next step.
 
+![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
+
 <!-- glpat-n11zSaXKeKSXdVubLgyv -->
+
+Verify the token with `curl`:
 
 ```dos
 curl --header "Private-Token: glpat-n11zSaXKeKSXdVubLgyv" http://gitlab.mydevopsrealprojects.com/api/v4/projects
 ```
 
-![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
+![1679866717682](image/01_Y_WindowsOnly/1679866717682.png)
 
 <!--
 ```dos
