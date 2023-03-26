@@ -10,11 +10,7 @@ For example:
 
 ## gitlab.rb
 
-
-
 <https://docs.gitlab.cn/14.0/omnibus/settings/configuration.html>
-
-
 
 ```dos
 root@gitlab:/etc/gitlab# gitlab-ctl reconfigure

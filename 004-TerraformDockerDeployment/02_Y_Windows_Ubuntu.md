@@ -53,6 +53,12 @@ has changed. Terraform will now check for existing state in the backends.
 │ modification and state migration has been aborted. The state in both the
 │ source and the destination remain unmodified. Please resolve the
 │ above error and try again.
+
+if sudo vim /etc/hosts
+
+172.19.0.2 gitlab.mydevopsrealprojects.com
+172.19.0.2 registry.gitlab.mydevopsrealprojects.com
+
 -->
 
 <!--
@@ -172,8 +178,12 @@ We will use it in our `docker-compose.yml` file.
 ```dos
 192.168.33.10 gitlab.mydevopsrealprojects.com
 192.168.33.10 registry.gitlab.mydevopsrealprojects.com
+->
+127.0.0.1 gitlab.mydevopsrealprojects.com
+127.0.0.1 registry.gitlab.mydevopsrealprojects.com
 ```
 
+<!--
 - Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts`
 
 ```bash
@@ -186,6 +196,7 @@ We will use it in our `docker-compose.yml` file.
 0.0.0.0 gitlab.mydevopsrealprojects.com
 0.0.0.0 registry.gitlab.mydevopsrealprojects.com
 ```
+-->
 
 <!--
 ## 3. Config the root password
