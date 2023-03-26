@@ -147,6 +147,12 @@ export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
 
 sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
 
+sudo docker cp gitlab:/etc/gitlab/ssl/registry.gitlab.mydevopsrealprojects.com.crt /usr/local/share/ca-certificates/
+
+sudo docker cp gitlab:/etc/gitlab/ssl/ca.crt /usr/local/share/ca-certificates/
+
+ls -l /usr/local/share/ca-certificates/
+
 sudo update-ca-certificates
 ```
 
