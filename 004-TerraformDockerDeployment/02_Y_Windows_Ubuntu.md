@@ -250,9 +250,17 @@ Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type 
 
 Make a note of the new token generated as we will need to apply it in the next step.
 
-<!-- glpat-VRVfpf7pwEUPjJGh6-Ks -->
-
 ![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
+
+<!-- glpat-moigx-sCKzk2KzG9YGP_ -->
+
+GitLab API verification with token:
+
+```bash
+curl --header "Private-Token: glpat-UnvMJckVQ_xFsny7rhCC" https://gitlab.mydevopsrealprojects.com/api/v4/projects
+
+curl --header "Private-Token: glpat-moigx-sCKzk2KzG9YGP_" http://gitlab.mydevopsrealprojects.com/api/v4/projects
+```
 
 ### 7. Update `config.tfbackend`
 
@@ -268,14 +276,6 @@ Before running `terraform init`, we have to update `config/test/config.tfbackend
   For example: `https://gitlab.mydevopsrealprojects.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name`
 
 ![1679779555678](image/01_Y_WindowsOnly/1679779555678.png)
-
-<!--
-```dos
-docker exec -it gitlab bash
-cd ~/udemy-devops-real-projects/004-TerraformDockerDeployment
-sudo vim config/test/config.tfbackend
-```
--->
 
 ### 8. Run terraform script to deploy the infra
 
