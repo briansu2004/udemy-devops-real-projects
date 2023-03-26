@@ -2,6 +2,10 @@
 
 Mac Only
 
+Issues:
+
+update-ca-certificates is not for Mac.
+
 <!--
 ## <a name="prerequisites">Prerequisites</a>
 
