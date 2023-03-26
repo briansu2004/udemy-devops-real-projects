@@ -2,124 +2,6 @@
 
 Windows + Ubuntu
 
-Issues:
-
-???
-
-<!--
-if sudo vim /etc/hosts
-
-192.168.33.10 gitlab.mydevopsrealprojects.com
-192.168.33.10 registry.gitlab.mydevopsrealprojects.com
-```
-
-vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform init -backend-config=config/test/config.tfbackend -migrate-state
-
-Initializing the backend...
-Backend configuration changed!
-
-Terraform has detected that the configuration specified for the backend  
-has changed. Terraform will now check for existing state in the backends.
-
-╷
-│ Error: Error loading state:
-│     Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempt(s): Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": dial tcp 192.168.33.10:443: connect: connection refused
-│
-│ Terraform failed to load the default state from the "http" backend.
-│ State migration cannot occur unless the state can be loaded. Backend
-│ modification and state migration has been aborted. The state in both the
-│ source and the destination remain unmodified. Please resolve the
-│ above error and try again.
-
-if sudo vim /etc/hosts
-
-127.0.0.1 gitlab.mydevopsrealprojects.com
-127.0.0.1 registry.gitlab.mydevopsrealprojects.com
-
-vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform init -backend-config=config/test/config.tfbackend -migrate-state
-
-Initializing the backend...
-Backend configuration changed!
-
-Terraform has detected that the configuration specified for the backend
-has changed. Terraform will now check for existing state in the backends.
-
-╷
-│ Error: Error loading state:
-│     Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempt(s): Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": read tcp 127.0.0.1:52600->127.0.0.1:443: read: connection reset by peer
-│
-│ Terraform failed to load the default state from the "http" backend.
-│ State migration cannot occur unless the state can be loaded. Backend
-│ modification and state migration has been aborted. The state in both the
-│ source and the destination remain unmodified. Please resolve the
-│ above error and try again.
-
-if sudo vim /etc/hosts
-
-172.19.0.2 gitlab.mydevopsrealprojects.com
-172.19.0.2 registry.gitlab.mydevopsrealprojects.com
-
--->
-
-<!--
-After docker restart,
-
-terraform init -backend-config=config/test/config.tfbackend -migrate-state
-
-Initializing the backend...
-Backend configuration changed!
-
-Terraform has detected that the configuration specified for the backend
-has changed. Terraform will now check for existing state in the backends.
-
-╷
-│ Error: Error loading state:
-│     Failed to get state: GET https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name giving up after 3 attempt(s): Get "https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name": EOF
-│
-│ Terraform failed to load the default state from the "http" backend.
-│ State migration cannot occur unless the state can be loaded. Backend
-│ modification and state migration has been aborted. The state in both the
-│ source and the destination remain unmodified. Please resolve the
-│ above error and try again.
-
-if sudo vim /etc/hosts
-
-0.0.0.0 gitlab.mydevopsrealprojects.com
-0.0.0.0 registry.gitlab.mydevopsrealprojects.com
-
-
-curl --header "Private-Token: glpat-zWxz3_jCGi-SiLQ9F5HH " "https://gitlab.mydevopsrealprojects.com/api/v4/projects"
-
-vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ curl --header "Private-Token: glpat-dzsSWZYNpowWZsTngr1U" "https://gitlab.mydevopsrealprojects.com/api/v4/projects"
-curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gitlab.mydevopsrealprojects.com:443 
-
-vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ openssl s_client -connect gitlab.mydevopsrealprojects.com:443
-CONNECTED(00000003)
-write:errno=0
----
-no peer certificate available      
----
-No client certificate CA names sent
----
-SSL handshake has read 0 bytes and written 323 bytes
-Verification: OK
----
-New, (NONE), Cipher is (NONE)
-Secure Renegotiation IS NOT supported
-Compression: NONE
-Expansion: NONE
-No ALPN negotiated
-Early data was not sent
-Verify return code: 0 (ok)
----
-
-root@gitlab:/etc/gitlab# openssl s_client -connect gitlab.mydevopsrealprojects.com:443
-139977655887168:error:0200206F:system library:connect:Connection refused:crypto/bio/b_sock2.c:110:
-139977655887168:error:2008A067:BIO routines:BIO_connect:connect error:crypto/bio/b_sock2.c:111:
-connect:errno=111
-
--->
-
 ## Prerequisites
 
 ### 1. Install and start Vagrant
@@ -170,9 +52,7 @@ sudo apt install docker-compose
 
 In this lab, we will use `mydevopsrealprojects.com` as the GitLab domain name.
 
-Hence the gitlab URL is `http://gitlab.mydevopsrealprojects.com`
-
-We will use it in our `docker-compose.yml` file.
+Hence the GitLab server URL is `http://gitlab.mydevopsrealprojects.com`
 
 ## 2. Configure the **hosts** file
 
@@ -181,25 +61,14 @@ We will use it in our `docker-compose.yml` file.
 ```dos
 192.168.33.10 gitlab.mydevopsrealprojects.com
 192.168.33.10 registry.gitlab.mydevopsrealprojects.com
-->
-127.0.0.1 gitlab.mydevopsrealprojects.com
-127.0.0.1 registry.gitlab.mydevopsrealprojects.com
 ```
 
-<!--
 - Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts`
 
 ```bash
-127.0.0.1 gitlab.mydevopsrealprojects.com
-127.0.0.1 registry.gitlab.mydevopsrealprojects.com
-->
-192.168.33.10 gitlab.mydevopsrealprojects.com
-192.168.33.10 registry.gitlab.mydevopsrealprojects.com
-->
 0.0.0.0 gitlab.mydevopsrealprojects.com
 0.0.0.0 registry.gitlab.mydevopsrealprojects.com
 ```
--->
 
 <!--
 ## 3. Config the root password

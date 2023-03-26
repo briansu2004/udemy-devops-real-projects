@@ -2,6 +2,35 @@
 
 Windows only
 
+Issue:
+
+```dos
+C:\devbox\udemy-devops-real-projects\004-TerraformDockerDeployment>terraform plan -var-file=config/test/test.tfvars -out deploy.tfplan
+
+Planning failed. Terraform encountered an error while generating this plan.
+
+╷
+│ Warning: Deprecated attribute
+│
+│   on containers.tf line 2, in resource "docker_container" "hello_world":
+│    2:   image = docker_image.hello_world.latest
+│
+│ The attribute "latest" is deprecated. Refer to the provider documentation for details.
+╵
+╷
+│ Error: Error initializing Docker client: protocol not available
+│
+│   with provider["registry.terraform.io/kreuzwerker/docker"],
+│   on main.tf line 12, in provider "docker":
+│   12: provider "docker" {}
+```
+
+Root cause:
+
+Can't install docker in Windows with Terraform!
+
+Have to install docker in Ubuntu (inside the Windows) with Terraform.
+
 <!--
 (No issues to install Terraform in Ubuntu.)
 
@@ -40,6 +69,12 @@ Download and install
 ```dos
 choco install terraform
 ```
+
+<!--
+```dos
+choco upgrade terraform
+```
+-->
 
 ## Steps
 
@@ -181,21 +216,15 @@ Initializing the backend...
 
 Successfully configured the backend "http"! Terraform will automatically
 use this backend unless the backend configuration changes.
-2023/03/26 17:41:34 [DEBUG] GET http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name
 
 Initializing provider plugins...
-- Finding kreuzwerker/docker versions matching "~> 2.13.0"...
+- Reusing previous version of kreuzwerker/docker from the dependency lock file
 - Installing kreuzwerker/docker v2.13.0...
 - Installed kreuzwerker/docker v2.13.0 (self-signed, key ID 24E54F214569A8A5)
 
 Partner and community providers are signed by their developers.
-If you'd like to know more about provider signing, you can read about it here:
+If you'd like to know more about provider signing, you can read about it here: 
 https://www.terraform.io/docs/cli/plugins/signing.html
-
-Terraform has created a lock file .terraform.lock.hcl to record the provider  
-selections it made above. Include this file in your version control repository
-so that Terraform can guarantee to make the same selections by default when   
-you run "terraform init" in the future.
 
 Terraform has been successfully initialized!
 
@@ -218,7 +247,6 @@ terraform plan -var-file=config/test/test.tfvars -out deploy.tfplan
 <!--
 ```dos
 
-
 ```
 -->
 
@@ -227,7 +255,6 @@ Apply
 ```dos
 terraform apply deploy.tfplan
 ```
-
 
 <!--
 ```dos
