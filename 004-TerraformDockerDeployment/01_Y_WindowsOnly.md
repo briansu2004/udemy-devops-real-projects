@@ -127,9 +127,22 @@ Once the project is create, go to **"Setting""** -> **"Access Tokens"** -> Type 
 
 Make a note of the new token generated as we will need to apply it in the next step.
 
-<!-- glpat-YtPyrWH5u1729j2HJPze -->
+<!-- glpat-n11zSaXKeKSXdVubLgyv -->
+
+```dos
+curl --header "Private-Token: glpat-n11zSaXKeKSXdVubLgyv" http://gitlab.mydevopsrealprojects.com/api/v4/projects
+```
 
 ![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
+
+<!--
+```dos
+
+C:\devbox>curl --header "Private-Token: glpat-n11zSaXKeKSXdVubLgyv" http://gitlab.mydevopsrealprojects.com/api/v4/projects
+[{"id":2,"description":null,"name":"first_project","name_with_namespace":"GitLab Instance / first_project","path":"first_project","path_with_namespace":"gitlab-instance-c345c4f2/first_project","created_at":"2023-03-26T21:33:20.376Z","default_branch":"main","tag_list":[],"topics":[],"ssh_url_to_repo":"git@gitlab.mydevopsrealprojects.com:gitlab-instance-c345c4f2/first_project.git","http_url_to_repo":"http://gitlab.mydevopsrealprojects.com/gitlab-instance-c345c4f2/first_project.git","web_url":"http://gitlab.mydevopsrealprojects.com/gitlab-instance-c345c4f2/first_project","readme_url":"http://gitlab.mydevopsrealprojects.com/gitlab-instance-c345c4f2/first_project/-/blob/main/README.md","avatar_url":null,"forks_count":0,"star_count":0,"last_activity_at":"2023-03-26T21:33:20.376Z","namespace":{"id":2,"name":"GitLab Instance","path":"gitlab-instance-c345c4f2","kind":"group","full_path":"gitlab-instance-c345c4f2","parent_id":null,"avatar_url":null,"web_url":"http://gitlab.mydevopsrealprojects.com/groups/gitlab-instance-c345c4f2"},"_links":{"self":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2","issues":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/issues","merge_requests":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/merge_requests","repo_branches":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/repository/branches","labels":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/labels","events":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/events","members":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/members","cluster_agents":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/cluster_agents"},"packages_enabled":true,"empty_repo":false,"archived":false,"visibility":"internal","resolve_outdated_diff_discussions":false,"container_expiration_policy":{"cadence":"1d","enabled":false,"keep_n":10,"older_than":"90d","name_regex":".*","name_regex_keep":null,"next_run_at":"2023-03-27T21:33:20.434Z"},"issues_enabled":true,"merge_requests_enabled":true,"wiki_enabled":true,"jobs_enabled":true,"snippets_enabled":true,"container_registry_enabled":true,"service_desk_enabled":false,"service_desk_address":null,"can_create_merge_request_in":true,"issues_access_level":"enabled","repository_access_level":"enabled","merge_requests_access_level":"enabled","forking_access_level":"enabled","wiki_access_level":"enabled","builds_access_level":"enabled","snippets_access_level":"enabled","pages_access_level":"enabled","operations_access_level":"enabled","analytics_access_level":"enabled","container_registry_access_level":"enabled","security_and_compliance_access_level":"private","emails_disabled":null,"shared_runners_enabled":true,"lfs_enabled":true,"creator_id":1,"import_url":null,"import_type":null,"import_status":"none","open_issues_count":0,"ci_default_git_depth":20,"ci_forward_deployment_enabled":true,"ci_job_token_scope_enabled":false,"ci_separated_caches":true,"ci_opt_in_jwt":false,"ci_allow_fork_pipelines_to_run_in_parent_project":true,"public_jobs":true,"build_timeout":3600,"auto_cancel_pending_pipelines":"enabled","ci_config_path":null,"shared_with_groups":[],"only_allow_merge_if_pipeline_succeeds":false,"allow_merge_on_skipped_pipeline":null,"restrict_user_defined_variables":false,"request_access_enabled":true,"only_allow_merge_if_all_discussions_are_resolved":false,"remove_source_branch_after_merge":true,"printing_merge_request_link_enabled":true,"merge_method":"merge","squash_option":"default_off","enforce_auth_checks_on_uploads":true,"suggestion_commit_message":null,"merge_commit_template":null,"squash_commit_template":null,"auto_devops_enabled":true,"auto_devops_deploy_strategy":"continuous","autoclose_referenced_issues":true,"keep_latest_artifact":true,"runner_token_expiration_interval":null,"permissions":{"project_access":{"access_level":40,"notification_level":3},"group_access":null}},{"id":1,"description":"This project is automatically generated and helps monitor this GitLab instance. [Learn more](/help/administration/monitoring/gitlab_self_monitoring_project/index).","name":"Monitoring","name_with_namespace":"GitLab Instance / Monitoring","path":"Monitoring","path_with_namespace":"gitlab-instance-c345c4f2/Monitoring","created_at":"2023-03-26T21:30:35.415Z","default_branch":"main","tag_list":[],"topics":[],"ssh_url_to_repo":"git@gitlab.mydevopsrealprojects.com:gitlab-instance-c345c4f2/Monitoring.git","http_url_to_repo":"http://gitlab.mydevopsrealprojects.com/gitlab-instance-c345c4f2/Monitoring.git","web_url":"http://gitlab.mydevopsrealprojects.com/gitlab-instance-c345c4f2/Monitoring","readme_url":null,"avatar_url":null,"forks_count":0,"star_count":0,"last_activity_at":"2023-03-26T21:30:35.415Z","namespace":{"id":2,"name":"GitLab Instance","path":"gitlab-instance-c345c4f2","kind":"group","full_path":"gitlab-instance-c345c4f2","parent_id":null,"avatar_url":null,"web_url":"http://gitlab.mydevopsrealprojects.com/groups/gitlab-instance-c345c4f2"},"_links":{"self":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1","issues":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/issues","merge_requests":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/merge_requests","repo_branches":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/repository/branches","labels":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/labels","events":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/events","members":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/members","cluster_agents":"http://gitlab.mydevopsrealprojects.com/api/v4/projects/1/cluster_agents"},"packages_enabled":true,"empty_repo":true,"archived":false,"visibility":"internal","resolve_outdated_diff_discussions":false,"container_expiration_policy":{"cadence":"1d","enabled":false,"keep_n":10,"older_than":"90d","name_regex":".*","name_regex_keep":null,"next_run_at":"2023-03-27T21:30:35.596Z"},"issues_enabled":true,"merge_requests_enabled":true,"wiki_enabled":true,"jobs_enabled":true,"snippets_enabled":true,"container_registry_enabled":true,"service_desk_enabled":false,"can_create_merge_request_in":true,"issues_access_level":"enabled","repository_access_level":"enabled","merge_requests_access_level":"enabled","forking_access_level":"enabled","wiki_access_level":"enabled","builds_access_level":"enabled","snippets_access_level":"enabled","pages_access_level":"private","operations_access_level":"enabled","analytics_access_level":"enabled","container_registry_access_level":"enabled","security_and_compliance_access_level":"private","emails_disabled":null,"shared_runners_enabled":true,"lfs_enabled":true,"creator_id":1,"import_status":"none","open_issues_count":0,"ci_default_git_depth":20,"ci_forward_deployment_enabled":true,"ci_job_token_scope_enabled":false,"ci_separated_caches":true,"ci_opt_in_jwt":false,"ci_allow_fork_pipelines_to_run_in_parent_project":true,"public_jobs":true,"build_timeout":3600,"auto_cancel_pending_pipelines":"enabled","ci_config_path":null,"shared_with_groups":[],"only_allow_merge_if_pipeline_succeeds":false,"allow_merge_on_skipped_pipeline":null,"restrict_user_defined_variables":false,"request_access_enabled":true,"only_allow_merge_if_all_discussions_are_resolved":false,"remove_source_branch_after_merge":true,"printing_merge_request_link_enabled":true,"merge_method":"merge","squash_option":"default_off","enforce_auth_checks_on_uploads":true,"suggestion_commit_message":null,"merge_commit_template":null,"squash_commit_template":null,"auto_devops_enabled":true,"auto_devops_deploy_strategy":"continuous","autoclose_referenced_issues":true,"keep_latest_artifact":true,"runner_token_expiration_interval":null,"permissions":{"project_access":null,"group_access":null}}]
+C:\devbox>
+```
+-->
 
 ### 6. Update `config.tfbackend`
 
@@ -140,25 +153,17 @@ Before running `terraform init`, we have to update `config/test/config.tfbackend
 - **TF_PASSWORD:** This is the gitlab **personal access token**, which we can fetch from previous step
 - **TF_ADDRESS:** This is URL to store our **terraform state file**.
 
-  The pattern is like `http://<our gitlab server url>/api/v4/projects/<our project id>/terraform/state/old-state-name`.
-
-  For example: `http://gitlab.mydevopsrealprojects.com/api/v4/projects/${PROJECT_ID}/terraform/state/old-state-name`
-
 ![1679779555678](image/01_Y_WindowsOnly/1679779555678.png)
-
-<!--
-```dos
-docker exec -it gitlab bash
-cd ~/udemy-devops-real-projects/004-TerraformDockerDeployment
-sudo vim config/test/config.tfbackend
-```
--->
 
 ### 7. Run terraform script to deploy the infra
 
 Init
 
 ```dos
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/004-TerraformDockerDeployment
+type config/test/config.tfbackend
+
 terraform init -backend-config=config/test/config.tfbackend
 ```
 
