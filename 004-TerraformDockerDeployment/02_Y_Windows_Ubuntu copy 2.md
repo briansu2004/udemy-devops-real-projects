@@ -43,20 +43,18 @@ sudo apt install docker-compose
 ### 3. Install Terraform in Vagrant
 
 ```dos
-wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install terraform
+...
 ```
 
 ## Steps
 
-### 1. Config the GitLab domain name
+## 1. Config the GitLab domain name
 
 In this lab, we will use `mydevopsrealprojects.com` as the GitLab domain name.
 
 Hence the GitLab server URL is `http://gitlab.mydevopsrealprojects.com`
 
-### 2. Configure the **hosts** file
+## 2. Configure the **hosts** file
 
 - Add these 2 entries in Windows's hosts file `C:\Windows\System32\drivers\etc\hosts`
 
@@ -72,7 +70,22 @@ Hence the GitLab server URL is `http://gitlab.mydevopsrealprojects.com`
 0.0.0.0 registry.gitlab.mydevopsrealprojects.com
 ```
 
-### 3. [Ubuntu] Start the docker compose
+<!--
+## 3. Config the root password
+
+```yml
+    hostname: 'gitlab.mydevopsrealprojects.com'
+    environment:
+      GITLAB_ROOT_PASSWORD: "Password2023#"
+      EXTERNAL_URL: "http://gitlab.mydevopsrealprojects.com"
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['initial_root_password'] = "Password2023#"
+        gitlab_rails['store_initial_root_password'] = true
+        gitlab_rails['display_initial_root_password'] = true
+```
+-->
+
+## 3. [Ubuntu] Start the docker compose
 
 ```bash
 cd
@@ -84,7 +97,144 @@ docker-compose up
 
 Note: the GitLab server need a few minutes to start.
 
-### 4. Create a new project in our Gitlab server and generate a personal access token
+<!--
+### 1. Deploy a gitlab server to store the terraform state file
+
+```dos
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/004-TerraformDockerDeployment
+docker-compose up
+```
+
+> Note: Once the gitlab container is fully up running, we can run below command to retrieve the initial password, if we haven't specified it in the deployment file. The default admin username should be `root`
+
+```dos
+sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+```
+
+### 2. Add the new DNS record in our local hosts file
+
+In our `docker-compose.yaml`, we have defined our gitlab server hostname in `hostname` field. Add it to our local hosts file so that we can use it to git clone the repo from our gitlab server.
+
+```dos
+export Your_Local_Host_IP=<Your_Local_Host_IP>
+echo "${Your_Local_Host_IP}  gitlab.mydevopsrealprojects.com" | sudo tee -a /etc/hosts
+```
+
+e.g.
+
+```dos
+echo "${Your_Local_Host_IP}  gitlab.mydevopsrealprojects.com" | sudo tee -a /etc/hosts
+```
+
+Then we should be able to access the Gitlab website via `https://mydevopsrealprojects.com`
+-->
+
+### 4. Update the Gitlab original Certificate
+
+Since the initial Gitlab server **certificate** is missing some info, we may have to **regenerate** a new one and **reconfigure** in the gitlab server. Run below commands:
+
+```bash
+docker exec -it gitlab bash
+
+mkdir /etc/gitlab/ssl
+cd /etc/gitlab/ssl
+
+# ca.key
+openssl genrsa -out ca.key 2048
+
+# ca.crt
+openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
+
+export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
+
+# Certificate for gitlab server
+# gitlab.mydevopsrealprojects.com.csr + gitlab.mydevopsrealprojects.com.key
+openssl req -newkey rsa:2048 -nodes -keyout gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out gitlab.$YOUR_GITLAB_DOMAIN.csr
+
+# ca.srl + gitlab.mydevopsrealprojects.com.crt
+openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out gitlab.$YOUR_GITLAB_DOMAIN.crt
+
+# Certificate for container registry
+# registry.gitlab.mydevopsrealprojects.com.csr + registry.gitlab.mydevopsrealprojects.com.key
+openssl req -newkey rsa:2048 -nodes -keyout registry.gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out registry.gitlab.$YOUR_GITLAB_DOMAIN.csr
+
+# registry.gitlab.mydevopsrealprojects.com.crt
+  openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN,DNS:registry.gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in registry.gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out registry.gitlab.$YOUR_GITLAB_DOMAIN.crt
+
+gitlab-ctl reconfigure
+
+gitlab-ctl restart
+
+exit
+```
+
+<!--
+```bash
+root@gitlab:/etc/gitlab/ssl# ls -l
+total 36
+-rw-r--r-- 1 root root 1285 Mar 25 23:29 ca.crt
+-rw------- 1 root root 1675 Mar 25 23:29 ca.key
+-rw-r--r-- 1 root root   41 Mar 25 23:30 ca.srl
+-rw-r--r-- 1 root root 1289 Mar 25 23:29 gitlab.mydevopsrealprojects.com.crt
+-rw-r--r-- 1 root root  997 Mar 25 23:29 gitlab.mydevopsrealprojects.com.csr
+-rw------- 1 root root 1704 Mar 25 23:29 gitlab.mydevopsrealprojects.com.key
+-rw-r--r-- 1 root root 1346 Mar 25 23:30 registry.gitlab.mydevopsrealprojects.com.crt
+-rw-r--r-- 1 root root  997 Mar 25 23:30 registry.gitlab.mydevopsrealprojects.com.csr
+-rw------- 1 root root 1704 Mar 25 23:30 registry.gitlab.mydevopsrealprojects.com.key
+```
+-->
+
+Note: the GitLab server need a few minutes to start.
+
+<!--
+Need to restart docker container???
+
+docker restart gitlab
+docker compose up
+
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ docker ps
+CONTAINER ID   IMAGE                     COMMAND             CREATED          STATUS                    PORTS
+           NAMES
+126b1543f62b   gitlab/gitlab-ce:latest   "/assets/wrapper"   46 minutes ago   Up 46 minutes (healthy)   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:2222->22/tcp, :::2222->22/tcp   gitlab
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ docker restart
+"docker restart" requires at least 1 argument.
+See 'docker restart --help'.
+
+Usage:  docker restart [OPTIONS] CONTAINER [CONTAINER...]
+
+Restart one or more containers
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ docker restart 12
+12
+-->
+
+### 5. Import the gitlab new certificate in our local host CA chains
+
+In order to make our local host be able to talk to the gitlab server via TLS, we have to import the new gitlab certificate, which is generated previous step, into our local host CA store chains. Login to our local host and run below command:
+
+```dos
+export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
+sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+```
+
+<!--
+```bash
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
+Preparing to copy...
+Successfully copied 3.072kB to /usr/local/share/ca-certificates/
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ sudo update-ca-certificates
+Updating certificates in /etc/ssl/certs...
+rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+1 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+```
+-->
+
+### 6. Create a new project in our Gitlab server and generate a personal access token
 
 Login to our Gitlab server website (`https://gitlab.mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Project name"**, e.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"**
 
@@ -102,17 +252,19 @@ Make a note of the new token generated as we will need to apply it in the next s
 
 ![1679779704707](image/01_Y_WindowsOnly/1679779704707.png)
 
+<!-- glpat-moigx-sCKzk2KzG9YGP_ -->
+
 GitLab API verification with token:
 
 ```bash
+curl --header "Private-Token: glpat-UnvMJckVQ_xFsny7rhCC" https://gitlab.mydevopsrealprojects.com/api/v4/projects
+
 curl --header "Private-Token: glpat-moigx-sCKzk2KzG9YGP_" http://gitlab.mydevopsrealprojects.com/api/v4/projects
 ```
 
-### 5. Update `config.tfbackend`
+### 7. Update `config.tfbackend`
 
-We have to update `config/test/config.tfbackend` file with the credential/gitlab server info accordingly.
-
-The below is the definition for the variables:
+Before running `terraform init`, we have to update `config/test/config.tfbackend` file with the credential/gitlab server info accordingly. The below is the definition for the variables:</br>
 
 - **PROJECT_ID:** Go to the project and head to **"Setting"** -> **"General"**, and we will see **"Project ID"** in the page.
 - **TF_USERNAME:** If we haven't created our own user, the default user should be `root`
@@ -125,7 +277,15 @@ The below is the definition for the variables:
 
 ![1679779555678](image/01_Y_WindowsOnly/1679779555678.png)
 
-### 6. Run terraform script to deploy the infra
+### 8. Run terraform script to deploy the infra
+
+<!--
+This is a quick and dirty way to clean up Terraform state -
+
+```bash
+rm -rf .terraform
+```
+-->
 
 Init
 
@@ -254,7 +414,7 @@ docker_container_name = "terraform-docker-example"
 ```
 -->
 
-### 7. Verification
+### 9. Verification
 
 we should be able to visit the website via `http://gitlab.mydevopsrealprojects.com:8080`
 
