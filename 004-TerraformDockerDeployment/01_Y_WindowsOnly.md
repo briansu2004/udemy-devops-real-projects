@@ -171,17 +171,69 @@ type config/test/config.tfbackend
 terraform init -backend-config=config/test/config.tfbackend
 ```
 
+![1679866924187](image/01_Y_WindowsOnly/1679866924187.png)
+
+<!--
+```dos
+C:\devbox\udemy-devops-real-projects\004-TerraformDockerDeployment>terraform init -backend-config=config/test/config.tfbackend
+
+Initializing the backend...
+
+Successfully configured the backend "http"! Terraform will automatically
+use this backend unless the backend configuration changes.
+2023/03/26 17:41:34 [DEBUG] GET http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name
+
+Initializing provider plugins...
+- Finding kreuzwerker/docker versions matching "~> 2.13.0"...
+- Installing kreuzwerker/docker v2.13.0...
+- Installed kreuzwerker/docker v2.13.0 (self-signed, key ID 24E54F214569A8A5)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider  
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when   
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see  
+any changes that are required for your infrastructure. All Terraform commands  
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,      
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+```
+-->
+
 Plan
 
 ```dos
 terraform plan -var-file=config/test/test.tfvars -out deploy.tfplan
 ```
 
+<!--
+```dos
+
+
+```
+-->
+
 Apply
 
 ```dos
 terraform apply deploy.tfplan
 ```
+
+
+<!--
+```dos
+
+```
+-->
 
 ### 8. Verification
 
