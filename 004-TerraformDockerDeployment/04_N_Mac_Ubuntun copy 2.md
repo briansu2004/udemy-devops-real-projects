@@ -9,6 +9,15 @@ There are issues to install Terraform in Ubuntu (in Mac).
 
 But no issues to nstall Terraform in Ubuntu (in Windows)!
 
+<!--
+## <a name="prerequisites">Prerequisites</a>
+
+- Ubuntu 20.04 OS (Minimum 2 core CPU/8GB RAM/30GB Disk)
+- Docker (see installation guide [here](https://docs.docker.com/get-docker/))
+- Docker Compose (see installation guide [here](https://docs.docker.com/compose/install/))
+- Terraform (see installation guide [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli))
+-->
+
 This issue happens from time to time and it is very annoying!
 
 Wasted my whole day yesterday but it works today!
@@ -52,13 +61,11 @@ chmod 777 install_docker.sh
 sudo apt install docker-compose
 ```
 
-### 3. Install Terraform in Vagrant
-
-...
+No need to install Terram in Ubuntu.
 
 ## Steps
 
-### 1. Config the GitLab domain name
+## 1. Config the GitLab domain name
 
 In this lab, we will use `mydevopsrealprojects.com` as the GitLab domain name.
 
@@ -66,7 +73,26 @@ Hence the gitlab URL is `http://gitlab.mydevopsrealprojects.com`
 
 We need it in the `docker-compose.yml` file.
 
-### 2. Configure the **hosts** file
+## 2. Configure the **hosts** file
+
+<!--
+Windows: `C:\Windows\System32\drivers\etc\hosts`
+
+In local Windows's hosts file `C:\Windows\System32\drivers\etc\hosts`
+
+```dos
+192.168.33.10 gitlab.mydevopsrealprojects.com
+192.168.33.10 registry.gitlab.mydevopsrealprojects.com
+```
+
+Unix / Mac: `/etc/hosts`
+
+In Vagrant Ubuntu's hosts file `/etc/hosts`
+
+```bash
+sudo vi /etc/hosts
+```
+-->
 
 Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts` -
 
@@ -75,14 +101,22 @@ Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts` -
 127.0.0.1 registry.gitlab.mydevopsrealprojects.com
 ```
 
-Add these 2 entries in Mac 's hosts file `/etc/hosts` -
+<!--
+## 3. Config the root password
 
-```bash
-192.168.33.10 gitlab.mydevopsrealprojects.com
-192.168.33.10 registry.gitlab.mydevopsrealprojects.com
+```yml
+    hostname: 'gitlab.mydevopsrealprojects.com'
+    environment:
+      GITLAB_ROOT_PASSWORD: "Password2023#"
+      EXTERNAL_URL: "http://gitlab.mydevopsrealprojects.com"
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['initial_root_password'] = "Password2023#"
+        gitlab_rails['store_initial_root_password'] = true
+        gitlab_rails['display_initial_root_password'] = true
 ```
+-->
 
-### 3. Docker compose
+## 3. Docker compose
 
 ```bash
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
@@ -90,85 +124,85 @@ cd udemy-devops-real-projects/004-TerraformDockerDeployment
 docker-compose up
 ```
 
+<!--
+### 1. Deploy a gitlab server to store the terraform state file
+
+```bash
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/004-TerraformDockerDeployment
+docker-compose up
+```
+
+> Note: Once the gitlab container is fully up running, you can run below command to retrieve the initial password, if you haven't specified it in the deployment file. The default admin username should be `root`
+
+```bash
+sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+```
+
+### 2. Add the new DNS record in your local hosts file
+
+In your `docker-compose.yaml`, you have defined your gitlab server hostname in `hostname` field. Add it to your local hosts file so that you can use it to git clone the repo from your gitlab server.
+
+```bash
+export Your_Local_Host_IP=<Your_Local_Host_IP>
+echo "${Your_Local_Host_IP}  gitlab.mydevopsrealprojects.com" | sudo tee -a /etc/hosts
+```
+
+e.g.
+
+```bash
+echo "${Your_Local_Host_IP}  gitlab.mydevopsrealprojects.com" | sudo tee -a /etc/hosts
+```
+
+Then you should be able to access the Gitlab website via `https://mydevopsrealprojects.com`
+-->
+
+<!--
 ### 4. Update the Gitlab original Certificate
 
 Since the initial Gitlab server **certificate** is missing some info, you may have to **regenerate** a new one and **reconfigure** in the gitlab server. Run below commands:
 
 ```bash
 docker exec -it gitlab bash
-
-#mkdir /etc/gitlab/ssl_backup
-#mv /etc/gitlab/ssl/* /etc/gitlab/ssl_backup
-
+mkdir /etc/gitlab/ssl_backup
+mv /etc/gitlab/ssl/* /etc/gitlab/ssl_backup
 cd /etc/gitlab/ssl
-
-# ca.key
 openssl genrsa -out ca.key 2048
-
-# ca.crt
 openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
 
-export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
-
+# Note: Make sure to replace below `YOUR_GITLAB_DOMAIN` with your own domain name. For example, mydevopsrealprojects.com.
 # Certificate for gitlab server
-# gitlab.mydevopsrealprojects.com.csr + gitlab.mydevopsrealprojects.com.key
+export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
 openssl req -newkey rsa:2048 -nodes -keyout gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out gitlab.$YOUR_GITLAB_DOMAIN.csr
-
-# ca.srl + gitlab.mydevopsrealprojects.com.crt
 openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out gitlab.$YOUR_GITLAB_DOMAIN.crt
 
 # Certificate for container registry
-# registry.gitlab.mydevopsrealprojects.com.csr + registry.gitlab.mydevopsrealprojects.com.key
 openssl req -newkey rsa:2048 -nodes -keyout registry.gitlab.$YOUR_GITLAB_DOMAIN.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.$YOUR_GITLAB_DOMAIN" -out registry.gitlab.$YOUR_GITLAB_DOMAIN.csr
-
-# registry.gitlab.mydevopsrealprojects.com.crt
 openssl x509 -req -extfile <(printf "subjectAltName=DNS:$YOUR_GITLAB_DOMAIN,DNS:gitlab.$YOUR_GITLAB_DOMAIN,DNS:registry.gitlab.$YOUR_GITLAB_DOMAIN") -days 365 -in registry.gitlab.$YOUR_GITLAB_DOMAIN.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out registry.gitlab.$YOUR_GITLAB_DOMAIN.crt
-
 gitlab-ctl reconfigure
-
 gitlab-ctl restart
-
 exit
 ```
 
-### 5. Restart GitLab
-
-```bash
-docker compose down
-docker compose up
-```
-
-### 6. Import the gitlab new certificate in your local host CA chains
+### 4. Import the gitlab new certificate in your local host CA chains
 
 In order to make your local host be able to talk to the gitlab server via TLS, you have to import the new gitlab certificate, which is generated previous step, into your local host CA store chains. Login to your local host and run below command:
 
 ```bash
 export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
-
 sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
-
 sudo update-ca-certificates
 ```
 
-<!--
-vagrant@vagrant:~$ sudo docker cp gitlab:/etc/gitlab/ssl/gitlab.$YOUR_GITLAB_DOMAIN.crt /usr/local/share/ca-certificates/
-Preparing to copy...
-Successfully copied 3.072kB to /usr/local/share/ca-certificates/
-vagrant@vagrant:~$ 
-vagrant@vagrant:~$ ls -l !$
-ls -l /usr/local/share/ca-certificates/
-total 4
--rw-r--r-- 1 root root 1289 Mar 26 19:17 gitlab.mydevopsrealprojects.com.crt
-vagrant@vagrant:~$ 
-vagrant@vagrant:~$ sudo update-ca-certificates
-Updating certificates in /etc/ssl/certs...
-rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
-1 added, 0 removed; done.
-Running hooks in /etc/ca-certificates/update.d...
-done.
+> Note: If you are using CentOS, you may need to include "-addext basicConfstraints=critical,CA:TRUE" in the ca.crt file and use `update-ca-trust` command instead.
+
+```bash
+# For CentOS
+openssl req -new -x509 -days 365 -key ca.key -addext basicConstraints=critical,CA:TRUE -subj "/C=CN/ST=GD/L=SZ/0=Acme, Inc./CN=Acme Root CA"  -out ca.crt
+```
 -->
 
-### 7. Create a new project in your Gitlab server and generate a personal access token
+### 5. Create a new project in your Gitlab server and generate a personal access token
 
 Login to your Gitlab server website (`https://mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Project name"**, i.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"** </br>
 
@@ -180,7 +214,7 @@ Make a note of the new token generated as you will need to apply it in the next 
 
 ![gitlab-personal-accees-token](images/gitlab-personal-accees-token.png)
 
-### 8. Update `config.tfbackend`
+### 6. Update `config.tfbackend`
 
 Before running `terraform init`, you have to update `config/test/config.tfbackend` file with the credential/gitlab server info accordingly. The below is the definition for the variables:</br>
 
@@ -199,7 +233,7 @@ sudo vim config/test/config.tfbackend
 ```
 -->
 
-### 9. Run terraform script to deploy the infra
+### 7. Run terraform script to deploy the infra
 
 Init
 
@@ -219,11 +253,7 @@ Apply
 terraform apply deploy.tfplan
 ```
 
-### 10. Import certificate to local Mac
-
-...
-
-### 11. Verification
+### 8. Verification
 
 You should be able to visit the website via `http://0.0.0.0:8080`
 
