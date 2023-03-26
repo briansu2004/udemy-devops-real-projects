@@ -71,11 +71,18 @@ We need it in the `docker-compose.yml` file.
 Add these 2 entries in Vagrant Ubuntu's hosts file `/etc/hosts` -
 
 ```bash
+0.0.0.0 gitlab.mydevopsrealprojects.com
+0.0.0.0 registry.gitlab.mydevopsrealprojects.com
+```
+
+<!--
+```bash
 127.0.0.1 gitlab.mydevopsrealprojects.com
 127.0.0.1 registry.gitlab.mydevopsrealprojects.com
 ```
+-->
 
-Add these 2 entries in Mac 's hosts file `/etc/hosts` -
+Add these 2 entries in Mac's hosts file `/etc/hosts` -
 
 ```bash
 192.168.33.10 gitlab.mydevopsrealprojects.com
@@ -96,9 +103,6 @@ Since the initial Gitlab server **certificate** is missing some info, you may ha
 
 ```bash
 docker exec -it gitlab bash
-
-#mkdir /etc/gitlab/ssl_backup
-#mv /etc/gitlab/ssl/* /etc/gitlab/ssl_backup
 
 mkdir /etc/gitlab/ssl
 cd /etc/gitlab/ssl
@@ -132,12 +136,14 @@ gitlab-ctl restart
 exit
 ```
 
+<!--
 ### 5. Restart GitLab
 
 ```bash
 docker compose down
 docker compose up
 ```
+-->
 
 ### 6. Import the gitlab new certificate in your local host CA chains
 
@@ -194,7 +200,6 @@ curl --header "Private-Token: glpat-UnvMJckVQ_xFsny7rhCC" https://gitlab.mydevop
 curl --header "Private-Token: glpat-fpMjQW8LB8ZKjskLFCW1" https://gitlab.mydevopsrealprojects.com/api/v4/projects
 ```
 
-
 ![gitlab-personal-accees-token](images/gitlab-personal-accees-token.png)
 
 ### 8. Update `config.tfbackend`
@@ -228,17 +233,173 @@ rm -rf .terraform
 terraform init -backend-config=config/test/config.tfbackend
 ```
 
+<!--
+```bash
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform init -backend-config=config/test/config.tfbackend
+
+Initializing the backend...
+
+Successfully configured the backend "http"! Terraform will automatically
+use this backend unless the backend configuration changes.
+
+Initializing provider plugins...
+- Finding kreuzwerker/docker versions matching "~> 2.13.0"...
+- Installing kreuzwerker/docker v2.13.0...
+- Installed kreuzwerker/docker v2.13.0 (self-signed, key ID 24E54F214569A8A5)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+```
+-->
+
 Plan
 
 ```bash
 terraform plan -var-file=config/test/test.tfvars -out deploy.tfplan
 ```
 
+<!--
+```bash
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform plan -var-file=config/test/test.tfvars -out deploy.tfplan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # docker_container.hello_world will be created
+  + resource "docker_container" "hello_world" {
+      + attach           = false
+      + bridge           = (known after apply)
+      + command          = (known after apply)
+      + container_logs   = (known after apply)
+      + entrypoint       = (known after apply)
+      + env              = (known after apply)
+      + exit_code        = (known after apply)
+      + gateway          = (known after apply)
+      + hostname         = (known after apply)
+      + id               = (known after apply)
+      + image            = (known after apply)
+      + init             = (known after apply)
+      + ip_address       = (known after apply)
+      + ip_prefix_length = (known after apply)
+      + ipc_mode         = (known after apply)
+      + log_driver       = "json-file"
+      + logs             = false
+      + must_run         = true
+      + name             = "terraform-docker-example"
+      + network_data     = (known after apply)
+      + read_only        = false
+      + remove_volumes   = true
+      + restart          = "no"
+      + rm               = false
+      + security_opts    = (known after apply)
+      + shm_size         = (known after apply)
+      + start            = true
+      + stdin_open       = false
+      + tty              = false
+
+      + ports {
+          + external = 8080
+          + internal = 8080
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+    }
+
+  # docker_image.hello_world will be created
+  + resource "docker_image" "hello_world" {
+      + id          = (known after apply)
+      + latest      = (known after apply)
+      + name        = "hello-world"
+      + output      = (known after apply)
+      + repo_digest = (known after apply)
+
+      + build {
+          + dockerfile = "Dockerfile"
+          + label      = {
+              + "author" = "devopsdaydayup"
+            }
+          + path       = "."
+          + remove     = true
+          + tag        = [
+              + "hello-world:develop",
+            ]
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + docker_container_name = "terraform-docker-example"
+╷
+│ Warning: Deprecated attribute
+│ 
+│   on containers.tf line 2, in resource "docker_container" "hello_world":
+│    2:   image = docker_image.hello_world.latest
+│ 
+│ The attribute "latest" is deprecated. Refer to the provider documentation for details.
+│ 
+│ (and one more similar warning elsewhere)
+╵
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: deploy.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "deploy.tfplan"
+```
+-->
+
 Apply
 
 ```bash
 terraform apply deploy.tfplan
 ```
+
+<!--
+```bash
+vagrant@vagrant:~/udemy-devops-real-projects/004-TerraformDockerDeployment$ terraform apply deploy.tfplan
+docker_image.hello_world: Creating...
+docker_image.hello_world: Still creating... [10s elapsed]
+docker_image.hello_world: Creation complete after 18s [id=sha256:7720ead7de527ed387e8a3e8c0b8fcfb60e154eba46aa0a6b958811c82b4b8f4hello-world]
+docker_container.hello_world: Creating...
+docker_container.hello_world: Creation complete after 1s [id=736e580d74cc611185f5297139118d822af7085b5d8ba4d02c2dc1a61fa6c105]
+╷
+│ Warning: Deprecated attribute
+│
+│   on containers.tf line 2, in resource "docker_container" "hello_world":
+│    2:   image = docker_image.hello_world.latest
+│
+│ The attribute "latest" is deprecated. Refer to the provider documentation for details.
+│
+│ (and one more similar warning elsewhere)
+╵
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+docker_container_name = "terraform-docker-example"
+```
+-->
 
 ### 10. Import certificate to local Mac
 

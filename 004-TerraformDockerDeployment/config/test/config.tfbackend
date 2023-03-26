@@ -14,6 +14,10 @@
 #unlock_method=DELETE
 #retry_wait_min=5
 
+# address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name"
+# lock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
+# unlock_address="https://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
+
 address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name"
 lock_address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
 unlock_address="http://gitlab.mydevopsrealprojects.com/api/v4/projects/2/terraform/state/old-state-name/lock"
