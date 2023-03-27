@@ -1,7 +1,7 @@
 
 # Project 002: Jenkins CICD Pipeline
 
-This project will setup a Jenkins CICD pipeline, which will pull the source code from github and re-deploy the docker container in your local host.
+In this lab, we will setup a Jenkins CICD pipeline, which will pull the source code from github and re-deploy the docker container in our local host.
 
 # Project Goal
 

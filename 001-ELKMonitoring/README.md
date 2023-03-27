@@ -1,6 +1,6 @@
 # Project 001: ELK Monitoring
 
-This project shows how to setup a ELK (Elasticsearch/Logstash/Kibana) stack to monitor a server.
+In this lab, we will setup a ELK (Elasticsearch/Logstash/Kibana) stack to monitor a server.
 
 ## Project Goal
 

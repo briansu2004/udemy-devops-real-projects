@@ -1,6 +1,6 @@
 # Project 003: GitLab CICD Pipeline
 
-This project will show you how to setup a Gitlab CICD pipeline, which will build the source code to a docker image and push it to the container registry in GitLab and then re-deploy the docker container with the latest image in your local host.
+In this lab, we will setup a Gitlab CICD pipeline, which will build the source code to a docker image and push it to the container registry in GitLab and then re-deploy the docker container with the latest image in our local host.
 
 ## Goal
 

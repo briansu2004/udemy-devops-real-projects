@@ -2,7 +2,7 @@
 
 ## Project Goal
 
-In this article, you will learn the terraform basic usage and use terraform script to create a docker container.
+In this lab, we will use terraform script to create a docker container.
 
 ## Environments
 
