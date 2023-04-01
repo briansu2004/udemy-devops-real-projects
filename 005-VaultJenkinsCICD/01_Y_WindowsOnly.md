@@ -2,7 +2,7 @@
 
 ## Project Goal
 
-In this article, you will learn how to integrate Vault into Jenkins pipeline, as well as the basic usage of Hashicorp Vault.
+In this lab, we will learn how to integrate Vault into Jenkins pipeline, as well as the basic usage of Hashicorp Vault.
 
 ## Prerequisites
 
@@ -78,7 +78,7 @@ vault operator init
 
 **Note:**
 
-Make a note of the output. This is the only time ever you see those unseal keys and root token. If you lose it, you won't be able to seal vault any more.
+Make a note of the output. This is the only time ever we see those unseal keys and root token. If we lose it, we won't be able to seal vault any more.
 
 <!--
 ```dos
@@ -94,13 +94,13 @@ Initial Root Token: hvs.JxLWD9Hs2b41sA01sr44JQUq
 
 Vault initialized with 5 key shares and a key threshold of 3. Please securely
 distribute the key shares printed above. When the Vault is re-sealed,
-restarted, or stopped, you must supply at least 3 of these keys to unseal it
+restarted, or stopped, we must supply at least 3 of these keys to unseal it
 before it can start servicing requests.
 
 Vault does not store the generated root key. Without at least 3 keys to
 reconstruct the root key, Vault will remain permanently sealed!
 
-It is possible to generate new unseal keys, provided you have a quorum of
+It is possible to generate new unseal keys, provided we have a quorum of
 existing unseal keys shares. See "vault operator rekey" for more information.
 ```
 -->
@@ -200,8 +200,8 @@ Type `vault login` and enter the `Initial Root Token` retrieving from step a.
 ```dos
 /vault/data # vault login
 Token (will be hidden): 
-Success! You are now authenticated. The token information displayed below
-is already stored in the token helper. You do NOT need to run "vault login"
+Success! we are now authenticated. The token information displayed below
+is already stored in the token helper. we do NOT need to run "vault login"
 again. Future Vault requests will automatically use this token.
 
 Key                  Value
@@ -246,7 +246,7 @@ version            1
 ```
 -->
 
-You can **read** the data by running this:
+we can **read** the data by running this:
 
 ```dos
 vault kv get -mount=kv-v2 devops-secret
@@ -275,7 +275,7 @@ username    root
 ```
 -->
 
-Then you should be able to see below output
+Then we should be able to see below output
 
 ```dos
 ====== Data ======
@@ -286,9 +286,11 @@ username    root
 
 ```
 
+<!--
 Note:
 
-Since version 2 kv has prefixed `data/`, your secret path will be `kv-v2/data/devops-secret`, instead of `kv-v2/devops-secret`
+Since version 2 kv has prefixed `data/`, our secret path will be `kv-v2/data/devops-secret`, instead of `kv-v2/devops-secret`
+-->
 
 ### 5. Write a Vault Policy and create a token
 
@@ -482,7 +484,7 @@ Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Gl
 - **Secret ID:** <SECRET_ID from previous step>
 - **Path:** approle
 - **Namespace:** (Leave it blank)
-- **ID:** (the credential id you will refer within Jenkins Pipeline. e.g. vault-app-role)
+- **ID:** (the credential id we will refer within Jenkins Pipeline. e.g. vault-app-role)
 - **Description:** Vault: AppRole Authentication
 
 <!--
@@ -496,14 +498,17 @@ b055bca0-2269-080d-cbd4-838dd1615d20
 
 ![Add the role id and secret id to Jenkins](image/README/step6.png)
 
-### 7. Add github credential in Jenkins
+### 7. Create a github personal access token
+
+Classic
+
+### 8. Add github credential in Jenkins
 
 Login to the Jenkins website and go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and fill out the page below below selection:
 
 - **Scope:** Global (Jenkins,nodes,items,all child items,etc)
 - **Username:** (the github username)
 - **Password:** `<the github personal access token>`
-(please refer to [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token))
 - **ID:** (the id which will be referred in Jenkinsfile, e.g. github-token)
 - **Description:** Github token
 
@@ -533,13 +538,13 @@ Copy
 
 ![Global credentials (unrestricted)](image/README/global-credentials.png)
 
-### 8. Create a Jenkins Pipeline
+### 9. Create a Jenkins Pipeline
 
 a. In the Jenkins portal, click **"New Item"** in the left navigation lane, and type the item name (i.g. first-project) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
 b. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
 c. Select **"Git"** in **"SCM"** field
 d. Add `https://github.com/briansu2004/udemy-devops-real-projects.git` in **"Repository URL"** field
-e. Select your github credential in **"Credentials"**
+e. Select our github credential in **"Credentials"**
 f. Type `*/main` in **"Branch Specifier"** field
 g. Type `005-VaultJenkinsCICD/Jenkinsfile` in **"Script Path"**
 h. Unselect **"Lightweight checkout"**
@@ -552,7 +557,7 @@ h. Unselect **"Lightweight checkout"**
 
 ![Pipeline 02](image/README/pipeline-02.png)
 
-### 9. Run the Jenins pipeline
+### 10. Run the Jenins pipeline
 
 Build now
 
