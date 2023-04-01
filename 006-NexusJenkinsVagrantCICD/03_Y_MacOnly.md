@@ -12,7 +12,6 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 rm -rf udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects/006-NexusJenkinsVagrantCICD
-docker-compose build
 docker-compose up
 ```
 
@@ -60,12 +59,25 @@ a. Open a browser and **login to** Nexus home page (<http://0.0.0.0:8081>)
 b. Fetch the **password** for `admin` user
 
 ```bash
-docker exec $(docker ps --filter name=nexus_1 -q) cat /nexus-data/admin.password
+docker exec $(docker ps --filter name=nexus-1 -q) cat /nexus-data/admin.password
 ```
+
+<!--
+```bash
+DevOps 🚀 devbox % docker exec $(docker ps --filter name=nexus-1 -q) cat /nexus-data/admin.password
+827c4aaf-5fe5-45af-a75f-540bab55a218%
+```
+
+827c4aaf-5fe5-45af-a75f-540bab55a218
+-->
 
 c. Click **"Sign In"** in the top right and type username `admin`, as well as the password fetched in the previous step
 
 d. Follow the **wizard** and reset our password. Select **"Enable anonymous access"** and click **"Next"**->**"Finish"** to complete the guide.
+
+<!--
+DevOps2023
+-->
 
 e. Click **Gear icon** in the top and click **"Repositories"** in **"Repository"** section. Click **"Create repository"** to create a new repo.
 
@@ -88,13 +100,25 @@ g. To create a new user, go to **"Security"** -> **"Users"** -> Click **"Create 
 - **Last name:** User
 - **Email:** jenkins.user@gmail.com
 - **Password:**  *(Type our password)*
+
+<!--
+DevOps2023
+-->
+
 - **Confirm password:**  *(Type the same password weentered above)*  
 - **Status:** Active
 - **Roles:** nx-admin
 
-### 3. Configure Jenkins
+"Create local user"
 
-a. Login to our Jenkins website (<http://0.0.0.0:8080>) and go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and weshould fill out the page in below selection:
+### 4. Configure Jenkins
+
+a. Login to our Jenkins website (<http://0.0.0.0:8080>)
+
+b. Create First Admin User
+
+
+c. Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and weshould fill out the page in below selection:
 
 > Note: The **username** and **password** is in `.env` file
 
@@ -105,23 +129,23 @@ a. Login to our Jenkins website (<http://0.0.0.0:8080>) and go to **"Manage Jenk
 - **ID:** nexus
 - **Description:** nexus credential
 
-b. To create a new pipeline, go back to Dashboard, click **"New Item"** in the left navigation lane, and type the item name (i.g. `first-project`) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
+d. To create a new pipeline, go back to Dashboard, click **"New Item"** in the left navigation lane, and type the item name (i.g. `first-project`) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
 
-c. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
+e. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
 
-d. Select **"Git"** in **"SCM"** field
+f. Select **"Git"** in **"SCM"** field
 
-e. Add `https://github.com/devops2021/devopsdaydayup.git` in **"Repository URL"** field
+g. Add `https://github.com/devops2021/devopsdaydayup.git` in **"Repository URL"** field
 
-f. Select our github credential in **"Credentials"**
+h. Select our github credential in **"Credentials"**
 
-g. Type `*/main` in **"Branch Specifier"** field
+i. Type `*/main` in **"Branch Specifier"** field
 
-h. Type `006-NexusJenkinsVagrantCICD/Jenkinsfile` in **"Script Path"**
+j. Type `006-NexusJenkinsVagrantCICD/Jenkinsfile` in **"Script Path"**
 
-i. Unselect **"Lightweight checkout"** and click "Apply" to complete the creation
+k. Unselect **"Lightweight checkout"** and click "Apply" to complete the creation
 
-j. To add maven tool, go back to **"Dashboard"** -> **"Manage Jenkins"** -> **"Global Tool Configuration"** -> Scroll down to **"Maven"** section and click **"Add Maven"**. Then fill out below fields as instructed:
+l. To add maven tool, go back to **"Dashboard"** -> **"Manage Jenkins"** -> **"Global Tool Configuration"** -> Scroll down to **"Maven"** section and click **"Add Maven"**. Then fill out below fields as instructed:
 **Name:** m3
 **Install automaticall** selected
 **Version:** 3.8.6
