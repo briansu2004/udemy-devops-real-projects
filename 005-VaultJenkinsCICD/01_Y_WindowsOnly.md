@@ -4,6 +4,10 @@
 
 In this article, you will learn how to integrate Vault into Jenkins pipeline, as well as the basic usage of Hashicorp Vault.
 
+## Prerequisites
+
+### Install Docker in Windows
+
 ## Steps
 
 ### 1. Docker compose
