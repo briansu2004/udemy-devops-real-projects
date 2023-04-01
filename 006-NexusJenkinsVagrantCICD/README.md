@@ -8,10 +8,10 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 
 | #  | Env  | Y/N  | Recommended   |  Comment |
 |---|---|---|---|---|
-| 1 | Windows only | Y | Y |   |
-| 2 | Windows + Ubuntu | Y | N |   |
-| 3 | Mac only | Y | Y |   |
-| 4 | Mac + Ubuntu | Y | N |   |
+| 1 | Windows only | N | N |   |
+| 2 | Windows + Ubuntu | Y | Y |   |
+| 3 | Mac only | N | N |   |
+| 4 | Mac + Ubuntu | Y | Y |   |
 
 [With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
