@@ -9,7 +9,7 @@ In this article, you will learn how to integrate Vault into Jenkins pipeline, as
 ### 1. Docker compose
 
 ```dos
-rm -rf udemy-devops-real-projects
+rm /s /d udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects/005-VaultJenkinsCICD
 docker-compose up
@@ -515,7 +515,7 @@ Note
 Expiration
 Scopes
 Generate token
-Copy (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)
+Copy
 -->
 
 ![Add github credential in Jenkins](image/README/step7.png)

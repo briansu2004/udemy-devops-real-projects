@@ -515,7 +515,7 @@ Note
 Expiration
 Scopes
 Generate token
-Copy (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)
+Copy (ghp_...)
 -->
 
 ![Add github credential in Jenkins](image/README/step7.png)
