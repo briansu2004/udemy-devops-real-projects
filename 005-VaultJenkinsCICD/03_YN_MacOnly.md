@@ -4,14 +4,26 @@
 
 In this article, you will learn how to integrate Vault into Jenkins pipeline, as well as the basic usage of Hashicorp Vault.
 
+## Steps
 
-## Prerequsite - fix the docker-compose issues
+### 1. Docker compose
 
-We use this file `plugins.txt` to manage install plug-ins. Unfortunately, it always forces us to use the latest versions. Hence the 1st step `docker-compose up -d` is likely to fail out.
+```bash
+rm -rf udemy-devops-real-projects
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/005-VaultJenkinsCICD
+docker-compose up
+```
+
+### 2. Fix the docker-compose issues if possible
+
+We use the file `plugins.txt` to manage install plug-ins. However, it always forces us to use the latest versions.
+
+Hence the 1st step `docker-compose up` will fail if there is a new version available.
 
 e.g.
 
-```dos
+```bash
  => => naming to docker.io/library/005-vaultjenkinscicd-vault                                                                                                                               0.0s 
  => [005-vaultjenkinscicd-jenkins 2/4] COPY plugins.txt /usr/share/jenkins/ref/plugins.txt                                                                                                  0.3s 
  => ERROR [005-vaultjenkinscicd-jenkins 3/4] RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt                                                                        5.1s 
@@ -25,7 +37,7 @@ an older version defined on the top level - configuration-as-code:1559.v38a_b_2e
 failed to solve: executor failed running [/bin/sh -c jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt]: exit code: 1
 ```
 
-The solution is to update the plugin file `plugins.txt` manually based on the error messages and then re-run `docker-compose up -d` until it can go through.
+The solution is to update the plugin file `plugins.txt` manually based on the error messages and then re-run `docker-compose up`.
 
 e.g.
 
@@ -33,43 +45,41 @@ e.g.
 
 ![1672798247625](image/README/1672798247625.png)
 
-
-## Steps
-
-### 1. Initiate Vault
+### 3. Initiate Vault
 
 a. **Initializing** the Vault
 
 ```bash
-rm -rf udemy-devops-real-projects
-git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects/005-VaultJenkinsCICD
-docker-compose up
-```
-
-```dos
-docker ps -f name=005-vaultjenkinscicd-vault-1 -q
-
-docker exec -it ed63f35f2c0e sh
+docker exec -it $(docker ps -f name=vault-1 -q) sh
 export VAULT_ADDR='http://127.0.0.1:8200'
 vault operator init
 ```
+
+<!--
+```dos
+docker ps -f name=005-vaultjenkinscicd-vault-1 -q
+# e.g. ed63f35f2c0e is the container ID
+docker exec -it ed63f35f2c0e sh # ed63f35f2c0e is the container ID
+export VAULT_ADDR='http://127.0.0.1:8200'
+vault operator init
+```
+-->
 
 **Note:**
 
 Make a note of the output. This is the only time ever you see those unseal keys and root token. If you lose it, you won't be able to seal vault any more.
 
 <!--
-```dos
+```bash
 /vault/data # export VAULT_ADDR='http://127.0.0.1:8200'
 /vault/data # vault operator init
-Unseal Key 1: iuY9B9Lkck5et/C8arMRApxPzmZkeXsq8frkw1dVEAu7
-Unseal Key 2: gD9xvAqaAOXZ1rr4m8cWiortjEonrDPVchuIulPqmVQ/
-Unseal Key 3: Mqse86SEwwP6I7bUyrh5UfswBrYMesKcUHVaR49ex/hU
-Unseal Key 4: CQvfvH90DJ/n+6/LjenpErH/9+9YhuLhzwepsZgTA0Wq
-Unseal Key 5: PoPE97/Mltjw+4FLmNEEJe2AbAfnqUAT5KP14Mri8Gp1
+Unseal Key 1: daPMcDgtExmcjF86fj7UGQkgtDsKjnMDMdf1iaKfCMt6
+Unseal Key 2: 1epZVWjzG26aLpi2fzp2Yz08Ly4KIcMfXTnlihxoWArZ
+Unseal Key 3: Oq+PLT1+Aids617FvIsjBZfN+2jfh8YPtJrZoU97mYgl
+Unseal Key 4: SBJPdvCWiUtAPewUQD6dS16p4kZEC+XB2iwmMH6ocA4j
+Unseal Key 5: Kgto82MwUVEIclHMof67OhUn/VRyj/zMvXkn+6myk9sU
 
-Initial Root Token: hvs.yTHKugYYuP55VgHSVubNuWFV
+Initial Root Token: hvs.JxLWD9Hs2b41sA01sr44JQUq
 
 Vault initialized with 5 key shares and a key threshold of 3. Please securely
 distribute the key shares printed above. When the Vault is re-sealed,
@@ -81,17 +91,75 @@ reconstruct the root key, Vault will remain permanently sealed!
 
 It is possible to generate new unseal keys, provided you have a quorum of
 existing unseal keys shares. See "vault operator rekey" for more information.
-/vault/data #
 ```
 -->
 
 b. **Unsealing** the vault
 
-Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. You will need at lease **3 keys** to unseal the vault.
+```bash
+vault operator unseal <unseal key 1>
+vault operator unseal <unseal key 2>
+vault operator unseal <unseal key 3>
+```
 
-When the value of  `Sealed` changes to **false**, the Vault is unsealed. You should see below similar output once it is unsealed
+Used the unseal keys are from previous output. We need at lease **3 keys** to unseal the vault.
 
-```dos
+<!--
+```bash
+/vault/data # vault operator unseal daPMcDgtExmcjF86fj7UGQkgtDsKjnMDMdf1iaKfCMt6
+Key                Value
+---                -----
+Seal Type          shamir
+Initialized        true
+Sealed             true
+Total Shares       5
+Threshold          3
+Unseal Progress    1/3
+Unseal Nonce       3ab88bdd-967b-2433-fc0b-342060f8543a
+Version            1.12.1
+Build Date         2022-10-27T12:32:05Z
+Storage Type       raft
+HA Enabled         true
+/vault/data # vault operator unseal 1epZVWjzG26aLpi2fzp2Yz08Ly4KIcMfXTnlihxoWArZ
+Key                Value
+---                -----
+Seal Type          shamir
+Initialized        true
+Sealed             true
+Total Shares       5
+Threshold          3
+Unseal Progress    2/3
+Unseal Nonce       3ab88bdd-967b-2433-fc0b-342060f8543a
+Version            1.12.1
+Build Date         2022-10-27T12:32:05Z
+Storage Type       raft
+HA Enabled         true
+/vault/data # vault operator unseal Oq+PLT1+Aids617FvIsjBZfN+2jfh8YPtJrZoU97mYgl
+Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            5
+Threshold               3
+Version                 1.12.1
+Build Date              2022-10-27T12:32:05Z
+Storage Type            raft
+Cluster Name            vault-cluster-e490a263
+Cluster ID              a9746759-1955-e2c8-4e10-88a2e99c2fe1
+HA Enabled              true
+HA Cluster              n/a
+HA Mode                 standby
+Active Node Address     <none>
+Raft Committed Index    31
+Raft Applied Index      31
+```
+-->
+
+When the value of `Sealed` changes to **false**, the Vault is unsealed. We should see below similar output once it is unsealed.
+
+<!--
+```bash
 Unseal Key (will be hidden): 
 Key                     Value
 ---                     -----
@@ -112,13 +180,14 @@ Active Node Address     <none>
 Raft Committed Index    31
 Raft Applied Index      31
 ```
+-->
 
 c. Sign in to vault with **root** user
 
-Type `vault login` and enter the `Initial Root Token` retrieving from previous output
+Type `vault login` and enter the `Initial Root Token` retrieving from step a.
 
-```dos
-/ # vault login
+```bash
+/vault/data # vault login
 Token (will be hidden): 
 Success! You are now authenticated. The token information displayed below
 is already stored in the token helper. You do NOT need to run "vault login"
@@ -126,8 +195,8 @@ again. Future Vault requests will automatically use this token.
 
 Key                  Value
 ---                  -----
-token                hvs.KtwbjaZwYBV4BPohe6Vi48BH
-token_accessor       aVZzcPF3oCCIqGLzqoxvgLLC
+token                hvs.JxLWD9Hs2b41sA01sr44JQUq
+token_accessor       865teFpJSm3Zq2GId00iqK0U
 token_duration       ∞
 token_renewable      false
 token_policies       ["root"]
@@ -135,25 +204,69 @@ identity_policies    []
 policies             ["root"]
 ```
 
-### 2. Enable Vault KV Secrets Engine Version 2
+### 4. Enable Vault KV Secrets Engine Version 2
 
-> Refer to <https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2>
+<!--
+Refer to <https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2>
+-->
 
-```dos
+```bash
 vault secrets enable -version=2 kv-v2
 
 vault kv put -mount=kv-v2 devops-secret username=root password=changeme
 ```
 
+<!--
+```bash
+/vault/data # vault secrets enable -version=2 kv-v2
+Success! Enabled the kv-v2 secrets engine at: kv-v2/
+/vault/data # vault kv put -mount=kv-v2 devops-secret username=root password=changeme
+====== Secret Path ======
+kv-v2/data/devops-secret
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2023-04-01T17:42:12.087140006Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
+```
+-->
+
 You can **read** the data by running this:
 
-```dos
+```bash
 vault kv get -mount=kv-v2 devops-secret
 ```
 
+<!--
+```bash
+/vault/data # vault kv get -mount=kv-v2 devops-secret
+====== Secret Path ======
+kv-v2/data/devops-secret
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2023-04-01T17:42:12.087140006Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
+
+====== Data ======
+Key         Value
+---         -----
+password    changeme
+username    root
+```
+-->
+
 Then you should be able to see below output
 
-```dos
+```bash
 ====== Data ======
 Key         Value
 ---         -----
@@ -162,13 +275,15 @@ username    root
 
 ```
 
-> Note: Since version 2 kv has prefixed `data/`, your secret path will be `kv-v2/data/devops-secret`, instead of `kv-v2/devops-secret`
+Note:
 
-### 3. Write a Vault Policy and create a token
+Since version 2 kv has prefixed `data/`, your secret path will be `kv-v2/data/devops-secret`, instead of `kv-v2/devops-secret`
+
+### 5. Write a Vault Policy and create a token
 
 a. **Write** a policy
 
-```dos
+```bash
 cat > policy.hcl  <<EOF
 path "kv-v2/data/devops-secret/*" {
   capabilities = ["create", "update","read"]
@@ -179,15 +294,43 @@ vault policy list
 vault policy read first-policy
 ```
 
+<!--
+```bash
+/vault/data # cat > policy.hcl  <<EOF
+> path "kv-v2/data/devops-secret/*" {
+>   capabilities = ["create", "update","read"]
+> }
+> EOF
+/vault/data # vault policy write first-policy policy.hcl
+Success! Uploaded policy: first-policy
+/vault/data # vault policy list
+default
+first-policy
+root
+/vault/data # vault policy read first-policy
+path "kv-v2/data/devops-secret/*" {
+  capabilities = ["create", "update","read"]
+}
+/vault/data # 
+```
+-->
+
 b. **Enable approle**
 
-```dos
+```bash
 vault auth enable approle
 ```
 
+<!--
+```bash
+/vault/data # vault auth enable approle
+Success! Enabled approle auth method at: approle/
+```
+-->
+
 c. Create an **role**
 
-```dos
+```bash
 vault write auth/approle/role/first-role \
     secret_id_ttl=10000m \
     token_num_uses=10 \
@@ -201,11 +344,30 @@ export ROLE_ID="$(vault read -field=role_id auth/approle/role/first-role/role-id
 echo $ROLE_ID
 ```
 
-> **Note:** Please make a note as it will be needed when configuring Jenkins credential
+<!--
+```bash
+/vault/data # vault write auth/approle/role/first-role \
+>     secret_id_ttl=10000m \
+>     token_num_uses=10 \
+>     token_ttl=20000m \
+>     token_max_ttl=30000m \
+>     secret_id_num_uses=40 \
+>     token_policies=first-policy
+Success! Data written to: auth/approle/role/first-role
+/vault/data # export ROLE_ID="$(vault read -field=role_id auth/approle/role/first-role/role-id)"
+/vault/data # echo $ROLE_ID
+b055bca0-2269-080d-cbd4-838dd1615d20
+/vault/data # 
+```
+-->
+
+**Note:**
+
+Please make a note as it will be needed when configuring Jenkins credential
 
 d. Create a **secret id** via the previous role
 
-```dos
+```bash
 export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role/secret-id)"
 echo $SECRET_ID
 ```
@@ -214,7 +376,7 @@ echo $SECRET_ID
 
 e. Create a **token** with the role ID and secret ID
 
-```dos
+```bash
 apk add jq
 export VAULT_TOKEN=$(vault write auth/approle/login role_id="$ROLE_ID" secret_id="$SECRET_ID" -format=json|jq .auth.client_token)
 echo $VAULT_TOKEN
@@ -224,7 +386,7 @@ vault token lookup | grep policies
 
 f. Write a **secret** via the new token
 
-```dos
+```bash
 vault kv put -mount=kv-v2 devops-secret/team-1 username2=root2 password2=changemeagain
 vault kv get -mount=kv-v2 devops-secret/team-1
 
