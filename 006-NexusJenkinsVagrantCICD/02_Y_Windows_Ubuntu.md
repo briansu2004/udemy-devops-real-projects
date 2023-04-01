@@ -303,6 +303,8 @@ Click **"Save"**
 
 Go to **"Dashboard"** -> Click **"first-project"** pipeline -> Click **"Build Now"**, then the Jenkins pipeline will compile the app to a war file and upload to the Nexus repository.
 
+### 6. Check the war file in the Nexus repo
+
 Login to the Nexus website (<http://127.0.0.1:8081>) and go to **"Browse"** section, and then click **"maven-nexus-repo"**, we should be able to see the artifacts just uploaded.
 
 ![nexus-repo-configuration](images/nexus-repo-configuration.png)
@@ -329,7 +331,7 @@ e.g.
 
 <http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
 
-### 6. Deploy a Tomcat server via Vagrant
+### 7. Deploy a Tomcat server via Vagrant
 
 Start the Vagrant VM
 
@@ -343,7 +345,7 @@ Login to the Tomcat Vagrant VM
 vagrant ssh
 ```
 
-## 7. Verify the sparkjava-hello-world app is down :-)
+## 8. Verify the sparkjava-hello-world app is down :-)
 
 This URL should not work and it is expected.
 
@@ -351,7 +353,7 @@ This URL should not work and it is expected.
 http://127.0.0.1:8088/sparkjava-hello-world-1.0/hello
 ```
 
-## 8. Download the war file and deploy to the Tomcat server
+## 9. Download the war file and deploy to the Tomcat server
 
 Download the war from the Nexus repo.
 
@@ -382,7 +384,7 @@ vagrant@vagrant:/var/lib/tomcat9/webapps$ ls
 ROOT  sparkjava-hello-world-1.0  sparkjava-hello-world-1.0.war
 ```
 
-## 9. Verify the sparkjava-hello-world app is down :-)
+## 10. Verify the sparkjava-hello-world app is down :-)
 
 Type `exit` to exit the Vagrant VM.
 
