@@ -6,16 +6,16 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 
 ## Prerequisites
 
-### 1. Install Docker in Mac
+### 1. Install Docker in Windows
 
-### 2. Install Vagrant in Mac
+### 2. Install Vagrant in Windows
 
 ### 3. Create a GitHub personal access token
 
 Classic
 
 <!--
-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
+...
 -->
 
 ### 4. Get the local IP
