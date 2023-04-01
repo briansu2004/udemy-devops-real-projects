@@ -14,10 +14,6 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 
 Classic
 
-<!--
-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
--->
-
 ### 4. Get the local IP
 
 Use `ifconfig` to find out the local IP.

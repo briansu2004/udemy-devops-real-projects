@@ -99,7 +99,8 @@ Ethernet adapter vEthernet (WSL):
 ### 1. Deploy Jenins and Nexus containers
 
 ```dos
-rm -rf udemy-devops-real-projects
+cd \devbox
+rd /s /q udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects/006-NexusJenkinsVagrantCICD
 docker-compose up
