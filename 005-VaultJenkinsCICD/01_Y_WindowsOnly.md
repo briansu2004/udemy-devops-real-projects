@@ -541,12 +541,19 @@ Copy
 ### 9. Create a Jenkins Pipeline
 
 a. In the Jenkins portal, click **"New Item"** in the left navigation lane, and type the item name (i.g. first-project) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
+
 b. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
+
 c. Select **"Git"** in **"SCM"** field
+
 d. Add `https://github.com/briansu2004/udemy-devops-real-projects.git` in **"Repository URL"** field
+
 e. Select our github credential in **"Credentials"**
+
 f. Type `*/main` in **"Branch Specifier"** field
+
 g. Type `005-VaultJenkinsCICD/Jenkinsfile` in **"Script Path"**
+
 h. Unselect **"Lightweight checkout"**
 
 <!--
