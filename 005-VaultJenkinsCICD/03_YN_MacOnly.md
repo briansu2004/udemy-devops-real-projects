@@ -372,7 +372,17 @@ export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role
 echo $SECRET_ID
 ```
 
-> **Note:** Please make a note as it will be needed when configuring Jenkins credential
+<!--
+```bash
+/vault/data # export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role/secret-id)"
+/vault/data # echo $SECRET_ID
+18ca00b9-3e7b-3f62-9e82-bba2e78221ea
+```
+-->
+
+**Note:**
+
+Please make a note as it will be needed when configuring Jenkins credential
 
 e. Create a **token** with the role ID and secret ID
 
@@ -384,29 +394,91 @@ VAULT_TOKEN=$(echo $VAULT_TOKEN|tr -d '"')
 vault token lookup | grep policies
 ```
 
+<!--
+```bash
+/vault/data # apk add jq
+fetch <https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz>
+fetch <https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz>
+(1/2) Installing oniguruma (6.9.7.1-r0)
+(2/2) Installing jq (1.6-r1)
+Executing busybox-1.33.1-r8.trigger
+OK: 11 MiB in 21 packages
+/vault/data # export VAULT_TOKEN=$(vault write auth/approle/login role_id="$ROLE_ID" secret_id="$SECRET_ID" -format=jso
+n|jq .auth.client_token)
+/vault/data # echo $VAULT_TOKEN
+"hvs.CAESIDT0qAlPNxVjFA1Y3-1tl7_yx8jpSfyXWQget3v0EM3VGh4KHGh2cy5nMUVKYzBKTnZKeVlHOHExNFNBRzF1aWE"
+/vault/data # VAULT_TOKEN=$(echo $VAULT_TOKEN|tr -d '"')
+/vault/data # vault token lookup | grep policies
+policies            [default first-policy]
+```
+-->
+
 f. Write a **secret** via the new token
 
 ```bash
 vault kv put -mount=kv-v2 devops-secret/team-1 username2=root2 password2=changemeagain
 vault kv get -mount=kv-v2 devops-secret/team-1
-
 ```
 
-### 4. Add the role id/secret id in Jenkins
+<!--
+```bash
+/vault/data # vault kv put -mount=kv-v2 devops-secret/team-1 username2=root2 password2=changemeagain
+========= Secret Path =========
+kv-v2/data/devops-secret/team-1
 
-> Refer to <https://plugins.jenkins.io/hashicorp-vault-plugin/#plugin-content-vault-app-role-credential>
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2023-04-01T17:51:04.99758218Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
+/vault/data # vault kv get -mount=kv-v2 devops-secret/team-1
+========= Secret Path =========
+kv-v2/data/devops-secret/team-1
 
-Login to your Jenkins website and go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and you should fill out the page in below selection:
-**Kind:** Vault App Role Credential
-**Scope:** Global (Jenkins,nodes,items,all child items,etc)
-**Role ID:** <ROLE_ID from previous step>
-**Secret ID:** <SECRET_ID from previous step>
-**Path:** approle
-**Namespace:** (Leave it blank)
-**ID:** (the credential id you will refer within Jenkins Pipeline. i.g. vault-app-role)
-**Description:** Vault: AppRole Authentication
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2023-04-01T17:51:04.99758218Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
 
-### 5. Add github credential in Jenkins
+====== Data ======
+Key          Value
+---          -----
+password2    changemeagain
+username2    root2
+```
+-->
+
+### 6. Add the role id/secret id in Jenkins
+
+<!--
+Refer to <https://plugins.jenkins.io/hashicorp-vault-plugin/#plugin-content-vault-app-role-credential>
+-->
+
+Login to our Jenkins website `http://127.0.0.1:8080/`.
+
+root 
+
+changeme
+
+Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and you should fill out the page in below selection:
+
+- **Kind:** Vault App Role Credential
+- **Scope:** Global (Jenkins,nodes,items,all child items,etc)
+- **Role ID:** <ROLE_ID from previous step>
+- **Secret ID:** <SECRET_ID from previous step>
+- **Path:** approle
+- **Namespace:** (Leave it blank)
+- **ID:** (the credential id you will refer within Jenkins Pipeline. i.g. vault-app-role)
+- **Description:** Vault: AppRole Authentication
+
+### 7. Add github credential in Jenkins
 
 Login to your Jenkins website and go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and you should fill out the page below below selection:
 **Scope:** Global (Jenkins,nodes,items,all child items,etc)
