@@ -9,9 +9,18 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 ### 1. Deploy Jenins and Nexus containers
 
 ```bash
+rm -rf udemy-devops-real-projects
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/006-NexusJenkinsVagrantCICD
+docker-compose up
+```
+
+<!--
+```bash
 docker-compose build
 docker-compose up
 ```
+-->
 
 ### 2. Configure Nexus
 
