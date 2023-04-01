@@ -262,19 +262,27 @@ e.g.
 
 ### 6. Deploy a Tomcat server via Vagrant
 
-Run below command to start up a Vagrant VM:
+Start the Vagrant VM
 
 ```dos
 vagrant up
 ```
 
-## 7. Download the war file and deploy to the Tomcat server
-
-Login to the Tomcat Vagrant VM.
+Login to the Tomcat Vagrant VM
 
 ```dos
 vagrant ssh
 ```
+
+## 7. Verify the sparkjava-hello-world app is down :-)
+
+This URL should not work and it is expected.
+
+```dos
+http://0.0.0.0:8088/sparkjava-hello-world-1.0/hello
+```
+
+## 8. Download the war file and deploy to the Tomcat server
 
 Download the war from the Nexus repo.
 
@@ -298,14 +306,18 @@ sparkjava-hello-world-1.0.war    100%[==========================================
 ```
 --->
 
-Wait for **2 mins** and then the war file will be unzipped.
+The war file will be unzipped (note: we may have to wait for 2 mins).
 
 ```dos
 vagrant@vagrant:/var/lib/tomcat9/webapps$ ls
 ROOT  sparkjava-hello-world-1.0  sparkjava-hello-world-1.0.war
 ```
 
-Then type `exit` to exit the Vagrant VM and type below URL in yoru browser, and we should be able to see the "Hello World" page
+## 9. Verify the sparkjava-hello-world app is down :-)
+
+Type `exit` to exit the Vagrant VM.
+
+Type below URL in yoru browser, and we should be able to see the "Hello World" page.
 
 ```dos
 http://0.0.0.0:8088/sparkjava-hello-world-1.0/hello
