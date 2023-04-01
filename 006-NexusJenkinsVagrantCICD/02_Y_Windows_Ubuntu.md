@@ -329,7 +329,7 @@ e.g.
 
 ->
 
-<http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
+<http://172.27.112.1:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
 
 ### 7. Deploy a Tomcat server via Vagrant
 
