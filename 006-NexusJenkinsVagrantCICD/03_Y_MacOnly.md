@@ -6,9 +6,11 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 
 ## Prerequisites
 
-### 1. Install Docker in Windows
+### 1. Install Docker in Mac
 
-### 2. Create a github personal access token
+### 2. Install Vagrant in Mac
+
+### 3. Create a GitHub personal access token
 
 Classic
 
@@ -228,7 +230,7 @@ Login to the Nexus website (<http://0.0.0.0:8081>) and go to **"Browse"** sectio
 
 ![nexus-repo-configuration](images/nexus-repo-configuration.png)
 
-### 5. Deploy a Tomcat server via Vagrant
+### 6. Deploy a Tomcat server via Vagrant
 
 Run below command to start up a Vagrant VM:
 
@@ -236,9 +238,9 @@ Run below command to start up a Vagrant VM:
 vagrant up
 ```
 
-## 6. Download the war file and deploy to the Tomcat server
+## 7. Download the war file and deploy to the Tomcat server
 
-Once the deployment is done, wecan login to the Tomcat Vagrant VM and download the war from the Nexus repo. weshould be able to see the url link to download the war file in the Nexus web page. Just make sure to replace the IP address `0.0.0.0` to the actual IP of our host (running `ifconfig` to check our host IP).
+Once the deployment is done, login to the Tomcat Vagrant VM and download the war from the Nexus repo. We should be able to see the url link to download the war file in the Nexus web page. Just make sure to replace the IP address `0.0.0.0` to the actual IP of our host (running `ifconfig` to check our host IP).
 
 ![nexus-war-download-url](images/nexus-war-download-url.png)
 
