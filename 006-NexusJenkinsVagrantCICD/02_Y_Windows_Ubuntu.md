@@ -145,7 +145,7 @@ e.g.
 
 ### 3. Configure Nexus
 
-a. Open a browser and **login to** Nexus home page (<http://0.0.0.0:8081>)
+a. Open a browser and **login to** Nexus home page (<http://127.0.0.1:8081>)
 
 b. Fetch the **password** for `admin` user
 
@@ -204,7 +204,7 @@ DevOps2023
 
 ### 4. Configure Jenkins
 
-a. Login to our Jenkins website (<http://0.0.0.0:8080>)
+a. Login to our Jenkins website (<http://127.0.0.1:8080>)
 
 <!--
 b. Create First Admin User
@@ -303,7 +303,7 @@ Click **"Save"**
 
 Go to **"Dashboard"** -> Click **"first-project"** pipeline -> Click **"Build Now"**, then the Jenkins pipeline will compile the app to a war file and upload to the Nexus repository.
 
-Login to the Nexus website (<http://0.0.0.0:8081>) and go to **"Browse"** section, and then click **"maven-nexus-repo"**, we should be able to see the artifacts just uploaded.
+Login to the Nexus website (<http://127.0.0.1:8081>) and go to **"Browse"** section, and then click **"maven-nexus-repo"**, we should be able to see the artifacts just uploaded.
 
 ![nexus-repo-configuration](images/nexus-repo-configuration.png)
 
@@ -312,10 +312,10 @@ Click the war file and copy the link.
 ![nexus-war-download-url](images/nexus-war-download-url.png)
 
 <!--
-http://0.0.0.0:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war
+http://127.0.0.1:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war
 -->
 
-Replace the IP address `0.0.0.0` to `10.0.0.124`.
+Replace the IP address `127.0.0.1` to `10.0.0.124`.
 
 <!--
 the actual IP of our host (running `ifconfig` to check our host IP).
@@ -323,7 +323,7 @@ the actual IP of our host (running `ifconfig` to check our host IP).
 
 e.g.
 
-<http://0.0.0.0:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
+<http://127.0.0.1:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
 
 ->
 
@@ -348,7 +348,7 @@ vagrant ssh
 This URL should not work and it is expected.
 
 ```dos
-http://0.0.0.0:8088/sparkjava-hello-world-1.0/hello
+http://127.0.0.1:8088/sparkjava-hello-world-1.0/hello
 ```
 
 ## 8. Download the war file and deploy to the Tomcat server
@@ -389,7 +389,7 @@ Type `exit` to exit the Vagrant VM.
 Type below URL in yoru browser, and we should be able to see the "Hello World" page.
 
 ```dos
-http://0.0.0.0:8088/sparkjava-hello-world-1.0/hello
+http://127.0.0.1:8088/sparkjava-hello-world-1.0/hello
 ```
 
 ![helloworld](images/helloworld.png)
