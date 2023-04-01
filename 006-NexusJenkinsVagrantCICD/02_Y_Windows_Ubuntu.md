@@ -139,9 +139,9 @@ The solution is to update the plugin file `plugins.txt` manually based on the er
 
 e.g.
 
-![1672798209848](image/README/1672798209848.png)
+![1672798209848](images/README/1672798209848.png)
 
-![1672798247625](image/README/1672798247625.png)
+![1672798247625](images/README/1672798247625.png)
 
 ### 3. Configure Nexus
 
