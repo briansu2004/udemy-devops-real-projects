@@ -213,9 +213,11 @@ j. Type `006-NexusJenkinsVagrantCICD/Jenkinsfile` in **"Script Path"**
 k. Unselect **"Lightweight checkout"** and click "Apply" to complete the creation
 
 l. To add maven tool, go back to **"Dashboard"** -> **"Manage Jenkins"** -> **"Global Tool Configuration"** -> Scroll down to **"Maven"** section and click **"Add Maven"**. Then fill out below fields as instructed:
-**Name:** m3
-**Install automaticall** selected
-**Version:** 3.8.6
+
+- **Name:** m3
+- **Install automaticall** selected
+- **Version:** 3.8.6
+
 Click **"Save"**
 
 ### 4. Launch the Jenkins pipeline
