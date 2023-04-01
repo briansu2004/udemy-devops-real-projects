@@ -14,7 +14,7 @@ pipeline {
       stage("Clone code from VCS") {
           steps {
               git branch: 'main',
-                  url: 'https://github.com/devops2021/devopsdaydayup.git'
+                  url: 'https://github.com/briansu2004/udemy-devops-real-projects.git'
               sh "pwd"
               sh "ls -lat"
           }

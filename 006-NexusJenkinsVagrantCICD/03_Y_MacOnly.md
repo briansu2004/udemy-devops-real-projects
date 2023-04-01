@@ -212,7 +212,7 @@ j. Type `006-NexusJenkinsVagrantCICD/Jenkinsfile` in **"Script Path"**
 
 k. Unselect **"Lightweight checkout"** and click "Apply" to complete the creation
 
-l. To add maven tool, go back to **"Dashboard"** -> **"Manage Jenkins"** -> **"Global Tool Configuration"** -> Scroll down to **"Maven"** section and click **"Add Maven"**. Then fill out below fields as instructed:
+l. To add maven tool, go back to **"Dashboard"** -> **"Manage Jenkins"** -> **"Tool"** -> Scroll down to **"Maven"** section and click **"Add Maven"**. Then fill out below fields as instructed:
 
 - **Name:** m3
 - **Install automaticall** selected
@@ -220,11 +220,11 @@ l. To add maven tool, go back to **"Dashboard"** -> **"Manage Jenkins"** -> **"G
 
 Click **"Save"**
 
-### 4. Launch the Jenkins pipeline
+### 5. Launch the Jenkins pipeline
 
 Go to **"Dashboard"** -> Click **"first-project"** pipeline -> Click **"Build Now"**, then the Jenkins pipeline will compile the app to a war file and upload to the Nexus repository.
 
-Login to the Nexus website (<http://0.0.0.0:8081>) and go to **"Browse"** section, and then click **"maven-nexus-repo"**, weshould be able to see the artifacts just uploaded.
+Login to the Nexus website (<http://0.0.0.0:8081>) and go to **"Browse"** section, and then click **"maven-nexus-repo"**, we should be able to see the artifacts just uploaded.
 
 ![nexus-repo-configuration](images/nexus-repo-configuration.png)
 
