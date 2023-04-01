@@ -4,6 +4,18 @@
 
 In this lab, we will set up a **Nexus** repository and push a war file from **Jenkins Pipeline**, then we will deploy the war file to a **Tomcat 9** installed in a **Vagrant VM**.
 
+## Prerequisites
+
+### 1. Install Docker in Windows
+
+### 2. Create a github personal access token
+
+Classic
+
+<!--
+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
+-->
+
 ## Steps
 
 ### 1. Deploy Jenins and Nexus containers
@@ -115,12 +127,29 @@ DevOps2023
 
 a. Login to our Jenkins website (<http://0.0.0.0:8080>)
 
+<!--
 b. Create First Admin User
 
+admin
 
-c. Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and weshould fill out the page in below selection:
+DevOps2023
 
+admin@gmai.com
+-->
+
+b. Go to **"Manage Jenkins"** -> (Security) **"Manage Credentials"** -> **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and fill out the page in below selection:
+
+<!--
 > Note: The **username** and **password** is in `.env` file
+
+admin
+DevOps2023
+
+or
+
+admin
+bitnami
+-->
 
 - **Kind:** Username with password
 - **Scope:** Global(Jenkins, nodes, items, all child items, etc)
@@ -129,13 +158,51 @@ c. Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **
 - **ID:** nexus
 - **Description:** nexus credential
 
+![Jenkins Credentials](images/jenkins-01.png)
+
+c. Add github credential in Jenkins
+
+Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and fill out the page below below selection:
+
+- **Scope:** Global (Jenkins,nodes,items,all child items,etc)
+- **Username:** (the github username)
+- **Password:** `<the github personal access token>`
+- **ID:** (the id which will be referred in Jenkinsfile, e.g. github-token)
+- **Description:** Github token
+
+<!--
+briansu2004
+github-token
+-->
+
+<!--
+github
+profile photo
+settings
+Developer settings
+Personal access tokens
+Tokens (classic)
+Generate new token
+Generate new token (classic)
+https://github.com/settings/tokens/new
+Note
+Expiration
+Scopes
+Generate token
+Copy
+-->
+
+![Add github credential in Jenkins](image/README/step7.png)
+
+![Global credentials (unrestricted)](image/README/global-credentials.png)
+
 d. To create a new pipeline, go back to Dashboard, click **"New Item"** in the left navigation lane, and type the item name (i.g. `first-project`) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
 
 e. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
 
 f. Select **"Git"** in **"SCM"** field
 
-g. Add `https://github.com/devops2021/devopsdaydayup.git` in **"Repository URL"** field
+g. Add `https://github.com/briansu2004/udemy-devops-real-projects.git` in **"Repository URL"** field
 
 h. Select our github credential in **"Credentials"**
 
