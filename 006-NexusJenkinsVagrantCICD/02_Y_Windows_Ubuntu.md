@@ -30,7 +30,7 @@ e.g.
 
 ### 1. Deploy Jenins and Nexus containers
 
-```bash
+```dos
 rm -rf udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects/006-NexusJenkinsVagrantCICD
@@ -38,7 +38,7 @@ docker-compose up
 ```
 
 <!--
-```bash
+```dos
 docker-compose build
 docker-compose up
 ```
@@ -80,12 +80,12 @@ a. Open a browser and **login to** Nexus home page (<http://0.0.0.0:8081>)
 
 b. Fetch the **password** for `admin` user
 
-```bash
+```dos
 docker exec $(docker ps --filter name=nexus-1 -q) cat /nexus-data/admin.password
 ```
 
 <!--
-```bash
+```dos
 DevOps 🚀 devbox % docker exec $(docker ps --filter name=nexus-1 -q) cat /nexus-data/admin.password
 827c4aaf-5fe5-45af-a75f-540bab55a218%
 ```
@@ -264,7 +264,7 @@ e.g.
 
 Run below command to start up a Vagrant VM:
 
-```bash
+```dos
 vagrant up
 ```
 
@@ -272,19 +272,19 @@ vagrant up
 
 Login to the Tomcat Vagrant VM.
 
-```bash
+```dos
 vagrant ssh
 ```
 
 Download the war from the Nexus repo.
 
-```bash
+```dos
 cd /var/lib/tomcat9/webapps/
 sudo wget http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war 
 ```
 
 <!--
-```bash
+```dos
 vagrant@vagrant:/var/lib/tomcat9/webapps$ sudo wget http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war 
 --2023-04-01 21:32:59--  http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war
 Connecting to 10.0.0.124:8081... connected.
@@ -300,14 +300,14 @@ sparkjava-hello-world-1.0.war    100%[==========================================
 
 Wait for **2 mins** and then the war file will be unzipped.
 
-```bash
+```dos
 vagrant@vagrant:/var/lib/tomcat9/webapps$ ls
 ROOT  sparkjava-hello-world-1.0  sparkjava-hello-world-1.0.war
 ```
 
 Then type `exit` to exit the Vagrant VM and type below URL in yoru browser, and we should be able to see the "Hello World" page
 
-```bash
+```dos
 http://0.0.0.0:8088/sparkjava-hello-world-1.0/hello
 ```
 
