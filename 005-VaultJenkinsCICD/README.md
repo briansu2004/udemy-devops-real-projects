@@ -17,9 +17,9 @@ In this lab, we will learn how to integrate Vault into Jenkins pipeline, as well
 
 [With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
-<!--
+[Mac Only](03_YN_MacOnly.md)
 
-[Mac Only  doesn't work](03_N_MacOnly.md)
+<!--
 
 [With_Mac_Ubuntu](04_Y_Mac_Ubuntu.md)
 -->
