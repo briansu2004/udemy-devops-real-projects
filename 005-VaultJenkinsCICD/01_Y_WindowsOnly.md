@@ -57,8 +57,11 @@ a. **Initializing** the Vault
 
 Take note the container ID and use in the next script.
 
+`docker exec -it <container_vault_id> sh`
+
+Then
+
 ```dos
-docker exec -it <container_vault_id> sh
 export VAULT_ADDR='http://127.0.0.1:8200'
 vault operator init
 ```
