@@ -53,8 +53,12 @@ e.g.
 
 a. **Initializing** the Vault
 
+`docker ps -f name=vault-1 -q`
+
+Take note the container ID and use in the next script.
+
 ```dos
-docker exec -it $(docker ps -f name=vault-1 -q) sh
+docker exec -it <container_vault_id> sh
 export VAULT_ADDR='http://127.0.0.1:8200'
 vault operator init
 ```
