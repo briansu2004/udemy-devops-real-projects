@@ -4,6 +4,7 @@ Enjoy 😀
 
 ## Projects
 
+<!--
 ```dos
 Project 001: ELK Monitoring
 Project 002: Jenkins CICD Pipeline
@@ -12,6 +13,7 @@ Project 004: Deploy Docker with Terraform Script
 Project 005: Vault Jenkins Pipeline 
 Project 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy to Tomcat in Vagrant VM
 ```
+-->
 
 [Project 001: ELK Monitoring](001-ELKMonitoring/README.md)
 
