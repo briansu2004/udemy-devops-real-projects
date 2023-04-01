@@ -518,10 +518,11 @@ Generate token
 Copy (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)
 -->
 
+![Add github credential in Jenkins](image/README/step7.png)
 
+![Global credentials (unrestricted)](image/README/global-credentials.png)
 
-
-### 6. Create a Jenkins Pipeline
+### 8. Create a Jenkins Pipeline
 
 a. In the Jenkins portal, click **"New Item"** in the left navigation lane, and type the item name (i.g. first-project) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
 b. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
