@@ -271,9 +271,9 @@ Generate token
 Copy
 -->
 
-![Add github credential in Jenkins](image/README/step7.png)
+![Add github credential in Jenkins](images/README/github-credentials.png)
 
-![Global credentials (unrestricted)](image/README/global-credentials.png)
+![Global credentials (unrestricted)](images/README/global-credentials.png)
 
 d. To create a new pipeline, go back to Dashboard, click **"New Item"** in the left navigation lane, and type the item name (i.g. `first-project`) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
 
