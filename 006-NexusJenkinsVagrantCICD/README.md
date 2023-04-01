@@ -13,9 +13,11 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 | 3 | Mac only | Y | Y |   |
 | 4 | Mac + Ubuntu | Y | N |   |
 
-[Windows Only](01_Y_WindowsOnly.md)
+[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 <!--
+[Windows Only](01_Y_WindowsOnly.md)
+
 [With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 [Mac Only](03_YN_MacOnly.md)

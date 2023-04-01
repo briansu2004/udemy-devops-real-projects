@@ -18,6 +18,14 @@ Classic
 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
 -->
 
+### 4. Get the local IP
+
+Use `ifconfig` to find out the local IP.
+
+e.g.
+
+10.0.0.124
+
 ## Steps
 
 ### 1. Deploy Jenins and Nexus containers
@@ -230,6 +238,28 @@ Login to the Nexus website (<http://0.0.0.0:8081>) and go to **"Browse"** sectio
 
 ![nexus-repo-configuration](images/nexus-repo-configuration.png)
 
+Click the war file and copy the link.
+
+![nexus-war-download-url](images/nexus-war-download-url.png)
+
+<!--
+http://0.0.0.0:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war
+-->
+
+Replace the IP address `0.0.0.0` to `10.0.0.124`.
+
+<!--
+the actual IP of our host (running `ifconfig` to check our host IP).
+-->
+
+e.g.
+
+<http://0.0.0.0:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
+
+->
+
+<http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war>
+
 ### 6. Deploy a Tomcat server via Vagrant
 
 Run below command to start up a Vagrant VM:
@@ -240,24 +270,42 @@ vagrant up
 
 ## 7. Download the war file and deploy to the Tomcat server
 
-Once the deployment is done, login to the Tomcat Vagrant VM and download the war from the Nexus repo. We should be able to see the url link to download the war file in the Nexus web page. Just make sure to replace the IP address `0.0.0.0` to the actual IP of our host (running `ifconfig` to check our host IP).
-
-![nexus-war-download-url](images/nexus-war-download-url.png)
+Login to the Tomcat Vagrant VM.
 
 ```bash
 vagrant ssh
-cd /var/lib/tomcat9/webapp/
-sudo wget http://<your_host_IP>:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war 
 ```
 
-Wait for **2 mins** and then wecan see the war file is unzip
+Download the war from the Nexus repo.
+
+```bash
+cd /var/lib/tomcat9/webapps/
+sudo wget http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war 
+```
+
+<!--
+```bash
+vagrant@vagrant:/var/lib/tomcat9/webapps$ sudo wget http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war 
+--2023-04-01 21:32:59--  http://10.0.0.124:8081/repository/maven-nexus-repo/sparkjava-hello-world/sparkjava-hello-world/1.0/sparkjava-hello-world-1.0.war
+Connecting to 10.0.0.124:8081... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2427996 (2.3M) [application/java-archive]
+Saving to: ‘sparkjava-hello-world-1.0.war’
+
+sparkjava-hello-world-1.0.war    100%[==========================================================>]   2.32M  --.-KB/s    in 0.05s   
+
+2023-04-01 21:32:59 (51.4 MB/s) - ‘sparkjava-hello-world-1.0.war’ saved [2427996/2427996]
+```
+--->
+
+Wait for **2 mins** and then the war file will be unzipped.
 
 ```bash
 vagrant@vagrant:/var/lib/tomcat9/webapps$ ls
 ROOT  sparkjava-hello-world-1.0  sparkjava-hello-world-1.0.war
 ```
 
-Then type `exit` to exit the Vagrant VM and type below URL in yoru browser, and weshould be able to see the "Hello World" page
+Then type `exit` to exit the Vagrant VM and type below URL in yoru browser, and we should be able to see the "Hello World" page
 
 ```bash
 http://0.0.0.0:8088/sparkjava-hello-world-1.0/hello
