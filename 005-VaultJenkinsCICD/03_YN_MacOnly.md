@@ -455,15 +455,15 @@ username2    root2
 ```
 -->
 
-### 6. Add the role id/secret id in Jenkins
+### 6. Add the role id and secret id to Jenkins
 
 <!--
 Refer to <https://plugins.jenkins.io/hashicorp-vault-plugin/#plugin-content-vault-app-role-credential>
 -->
 
-Login to our Jenkins website `http://127.0.0.1:8080/` with the username/password defined in our `.env` file.
+Login to the Jenkins website `http://127.0.0.1:8080/` with the username/password defined in our `.env` file.
 
-Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and you should fill out the page in below selection:
+Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and fill out the page in below selection:
 
 - **Kind:** Vault App Role Credential
 - **Scope:** Global (Jenkins,nodes,items,all child items,etc)
@@ -471,17 +471,55 @@ Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Gl
 - **Secret ID:** <SECRET_ID from previous step>
 - **Path:** approle
 - **Namespace:** (Leave it blank)
-- **ID:** (the credential id you will refer within Jenkins Pipeline. i.g. vault-app-role)
+- **ID:** (the credential id you will refer within Jenkins Pipeline. e.g. vault-app-role)
 - **Description:** Vault: AppRole Authentication
+
+<!--
+```bash
+/vault/data # echo $ROLE_ID
+b055bca0-2269-080d-cbd4-838dd1615d20
+/vault/data # echo $SECRET_ID
+18ca00b9-3e7b-3f62-9e82-bba2e78221ea
+```
+-->
+
+![Add the role id and secret id to Jenkins](image/README/step6.png)
 
 ### 7. Add github credential in Jenkins
 
-Login to your Jenkins website and go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and you should fill out the page below below selection:
-**Scope:** Global (Jenkins,nodes,items,all child items,etc)
-**Username:** (your github username)
-**Password:** <your github personal access token> (please refer to [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token))
-**ID:** (the id which will be referred in Jenkinsfile, i.g. github-token)
-**Description:** Github token
+Login to the Jenkins website and go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and fill out the page below below selection:
+
+- **Scope:** Global (Jenkins,nodes,items,all child items,etc)
+- **Username:** (the github username)
+- **Password:** `<the github personal access token>`
+(please refer to [here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token))
+- **ID:** (the id which will be referred in Jenkinsfile, e.g. github-token)
+- **Description:** Github token
+
+<!--
+briansu2004
+github-token
+-->
+
+<!--
+github
+profile photo
+settings
+Developer settings
+Personal access tokens
+Tokens (classic)
+Generate new token
+Generate new token (classic)
+https://github.com/settings/tokens/new
+Note
+Expiration
+Scopes
+Generate token
+Copy (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)
+-->
+
+
+
 
 ### 6. Create a Jenkins Pipeline
 
