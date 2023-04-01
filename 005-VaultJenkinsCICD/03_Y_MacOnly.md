@@ -544,3 +544,7 @@ h. Unselect **"Lightweight checkout"**
 ### 9. Run the Jenins pipeline
 
 Build now
+
+Green / success!
+
+![Pipeline success](image/README/run-pipeline.png)
