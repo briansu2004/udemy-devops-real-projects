@@ -461,11 +461,7 @@ username2    root2
 Refer to <https://plugins.jenkins.io/hashicorp-vault-plugin/#plugin-content-vault-app-role-credential>
 -->
 
-Login to our Jenkins website `http://127.0.0.1:8080/`.
-
-root 
-
-changeme
+Login to our Jenkins website `http://127.0.0.1:8080/` with the username/password defined in our `.env` file.
 
 Go to **"Manage Jenkins"** -> **"Manage Credentials"** ->  **"System"** -> **"Global credentials (unrestricted)"** -> Click **"Add Credentials"** and you should fill out the page in below selection:
 
