@@ -9,7 +9,7 @@ In this article, you will learn how to integrate Vault into Jenkins pipeline, as
 ### 1. Docker compose
 
 ```dos
-rm /s /d udemy-devops-real-projects
+rd /s /q udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects/005-VaultJenkinsCICD
 docker-compose up
