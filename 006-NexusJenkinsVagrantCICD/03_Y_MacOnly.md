@@ -12,6 +12,7 @@ In this lab, we will set up a **Nexus** repository and push a war file from **Je
 rm -rf udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects/006-NexusJenkinsVagrantCICD
+docker-compose build
 docker-compose up
 ```
 
@@ -22,7 +23,37 @@ docker-compose up
 ```
 -->
 
-### 2. Configure Nexus
+### 2. Fix the docker-compose issues if possible
+
+We use the file `plugins.txt` to manage install plug-ins. However, it always forces us to use the latest versions.
+
+Hence the 1st step `docker-compose up` will fail if there is a new version available.
+
+e.g.
+
+```dos
+ => => naming to docker.io/library/005-vaultjenkinscicd-vault                                                                                                                               0.0s 
+ => [005-vaultjenkinscicd-jenkins 2/4] COPY plugins.txt /usr/share/jenkins/ref/plugins.txt                                                                                                  0.3s 
+ => ERROR [005-vaultjenkinscicd-jenkins 3/4] RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt                                                                        5.1s 
+------
+ > [005-vaultjenkinscicd-jenkins 3/4] RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt:
+#0 5.036 Multiple plugin prerequisites not met:
+#0 5.036 Plugin docker-workflow:528.v7c193a_0b_e67c (via pipeline-model-definition:2.2118.v31fd5b_9944b_5->git-client:4.0.0) depends on configuration-as-code:1569.vb_72405b_80249, but there is an older version defined on the t
+an older version defined on the top level - configuration-as-code:1559.v38a_b_2e3b_6b_b_7,
+#0 5.036 Plugin git:4.12.1 (via git-client:4.0.0) depends on configuration-as-code:1569.vb_72405b_80249, but there is an older version defined on the top level - configuration-as-code:1559.v38a_b_2e3b_6b_b_7_b_2e3b_6b_b_7
+------
+failed to solve: executor failed running [/bin/sh -c jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt]: exit code: 1
+```
+
+The solution is to update the plugin file `plugins.txt` manually based on the error messages and then re-run `docker-compose up`.
+
+e.g.
+
+![1672798209848](image/README/1672798209848.png)
+
+![1672798247625](image/README/1672798247625.png)
+
+### 3. Configure Nexus
 
 a. Open a browser and **login to** Nexus home page (<http://0.0.0.0:8081>)
 
