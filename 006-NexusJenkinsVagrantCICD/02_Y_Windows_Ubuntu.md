@@ -96,7 +96,7 @@ Ethernet adapter vEthernet (WSL):
 
 ## Steps
 
-### 1. Deploy Jenins and Nexus containers
+### 1. Docker compose
 
 ```dos
 cd \devbox
