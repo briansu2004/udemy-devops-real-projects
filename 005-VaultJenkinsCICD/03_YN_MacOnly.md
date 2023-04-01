@@ -527,8 +527,20 @@ Copy (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)
 a. In the Jenkins portal, click **"New Item"** in the left navigation lane, and type the item name (i.g. first-project) and select **"Pipeline"**. Click **"OK"** to configure the pipeline.
 b. Go to **"Pipeline"** section and select **"Pipeline script from SCM"** in the **"Definition"** field
 c. Select **"Git"** in **"SCM"** field
-d. Add `https://github.com/chance2021/devopsdaydayup.git` in **"Repository URL"** field
+d. Add `https://github.com/briansu2004/udemy-devops-real-projects.git` in **"Repository URL"** field
 e. Select your github credential in **"Credentials"**
 f. Type `*/main` in **"Branch Specifier"** field
 g. Type `005-VaultJenkinsCICD/Jenkinsfile` in **"Script Path"**
 h. Unselect **"Lightweight checkout"**
+
+<!--
+<https://github.com/briansu2004/udemy-devops-real-projects/tree/main/005-VaultJenkinsCICD>
+-->
+
+![Pipeline 01](image/README/pipeline-01.png)
+
+![Pipeline 02](image/README/pipeline-02.png)
+
+### 9. Run the Jenins pipeline
+
+Build now
