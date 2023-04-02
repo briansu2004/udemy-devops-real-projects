@@ -2,7 +2,18 @@
 
 Mac (Docker) + Ubunbu
 
-???
+Has issues:
+
+when `docker compose up` -
+
+```bash
+007-vaultfreeipavagrantiam-freeipa-1  | Set hostname to <ipa.devopsdaydayup.org>.
+007-vaultfreeipavagrantiam-freeipa-1  | Initializing machine ID from random generator.
+007-vaultfreeipavagrantiam-freeipa-1  | Failed to create /init.scope control group: Read-only file system
+007-vaultfreeipavagrantiam-freeipa-1  | Failed to allocate manager object: Read-only file system
+007-vaultfreeipavagrantiam-freeipa-1  | [!!!!!!] Failed to allocate manager object, freezing.
+007-vaultfreeipavagrantiam-freeipa-1  | Freezing execution.
+```
 
 ## Scenario
 
