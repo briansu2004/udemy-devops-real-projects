@@ -7,7 +7,7 @@ Has issues:
 when `docker compose up` -
 
 ```bash
-007-vaultfreeipavagrantiam-freeipa-1  | Set hostname to <ipa.devopsdaydayup.org>.
+007-vaultfreeipavagrantiam-freeipa-1  | Set hostname to <ipa.mydevopsrealprojects.com>.
 007-vaultfreeipavagrantiam-freeipa-1  | Initializing machine ID from random generator.
 007-vaultfreeipavagrantiam-freeipa-1  | Failed to create /init.scope control group: Read-only file system
 007-vaultfreeipavagrantiam-freeipa-1  | Failed to allocate manager object: Read-only file system
@@ -35,9 +35,9 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ### 3. Config hosts
 
-a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
+a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.mydevopsrealprojects.com`
 
-b. In our Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+b. In our Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
 
 ```bash
 vagrant up
@@ -323,7 +323,7 @@ Success! Uploaded policy: user-policy
 vault auth enable ldap
 
 vault write auth/ldap/config \
-    url="ldaps://ipa.devopsdaydayup.org" \
+    url="ldaps://ipa.mydevopsrealprojects.com" \
     userattr="uid" \
     userdn="cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
     groupdn="cn=groups,cn=accounts,dc=devopsdaydayup,dc=org" \
@@ -348,7 +348,7 @@ vault write auth/ldap/users/bob  policies=user-policy
 Success! Enabled ldap auth method at: ldap/
 /vault/data #
 /vault/data # vault write auth/ldap/config \
->     url="ldaps://ipa.devopsdaydayup.org" \
+>     url="ldaps://ipa.mydevopsrealprojects.com" \
 >     userattr="uid" \
 >     userdn="cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
 >     groupdn="cn=groups,cn=accounts,dc=devopsdaydayup,dc=org" \
@@ -474,16 +474,16 @@ vagrant@vagrant:/etc/ssh$ tail /etc/ssh/ssh_config
 ### 7. Create LDAP users in **FreeIPA**
 
 <!--
-update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
 
-a. In our local host, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+a. In our local host, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
 
-a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
+a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.mydevopsrealprojects.com`
 
 ???
 -->
 
-b. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.devopsdaydayup.org>). Type the username as `admin` and the password as `admin123`
+b. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.mydevopsrealprojects.com>). Type the username as `admin` and the password as `admin123`
 
 **Note**: they are defined in `.env` file.
 

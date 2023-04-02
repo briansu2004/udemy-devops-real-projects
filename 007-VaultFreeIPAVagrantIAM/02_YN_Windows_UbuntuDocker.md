@@ -338,7 +338,7 @@ Success! Uploaded policy: user-policy
 vault auth enable ldap
 
 vault write auth/ldap/config \
-    url="ldaps://ipa.devopsdaydayup.org" \
+    url="ldaps://ipa.mydevopsrealprojects.com" \
     userattr="uid" \
     userdn="cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
     groupdn="cn=groups,cn=accounts,dc=devopsdaydayup,dc=org" \
@@ -363,7 +363,7 @@ vault write auth/ldap/users/bob  policies=user-policy
 Success! Enabled ldap auth method at: ldap/
 /vault/data #
 /vault/data # vault write auth/ldap/config \
->     url="ldaps://ipa.devopsdaydayup.org" \
+>     url="ldaps://ipa.mydevopsrealprojects.com" \
 >     userattr="uid" \
 >     userdn="cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
 >     groupdn="cn=groups,cn=accounts,dc=devopsdaydayup,dc=org" \
@@ -490,15 +490,15 @@ vagrant@vagrant:/etc/ssh$ tail /etc/ssh/ssh_config
 
 ### 7. Create LDAP users in **FreeIPA**
 
-a. In our local host (Ubuntu), update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+a. In our local host (Ubuntu), update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
 
 `sudo vim /etc/hosts`
 
 <!--
-a. In our local host (Windows), update `C:\Windows\System32\drivers\etc\hosts` by adding this entry: `127.0.0.1 ipa.devopsdaydayup.org`
+a. In our local host (Windows), update `C:\Windows\System32\drivers\etc\hosts` by adding this entry: `127.0.0.1 ipa.mydevopsrealprojects.com`
 -->
 
-b. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.devopsdaydayup.org>). Type the username as `admin` and the password as `admin123`
+b. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.mydevopsrealprojects.com>). Type the username as `admin` and the password as `admin123`
 
 **Note**: they are defined in `.env` file.
 
