@@ -8,9 +8,11 @@ In this lab, we will learn how to use Ansible to install Jenkins.
 
 ### 1. Install Vagrant for Mac
 
-<!--
-### 1. Install Docker for Mac
--->
+### 2. Install Ansible for Mac
+
+```bash
+brew install ansible
+```
 
 ## Steps
 
