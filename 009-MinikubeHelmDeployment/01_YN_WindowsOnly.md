@@ -37,14 +37,21 @@ minikube start
 minikube status
 ```
 
-Once the Minikube starts, you can download the **kubectl** from [k8s official website](https://kubernetes.io/docs/tasks/tools/)
+Download kubectl
+
+<!--
+[k8s official website](https://kubernetes.io/docs/tasks/tools/)
+-->
 
 ```dos
 minikube kubectl
-alias k="kubectl"
 ```
 
-Then, when you run the command `kubectl get node` or `k get node`, you should see below output:
+<!--
+alias k="kubectl"
+-->
+
+When we run the command `kubectl get node`, we should see below output:
 
 ```dos
 NAME       STATUS   ROLES           AGE     VERSION
@@ -53,13 +60,17 @@ minikube   Ready    control-plane   4m37s   v1.25.3
 
 ### 2. Enable Minikube Dashboard
 
-You can also enable your **Minikube dashboard** by running below command:
+We can also enable your **Minikube dashboard** by running below command:
 
 ```dos
 minikube dashboard
 ```
 
-You should see a Kuberentes Dashboard page pop out in your browser immediately. You can explore all Minikube resources in this UI website.
+We should see a Kuberentes Dashboard page pop out in the browser immediately.
+
+We can explore all Minikube resources in this UI website.
+
+![1680473274654](image/01_YN_WindowsOnly/1680473274654.png)
 
 ### 3. Add Helm Repo
 
