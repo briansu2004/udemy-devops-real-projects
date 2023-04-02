@@ -2,6 +2,10 @@
 
 Mac + Ubunbu (Docker)
 
+TODO:
+
+Change ipa.devopsdaydayup.org to ipa.mydevopsrealprojects.com
+
 Issues:
 
 <!--
@@ -85,6 +89,18 @@ Add below entry to `/etc/resolv.conf`
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
+
+<!--
+Clean up:
+
+```bash
+docker container ls -a
+docker volume ls 
+docker image ls 
+
+docker volume ls -q | xargs docker volume rm
+```
+-->
 
 ## Steps
 
@@ -200,7 +216,7 @@ Success! Enabled the ssh secrets engine at: ssh-client-signer/
 /vault/data # vault write ssh-client-signer/config/ca generate_signing_key=true
 Key           Value
 ---           -----
-public_key    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvumPJpJHYKw269OjCVUEikrOLiOmkeRbWayWrWhK2zZXQLkfi7rCM0zEXNQGIh2gRtnhQpg9HeuwUKUYiIZ1991JMW5GYtMyBIdpAJVjp9VhWutH04Kd/50w3iqIMHTizZuQYlz+Hz97kN6wcUgpyXiOSeBCrBkNQRifnOAjeXQJOIRln/Nq1REqB8t6OzT4Pb7IHsVG5ty5AmnZz7/N3OSMCrJG11u8RABqtQoOi/wJFgd+mjoBvqf0mgZmGIwQ00PUtr/v6ZGH+R5UswzduFE6exHH6RPa4lQE6zXPaP6/6duP0ppeNOQT3OO+eCSmjTTvYfcjHJTpNTN10+VfnS7AKPfQTcge/Fm7afCL2LBAbGtItkwzhXKlT1JgEGliiOXD0DcOukbdKQcbYB+Ib/ThqbMEsfZNpOVGiIrZ8ADqC6AYfxdtDi7g0h+4bWK3b+GPZ/LJ6o4AdGrZv49Voji83mes6VOSnbKeAdwSp5biOuftKBM2CduoHZhPWNiWLG+3uRzuIDMA/kw1SFoVj1FKCarKWwSQAWf5PhM0Y3ywIUw9rGn7wDTWiK7ej0EVyYCbJ3twsXPR3edzNgy5vUle8HFtfPCvZEHpkW8y/Hrr7DKn0Xqxhvd1XbUbJ9Bv03C9qEKz66s2qmyFJeFuf810jqyZ7zC5uepgmzwsoAw==
+public_key    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3+ayyUcQCxcUDWgAZ4KoD83ZGkx+T/NMyKZwu5d9Ok0rLeeQGpRgVKaEaKK4kOk5aLQzqQ4fK1z3O15IILk08ysI0oPEKyhg/QepWwRRCA6jnmU3Nbmff6pBhkD2smaUgctcwSf/bgGhOavQ3z0m5Ukb/Aw6KFRVpPFe5njiYcpnD1TyWAvKEIwd5FK3VNyczr5a7XsQnScAEZsNdY8dq3I33tWeabESu7jj/MuYyApjxWkRlVSueOQTY9OlYDF2TR2Pwv69UxXDKPmYwBt1z8d37tH4Cnb7w+K+Im1KzkXcF+HODOgyX9Fv7lAuJWTOnrg9eGK5mNcVyHQR3xJPxWtIkkyfaroVjdYbE7LjuZ/J8rbYAQVkphmu5pp+wQcUMdeX+Mgv0761mZMGg+UdnRJzqHHtbQAxRHdZYcO9TvkRoThPPlmhKDpYgFfp2pCJCuEC0taZJD393UTzNGXscrlr48mREGX1m42ye8CghFfkK/Fi4JK3ePPKxA4pz82P813Q4HsgLKNP/5wFX8pIxr7dRTmOEtS5Uwu9kta3M0y+cg7NErE0ih19VAOUjKvj3wXgukpAOcjVhLJYG3hSu5M8YXp9aOY6IPW0ArP9cZHes2C6AA9at8UHEOmlXUaj0TzFW7CyQz+vIifDlSz5IjdSk8HJH8he8NPOrjvbyUQ==
 ```
 -->
 
@@ -460,7 +476,7 @@ drwxr-xr-x 2 root root   4096 Dec  2  2021 sshd_config.d
 -rw-r--r-- 1 root root    566 Feb 12  2022 ssh_host_rsa_key.pub    
 -rw-r--r-- 1 root root    342 Feb 12  2022 ssh_import_id
 vagrant@vagrant:~$
-vagrant@vagrant:~$ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDSXZT+pLmFITOlvFDbX6/+wcp0T9ywrh8RvgVwcUvV2F2/nvGbebKvvRdpr92u//UmXVx5KK7Uhw2GGLUjB9ayQEcRY+ZySWdTJ5h5ap2yapSLxuCr4iO5nfKfawvNOCkgB0ReYBm0FH5DcpPiLd1m5mfNXDOcnKWok6GwB7JX1gPeKXqZ3ZEBkps6M97EeVY32P8kgXPAAsPnVXtQI36/9r+48TN1UHkDGFbRMS/vSoYeqdLgBVv/wtpfvbR8ACd4MWBPRFFtvp9sRo3X38fQM1TCdQmv/3+EOd85DbRS/kLD6nLZ5fJvWeCOURFz2xj6mD2wORq4qTIdoEmAVRI57Sp9Z76eRxxjjndVL3E+RUEmHkLUG/On72ltJTiuimXMBtn0L9OGIOnWdApl7XeQB7FEfgFuQEITS5KVh5QPN72rFRvul00t1YbEQbZ5Kk80Bn4gASVO7ov/0WdruMFvlLxUucyHhbGsEu/eS23QlNqwR3PMnh42mkcSUzw1EGNXs0WIAxJPWJ7QqWaBFOWMT48ODJp2R67vSqH5I8l1MZ8hPze7jXRUwUMIWLKpGQ2Wwt77d720j3gGXsdl5/kpSMh9HDmZND3SUc+tUfOWsXh0Tws+IGIAxoi8YZcieH1D2Cm1smpt9aJr4pkOLPIwEEYUMaG4israEs9vY/fn2w==' | sudo tee /etc/ssh/trusted-CA.pem
+vagrant@vagrant:~$ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3+ayyUcQCxcUDWgAZ4KoD83ZGkx+T/NMyKZwu5d9Ok0rLeeQGpRgVKaEaKK4kOk5aLQzqQ4fK1z3O15IILk08ysI0oPEKyhg/QepWwRRCA6jnmU3Nbmff6pBhkD2smaUgctcwSf/bgGhOavQ3z0m5Ukb/Aw6KFRVpPFe5njiYcpnD1TyWAvKEIwd5FK3VNyczr5a7XsQnScAEZsNdY8dq3I33tWeabESu7jj/MuYyApjxWkRlVSueOQTY9OlYDF2TR2Pwv69UxXDKPmYwBt1z8d37tH4Cnb7w+K+Im1KzkXcF+HODOgyX9Fv7lAuJWTOnrg9eGK5mNcVyHQR3xJPxWtIkkyfaroVjdYbE7LjuZ/J8rbYAQVkphmu5pp+wQcUMdeX+Mgv0761mZMGg+UdnRJzqHHtbQAxRHdZYcO9TvkRoThPPlmhKDpYgFfp2pCJCuEC0taZJD393UTzNGXscrlr48mREGX1m42ye8CghFfkK/Fi4JK3ePPKxA4pz82P813Q4HsgLKNP/5wFX8pIxr7dRTmOEtS5Uwu9kta3M0y+cg7NErE0ih19VAOUjKvj3wXgukpAOcjVhLJYG3hSu5M8YXp9aOY6IPW0ArP9cZHes2C6AA9at8UHEOmlXUaj0TzFW7CyQz+vIifDlSz5IjdSk8HJH8he8NPOrjvbyUQ==' | sudo tee /etc/ssh/trusted-CA.pem
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvumPJpJHYKw269OjCVUEikrOLiOmkeRbWayWrWhK2zZXQLkfi7rCM0zEXNQGIh2gRtnhQpg9HeuwUKUYiIZ1991JMW5GYtMyBIdpAJVjp9VhWutH04Kd/50w3iqIMHTizZuQYlz+Hz97kN6wcUgpyXiOSeBCrBkNQRifnOAjeXQJOIRln/Nq1REqB8t6OzT4Pb7IHsVG5ty5AmnZz7/N3OSMCrJG11u8RABqtQoOi/wJFgd+mjoBvqf0mgZmGIwQ00PUtr/v6ZGH+R5UswzduFE6exHH6RPa4lQE6zXPaP6/6duP0ppeNOQT3OO+eCSmjTTvYfcjHJTpNTN10+VfnS7AKPfQTcge/Fm7afCL2LBAbGtItkwzhXKlT1JgEGliiOXD0DcOukbdKQcbYB+Ib/ThqbMEsfZNpOVGiIrZ8ADqC6AYfxdtDi7g0h+4bWK3b+GPZ/LJ6o4AdGrZv49Voji83mes6VOSnbKeAdwSp5biOuftKBM2CduoHZhPWNiWLG+3uRzuIDMA/kw1SFoVj1FKCarKWwSQAWf5PhM0Y3ywIUw9rGn7wDTWiK7ej0EVyYCbJ3twsXPR3edzNgy5vUle8HFtfPCvZEHpkW8y/Hrr7DKn0Xqxhvd1XbUbJ9Bv03C9qEKz66s2qmyFJeFuf810jqyZ7zC5uepgmzwsoAw==
 vagrant@vagrant:~$
 vagrant@vagrant:~$ ls -l /etc/ssh/
@@ -544,7 +560,7 @@ d. Click **"Add and Add Another"** to create another user `user`:
 - **New Password:** *(e.g. user123)*
 - **Verify Password:** *(e.g. user123)*
 
-Click **"Add"** to finish the creation. 
+Click **"Add"** to finish the creation.
 
 We should be able to see two users appearing in the **"Active users"** page.
 
@@ -554,7 +570,7 @@ Now we are all set in server's end. In order to have a user to login to the Vagr
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In our local host (Mac), create a SSH key pair
+a. In our local host (Mac? Ubuntu), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
@@ -564,6 +580,27 @@ ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
 
 ```bash
 ssh-add ~/.ssh/admin-key
+```
+
+If there are issues,
+
+```bash
+apk add openssh
+eval `ssh-agent -s`
+ssh-add
+```
+
+->
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install openssh-server
+systemctl status ssh
+sudo systemctl start ssh
+
+eval `ssh-agent -s`
+ssh-add
 ```
 
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
@@ -586,7 +623,14 @@ VAULT_TOKEN=$(curl -s \
     --data @payload.json \
     http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/devops |jq .auth.client_token|tr -d '"')
 
-curl -s --request POST --data @payload.json http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/devops
+curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops
+
+curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops | jq .auth.client_token|tr -d '"'
+
+curl -s --request POST --data @payload.json http://127.0.0.1:8200/v1/auth/ldap/login/devops
+
+curl -s --request POST --data @payload.json http://192.168.33.10:8200/v1/auth/ldap/login/devops
+
 
 # Note: We can see the token in `client_token` field
 
@@ -614,6 +658,19 @@ ssh -i admin-signed-key.pub admin@192.168.33.10
 
 # Wait for 3 mins and try again, We will see `Permission denied` error, as the certificate has expired
 ```
+
+<!--
+sudo apt install net-tools
+
+vagrant@vagrant:~$ netstat -an | grep 389
+tcp        0      0 0.0.0.0:7389            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN     
+tcp        0      0 10.0.2.15:38940         91.189.91.39:80         TIME_WAIT  
+tcp6       0      0 :::38927                :::*                    LISTEN     
+tcp6       0      0 :::7389                 :::*                    LISTEN     
+tcp6       0      0 :::389                  :::*                    LISTEN     
+unix  3      [ ]         STREAM     CONNECTED     20389  
+-->
 
 > Note: If We are in Vault container trying to login the Vagrant VM, We can use below `vault` commands as well:
 
