@@ -1,4 +1,4 @@
-(base) x239757@C02D238RMD6P 008-AnsibleVagrantJenkinsDeployment % ansible-playbook install-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
+(base) % ansible-playbook install-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
 SSH password: 
 BECOME password[defaults to SSH password]: 
 

@@ -5,11 +5,11 @@
   remote_user: admin
   become_user: root
   tasks:
-  - name: Uninstall Jenkins
-    apt:
-      name: jenkins
-      state: absent
-  - name: Uninstall Java
-    apt:
-      name: openjdk-11-jre
-      state: absent
+    - name: Uninstall Jenkins
+      apt:
+        name: jenkins
+        state: absent
+    - name: Uninstall Java
+      apt:
+        name: openjdk-11-jre
+        state: absent
