@@ -14,6 +14,28 @@ In this lab, we will learn how to use Ansible to install Jenkins.
 brew install ansible
 ```
 
+<!--
+### 2. Install Ansible for Ubuntu
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install ansible -y
+ansible --version
+```
+
+```bash
+vagrant@vagrant:~$ ansible --version
+
+ansible 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/vagrant/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.8.10 (default, Mar 13 2023, 10:26:41) [GCC 9.4.0]
+```
+-->
+
 ## Steps
 
 ### 1. Run Ansible Playbook
