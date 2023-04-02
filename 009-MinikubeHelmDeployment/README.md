@@ -1,19 +1,17 @@
-# Project 007: Managing SSH Access with Vault
+# Project 008: Helm Deployment in K8s
 
 ## Project Goal
 
-In this lab, we will learn how to get a **signed SSH certificate** from **Vault** for a **LDAP** user in order to login a Vagrant VM via SSH.
+In this lab, we will learn how to deploy a Jenkins via Helm Chart in K8s.
 
 ## Environments
 
 | #  | Env  | Y/N  | Recommended   |  Comment |
 |---|---|---|---|---|
-| 1 | Windows only | N | N |   |
+| 1 | Windows only | YN | YN |   |
 | 2 | Windows + Ubuntu | Y | Y |   |
-| 3 | Mac only | N | N |   |
+| 3 | Mac only | YN | YN |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
-
-This lab has to use Ubuntu (and docker inside it).
 
 <!--
 [Windows Only](01_N_WindowsOnly.md)

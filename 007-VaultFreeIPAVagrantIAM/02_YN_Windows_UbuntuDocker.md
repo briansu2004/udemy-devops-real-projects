@@ -2,6 +2,8 @@
 
 Windows + Ubuntu (Docker)
 
+Has issues!
+
 ## Scenario
 
 We have a running **FreeIPA** system which has two users: `devops` and `bob`.
