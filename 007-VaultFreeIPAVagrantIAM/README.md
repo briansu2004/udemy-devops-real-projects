@@ -21,5 +21,7 @@ In this lab, we will learn how to get a **signed SSH certificate** from **Vault*
 
 [Mac Only](03_N_MacOnly.md)
 
-[With_Mac_Ubuntu](04_Y_Mac_Ubuntu.md)
+[With_Mac_Ubuntu](04_Y_MacDocker_Ubuntu.md)
+
+[With_Mac_Ubuntu](04_Y_Mac_UbuntuDocker.md)
 -->
