@@ -26,6 +26,13 @@
         update_cache: no
         allow_unauthenticated: yes
 
+    # sudo apt-get update
+    # sudo apt-get install fontconfig openjdk-11-jre
+    # sudo apt-get install jenkins
+    - name: Install fontconfig
+      apt:
+        name: fontconfig
+        state: present
     - name: Install Java
       apt:
         name: openjdk-11-jre
