@@ -448,14 +448,14 @@ vagrant@vagrant:/etc/ssh$ tail /etc/ssh/ssh_config
 ```
 -->
 
-### 7. [Windows] Create LDAP users in **FreeIPA**
+### 7. Create LDAP users in **FreeIPA**
 
 a. In our local host (Mac), update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
 <!--
 update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
-a. In our local host (Mac), update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+a. In our local host, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
 ???
 -->
