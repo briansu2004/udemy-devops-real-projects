@@ -27,10 +27,8 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 ### 1. Docker compose
 
 ```bash
-cd \devbox
-rd /s /q udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects\007-VaultFreeIPAVagrantIAM
+cd udemy-devops-real-projects/007-VaultFreeIPAVagrantIAM
 docker compose up
 ```
 
@@ -457,8 +455,9 @@ a. In our local host (Mac), update `/etc/hosts` by adding this entry: `0.0.0.0 i
 <!--
 update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
-
 a. In our local host (Mac), update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+
+???
 -->
 
 b. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.devopsdaydayup.org>). Type the username as `admin` and the password as `admin123`
@@ -485,11 +484,11 @@ Click **"Add"** to finish the creation. We should be able to see two users appea
 
 ### 8. Client Configurations to login as admin user
 
-Now We are all set in server's end. In order to have a user to login to the Vagrant Host, the user needs to **create an SSH key pair** and then send the SSH **public key** to **Vault** to be **signed** by its SSH CA. The **signed SSH certificate** will then be used to connect to the target host.
+Now we are all set in server's end. In order to have a user to login to the Vagrant Host, the user needs to **create an SSH key pair** and then send the SSH **public key** to **Vault** to be **signed** by its SSH CA. The **signed SSH certificate** will then be used to connect to the target host.
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In Our **local host**, create a SSH key pair
+a. In our local host (Mac?), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
@@ -527,7 +526,7 @@ cat > public-key.json <<EOF
 }
 EOF
 
-> Note: We can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
+> Note: we can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
 
 SIGNED_KEY=$(curl \
     --header "X-Vault-Token: $VAULT_TOKEN" \
@@ -538,7 +537,7 @@ echo $SIGNED_KEY
 SIGNED_KEY=${SIGNED_KEY::-2}
 echo $SIGNED_KEY > admin-signed-key.pub
 
-ssh -i admin-signed-key.pub  admin@192.168.33.10
+ssh -i admin-signed-key.pub admin@192.168.33.10
 
 # Wait for 3 mins and try again, We will see `Permission denied` error, as the certificate has expired
 ```
@@ -568,11 +567,13 @@ admin@192.168.33.10: Permission denied (publickey).
 
 Now we are going to login as non-admin user. In FreeIPA, it is `bob`. And in the Vagrant VM, it is `app-user`. We will be authenticated as `bob` from FreeIPA in Vault and then create a signed ssh key to login the Vagrant VM as `app-user`.
 
-a. In Our **local host**, create a SSH key pair
+a. In our local host (Mac?), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/bob-key
-> Note: Just leave it blank and press Enter
+
+# Note: Just leave it blank and press Enter
+
 ssh-add ~/.ssh/bob-key
 ```
 
@@ -592,7 +593,8 @@ VAULT_TOKEN=$(curl -s \
     --request POST \
     --data @payload.json \
     http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/bob |jq .auth.client_token|tr -d '"')
-> Note: We can see the token in `client_token` field
+
+#> Note: We can see the token in `client_token` field
 
 echo $VAULT_TOKEN
 
@@ -602,7 +604,8 @@ cat > public-key.json <<EOF
   "valid_principals": "user"
 }
 EOF
-> Note: We can retrieve the public key by running the following command: `cat ~/.ssh/bob-key.pub`
+
+#> Note: We can retrieve the public key by running the following command: `cat ~/.ssh/bob-key.pub`
 
 SIGNED_KEY=$(curl \
     --header "X-Vault-Token: $VAULT_TOKEN" \
