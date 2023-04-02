@@ -74,7 +74,7 @@ We can explore all Minikube resources in this UI website.
 
 ### 3. Add Helm Repo
 
-Once Helm is set up properly, **add** the **repo** as follows:
+Add the helm repo as follows:
 
 ```dos
 helm repo add jenkins https://charts.jenkins.io
@@ -83,7 +83,11 @@ helm repo update
 
 ### 4. Install Jenkins Helm Chart
 
-Helm uses a packaging format called **charts**. A **chart** is a collection of files that describe a related set of Kubernetes resources, such as deployment, statefulset, secret, configmap, etc.. We are going to download/install the chart from the **jenkins** repo:
+Helm uses a packaging format called **charts**.
+
+A **chart** is a collection of files that describe a related set of Kubernetes resources, such as deployment, statefulset, secret, configmap, etc.
+
+We are going to download/install the chart from the **jenkins** repo:
 
 ```dos
 helm install jenkins jenkins/jenkins 
@@ -92,7 +96,7 @@ helm install jenkins jenkins/jenkins
 You can check the logs by running below command:
 
 ```dos
-minikube logs
+minikube logs -f
 ```
 
 ### 5. Access Jenkins Website
@@ -100,7 +104,7 @@ minikube logs
 Now, you have deployed a Jenkins service in the Minikube. You can check if the Jenkins pod is in `Running` state
 
 ```dos
-k get pod
+kubectl get pod
 ```
 
 If so, **forward** the port to your local and then you can access the Jenkins website
@@ -109,13 +113,34 @@ If so, **forward** the port to your local and then you can access the Jenkins we
 kubectl --namespace default port-forward svc/jenkins 8080:8080
 ```
 
-Open your **browser** and type `http://0.0.0.0:8080`
+Open your **browser** and type `http://127.0.0.1:8080`
 
-> Note: You can retrieve the password by running following command. The username is `admin`.
+<!--
+`http://0.0.0.0:8080`
+-->
+
+The username is `admin`.
+
+The password can be retireved with this command.:
 
 ```dos
+kubectl exec --namespace default -it svc/jenkins -c jenkins -- cat /run/secrets/additional/chart-admin-password
+```
+
+<!--
+```bash
 kubectl exec --namespace default -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
 ```
+
+PS C:\devbox> kubectl exec --namespace default -it svc/jenkins -c jenkins -- cat /run/secrets/additional/chart-admin-password
+1J9EViPpHcvFrF0dLSQrSc
+-->
+
+![1680473696584](image/01_YN_WindowsOnly/1680473696584.png)
+
+Minikue dashboard:
+
+![1680473511041](image/01_YN_WindowsOnly/1680473511041.png)
 
 <!--
 

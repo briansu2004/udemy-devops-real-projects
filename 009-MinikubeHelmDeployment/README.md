@@ -13,9 +13,9 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in K8s.
 | 3 | Mac only | YN | YN |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
 
-<!--
-[Windows Only](01_N_WindowsOnly.md)
+[Windows Only](01_Y_WindowsOnly.md)
 
+<!--
 [With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 [Mac Only](03_N_MacOnly.md)
