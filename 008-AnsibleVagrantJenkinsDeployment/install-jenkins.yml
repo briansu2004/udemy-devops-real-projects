@@ -41,4 +41,4 @@
     - name: Install Jenkins
       apt:
         name: jenkins
-        state: present
+        # state: present
