@@ -6,11 +6,47 @@ Still have the same issue.
 
 Solutions:
 
-1. Try again at home 
+1. Try again at home
 
 2. Wait for tomorrow
 
 Last Sunday also had same experience!
+
+3. make sure jenkins is available for the command `apt search jenkins`!
+
+Maybe Sunday they are doing some updates!
+
+```bash
+vagrant@vagrant:~$ sudo apt-get install jenkins
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Package jenkins is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'jenkins' has no installation candidate
+
+vagrant@vagrant:~$ apt search jenkins | grep jenkins
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+jenkins-debian-glue/focal,focal 0.20.1 all
+jenkins-debian-glue-buildenv/focal,focal 0.20.1 all
+jenkins-job-builder/focal,focal 3.2.0-1 all
+jenkins-job-builder-doc/focal,focal 3.2.0-1 all
+libjenkins-htmlunit-core-js-java/focal,focal 2.6-hudson-1-1fakesync1 all
+libjenkins-json-java/focal,focal 2.4-jenkins-3-5 all
+libjenkins-json-java-doc/focal,focal 2.4-jenkins-3-5 all
+  Documentation for libjenkins-json-java
+libjenkins-trilead-ssh2-java/focal,focal 217-jenkins-8-1 all
+libjenkins-trilead-ssh2-java-doc/focal,focal 217-jenkins-8-1 all
+  Documentation for libjenkins-trilead-ssh2-java
+python-jenkins-doc/focal,focal 0.4.16-1 all
+python3-jenkins/focal,focal 0.4.16-1 all
+python3-jenkins-job-builder/focal,focal 3.2.0-1 all
+python3-jenkinsapi/focal,focal 0.3.11-1ubuntu1 all
+```
 
 <!--
 Issues:
@@ -71,7 +107,6 @@ ansible 2.9.6
 
 ```bash
 ssh-keygen -t rsa -b 4096
-
 
 ssh-copy-id admin@192.168.33.10
 
