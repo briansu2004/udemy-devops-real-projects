@@ -359,9 +359,13 @@ Success! Data written to: auth/ldap/users/bob
 
 ### 6. Configure the SSH Setting in the **Vagrant VM** Host
 
+We need Vagrant VM for this step.
+
 ```dos
 vagrant up
-vagrant ssh 
+
+vagrant ssh
+
 echo 'ssh-rsa <TRUSTED CA Key>' |sudo tee /etc/ssh/trusted-CA.pem
 > Note: The trusted CA key was generated in previous step 2
 
