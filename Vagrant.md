@@ -62,4 +62,4 @@ No need.
 
 ### Vagrant password
 
-The default password is "Vagrant"
+The default password is "vagrant"
