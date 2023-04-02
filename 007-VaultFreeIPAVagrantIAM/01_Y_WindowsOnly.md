@@ -33,10 +33,14 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 ### 1. Docker compose
 
 ```dos
-docker-compose up
+cd \devbox
+rd /s /q udemy-devops-real-projects
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects\007-VaultFreeIPAVagrantIAM
+docker compose up
 ```
 
-### 1. Initiate Vault
+### 2. Initiate Vault
 
 a. **Initializing** the Vault
 
@@ -50,6 +54,31 @@ vault operator init
 ```
 
 **Note:** Make a note of the output. This is the only time ever We see those **unseal keys** and **root token**. If we lose it, We won't be able to seal vault any more.
+
+<!--
+```dos
+/vault/data # export VAULT_ADDR='http://127.0.0.1:8200'
+/vault/data # vault operator init
+Unseal Key 1: uauEc34ZOx1FX6cCxXcBegm6D6W4zUFSQCJEOrdQZzcs
+Unseal Key 2: eFlQBBA2JzSyW7cBCBbjApovtOC92tfg59Ctu52V4SI4
+Unseal Key 3: GED+RMHw02o565J7/oxn2UmFNJo4In6vC3nf+Khk2vLH
+Unseal Key 4: KxXKZil+3crDf9sKz6mXd+wm4lkHHk2mGgIG1TU1gXQK
+Unseal Key 5: /e4OC/51pclV3CMYjQKqu+mw3cQrFk62QULbJUAXkddY
+
+Initial Root Token: hvs.Ngw2rPVdoqiScPQF4zjLvmEv
+
+Vault initialized with 5 key shares and a key threshold of 3. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,        
+restarted, or stopped, you must supply at least 3 of these keys to unseal it 
+before it can start servicing requests.
+
+Vault does not store the generated root key. Without at least 3 keys to      
+reconstruct the root key, Vault will remain permanently sealed!
+
+It is possible to generate new unseal keys, provided you have a quorum of    
+existing unseal keys shares. See "vault operator rekey" for more information.
+```
+-->
 
 b. **Unsealing** the vault
 
@@ -105,10 +134,23 @@ policies             ["root"]
 
 ```dos
 vault secrets enable -path=ssh-client-signer ssh
+
 vault write ssh-client-signer/config/ca generate_signing_key=true
 ```
 
-We should get **a SSH CA public key** in the output, which will be used later on the Vagrant VM host configurations. **Make a note of the key**.
+<!--
+```bash
+/vault/data # vault secrets enable -path=ssh-client-signer ssh
+Success! Enabled the ssh secrets engine at: ssh-client-signer/
+/vault/data # 
+/vault/data # vault write ssh-client-signer/config/ca generate_signing_key=true
+Key           Value
+---           -----
+public_key    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvumPJpJHYKw269OjCVUEikrOLiOmkeRbWayWrWhK2zZXQLkfi7rCM0zEXNQGIh2gRtnhQpg9HeuwUKUYiIZ1991JMW5GYtMyBIdpAJVjp9VhWutH04Kd/50w3iqIMHTizZuQYlz+Hz97kN6wcUgpyXiOSeBCrBkNQRifnOAjeXQJOIRln/Nq1REqB8t6OzT4Pb7IHsVG5ty5AmnZz7/N3OSMCrJG11u8RABqtQoOi/wJFgd+mjoBvqf0mgZmGIwQ00PUtr/v6ZGH+R5UswzduFE6exHH6RPa4lQE6zXPaP6/6duP0ppeNOQT3OO+eCSmjTTvYfcjHJTpNTN10+VfnS7AKPfQTcge/Fm7afCL2LBAbGtItkwzhXKlT1JgEGliiOXD0DcOukbdKQcbYB+Ib/ThqbMEsfZNpOVGiIrZ8ADqC6AYfxdtDi7g0h+4bWK3b+GPZ/LJ6o4AdGrZv49Voji83mes6VOSnbKeAdwSp5biOuftKBM2CduoHZhPWNiWLG+3uRzuIDMA/kw1SFoVj1FKCarKWwSQAWf5PhM0Y3ywIUw9rGn7wDTWiK7ej0EVyYCbJ3twsXPR3edzNgy5vUle8HFtfPCvZEHpkW8y/Hrr7DKn0Xqxhvd1XbUbJ9Bv03C9qEKz66s2qmyFJeFuf810jqyZ7zC5uepgmzwsoAw==
+```
+-->
+
+We should get **a SSH CA public key** in the output, which will be used later on the Vagrant VM host configurations. Make a note of this key.
 
 ### 3. Create Vault **roles** for signing client SSH keys
 
@@ -134,6 +176,27 @@ vault write ssh-client-signer/roles/admin-role -<<EOH
 EOH
 ```
 
+<!--
+```bash
+/vault/data # vault write ssh-client-signer/roles/admin-role -<<EOH
+> {
+>  "allow_user_certificates": true,
+>  "allowed_users": "admin",
+>  "allowed_extensions": "",
+>  "default_extensions": [
+>  {
+>  "permit-pty": ""
+>  }
+>  ],
+>  "key_type": "ca",
+>  "default_user": "admin",
+>  "ttl": "3m0s"
+> }
+> EOH
+Success! Data written to: ssh-client-signer/roles/admin-role
+```
+-->
+
 user-role
 
 ```dos
@@ -154,6 +217,27 @@ vault write ssh-client-signer/roles/user-role -<<EOH
 EOH
 ```
 
+<!--
+```bash
+vault write ssh-client-signer/roles/user-role -<</vault/data # vault write ssh-client-signer/roles/user-role -<<EOH
+> {
+>  "allow_user_certificates": true,
+>  "allowed_users": "user",
+>  "allowed_extensions": "",
+>  "default_extensions": [
+>  {
+>  "permit-pty": ""
+>  }
+>  ],
+>  "key_type": "ca",
+>  "default_user": "user",
+>  "ttl": "3m0s"
+> }
+> EOH
+Success! Data written to: ssh-client-signer/roles/user-role
+```
+-->
+
 ### 4. Create Vault **Policies**
 
 We are going to create policies for cooresponding roles created above.
@@ -173,6 +257,22 @@ path "ssh-client-signer/sign/admin-role" {
 EOF
 ```
 
+<!--
+```bash
+/vault/data # vault policy write admin-policy - << EOF
+> # List available SSH roles
+> path "ssh-client-signer/roles/*" {
+>  capabilities = ["list"]
+> }
+> # Allow access to SSH role
+> path "ssh-client-signer/sign/admin-role" {
+>  capabilities = ["create","update"]
+> }
+> EOF
+Success! Uploaded policy: admin-policy
+```
+-->
+
 user-policy
 
 ```dos
@@ -187,6 +287,22 @@ path "ssh-client-signer/sign/user-role" {
 }
 EOF
 ```
+
+<!--
+```bash
+/vault/data # vault policy write user-policy - << EOF
+> # List available SSH roles
+> path "ssh-client-signer/roles/*" {
+>  capabilities = ["list"]
+> }
+> # Allow access to SSH role
+> path "ssh-client-signer/sign/user-role" {
+>  capabilities = ["create","update"]
+> }
+> EOF
+Success! Uploaded policy: user-policy
+```
+-->
 
 ### 5. Enable **LDAP Engine** and configure the FreeLDAP setting in Vault
 
@@ -209,8 +325,37 @@ vault write auth/ldap/config \
 
 # Attach the policies to the roles
 vault write auth/ldap/users/devops  policies=admin-policy
+
 vault write auth/ldap/users/bob  policies=user-policy
 ```
+
+<!--
+```bash
+/vault/data # vault auth enable ldap
+Success! Enabled ldap auth method at: ldap/
+/vault/data #
+/vault/data # vault write auth/ldap/config \
+>     url="ldaps://ipa.devopsdaydayup.org" \
+>     userattr="uid" \
+>     userdn="cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
+>     groupdn="cn=groups,cn=accounts,dc=devopsdaydayup,dc=org" \
+>     groupfilter="" \
+>     binddn="uid=admin,cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
+>     bindpass="admin123" \ <--- This is the password for FreeIPA admin user
+sh: can't open ---: no such file
+/vault/data #     insecure_tls=true \
+>     certificate="" \
+>     starttls=false \
+>     upndomain="" \
+>     discoverdn=true
+/vault/data #
+/vault/data # vault write auth/ldap/users/devops  policies=admin-policy
+Success! Data written to: auth/ldap/users/devops
+/vault/data #
+/vault/data # vault write auth/ldap/users/bob  policies=user-policy
+Success! Data written to: auth/ldap/users/bob
+```
+-->
 
 ### 6. Configure the SSH Setting in the **Vagrant VM** Host
 
@@ -409,3 +554,9 @@ ssh -i ~/.ssh/user-signed-key.pub user@192.168.33.10
 ```
 
 We can now ssh to the Vagrant VM via the signed ssh key. We can type `whoami` to see which user account We are logging with.
+
+<!--
+```bash
+
+```
+-->
