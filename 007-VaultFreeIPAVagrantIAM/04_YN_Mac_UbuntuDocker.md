@@ -654,9 +654,9 @@ echo $SIGNED_KEY
 echo $SIGNED_KEY > admin-signed-key.pub
 
 ssh -i admin-signed-key.pub admin@192.168.33.10
-
-# Wait for 3 mins and try again, We will see `Permission denied` error, as the certificate has expired
 ```
+
+Wait for 3 mins and try again, we will see `Permission denied` error, as the certificate has expired.
 
 <!--
 curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops
@@ -671,6 +671,7 @@ DevOps 🚀 devbox % curl -s --request POST --data @payload.json http://192.168.
 DevOps 🚀 devbox % curl -s --request POST --data @payload.json http://192.168.33.10:8200/v1/auth/ldap/login/devops | jq .auth.client_token|tr -d '"'
 hvs.CAESIEUFe5aHjDu8o6FrRwnuqYrJwxrHxWA1pS9r_Msm9B31Gh4KHGh2cy5uV1FVN3E2bUNKckRTdVI0djBrQVJrdWc
 
+# this command will have different results for all runs
 DevOps 🚀 devbox % curl \
     --header "X-Vault-Token: $VAULT_TOKEN" \
     --request POST \
@@ -688,6 +689,22 @@ DevOps 🚀 devbox % curl \
 100  2784    0  2333  100   451  55407  10711 --:--:-- --:--:-- --:--:-- 89806
 ssh-rsa-cert-v01@openssh.com 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\n%   
 
+DevOps 🚀 devbox % ssh -i admin-signed-key.pub admin@192.168.33.10
+admin@192.168.33.10's password: 
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-42-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+New release '22.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
 ```
 -->
 
