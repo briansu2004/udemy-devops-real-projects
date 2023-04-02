@@ -22,6 +22,18 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ### 2. Install Vagrant for Mac
 
+### 3. Config hosts
+
+a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
+
+b. In our Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+
+```bash
+vagrant up
+vagrant ssh
+sudo vim /etc/hosts
+```
+
 ## Steps
 
 ### 1. Docker compose
@@ -450,12 +462,12 @@ vagrant@vagrant:/etc/ssh$ tail /etc/ssh/ssh_config
 
 ### 7. Create LDAP users in **FreeIPA**
 
-a. In our local host (Mac), update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
-
 <!--
 update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
 a. In our local host, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+
+a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
 
 ???
 -->
