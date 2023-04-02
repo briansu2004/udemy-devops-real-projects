@@ -2,7 +2,34 @@
 
 Mac + Ubunbu (Docker)
 
-???
+Issues:
+
+<!--
+when `docker compose`
+
+```bash
+Attaching to 007-vaultfreeipavagrantiam-freeipa-1, 007-vaultfreeipavagrantiam-vault-1
+007-vaultfreeipavagrantiam-vault-1    | ==> Vault server configuration:
+007-vaultfreeipavagrantiam-vault-1    | 
+007-vaultfreeipavagrantiam-vault-1    |              Api Address: http://127.0.0.1:8200
+007-vaultfreeipavagrantiam-vault-1    |                      Cgo: disabled
+007-vaultfreeipavagrantiam-vault-1    |          Cluster Address: https://127.0.0.1:8201
+007-vaultfreeipavagrantiam-vault-1    |               Go Version: go1.19.2
+007-vaultfreeipavagrantiam-vault-1    |               Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", max_request_duration: "1m30s", max_request_size: "33554432", tls: "disabled")
+007-vaultfreeipavagrantiam-vault-1    |                Log Level: info
+007-vaultfreeipavagrantiam-vault-1    |                    Mlock: supported: true, enabled: false
+007-vaultfreeipavagrantiam-vault-1    |            Recovery Mode: false
+007-vaultfreeipavagrantiam-vault-1    |                  Storage: raft (HA available)
+007-vaultfreeipavagrantiam-vault-1    |                  Version: Vault v1.12.1, built 2022-10-27T12:32:05Z
+007-vaultfreeipavagrantiam-vault-1    |              Version Sha: e34f8a14fb7a88af4640b09f3ddbb5646b946d9c
+007-vaultfreeipavagrantiam-vault-1    | 
+007-vaultfreeipavagrantiam-vault-1    | ==> Vault server started! Log data will stream in below:
+007-vaultfreeipavagrantiam-vault-1    | 
+007-vaultfreeipavagrantiam-vault-1    | 2023-04-02T13:56:03.810Z [INFO]  proxy environment: http_proxy="" https_proxy="" no_proxy=""
+007-vaultfreeipavagrantiam-vault-1    | 2023-04-02T13:56:03.822Z [INFO]  core: Initializing version history cache for core
+Error response from daemon: driver failed programming external connectivity on endpoint 007-vaultfreeipavagrantiam-freeipa-1 (fbf037e0e3c777469c8e41405b91ea029a8f7dacc686356ccecd80db6f51b291): Error starting userland proxy: listen tcp4 0.0.0.0:53: bind: address already in use
+```
+-->
 
 ## Scenario
 
@@ -26,12 +53,37 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
 
+```bash
+cat /etc/hosts
+ping ipa.devopsdaydayup.org
+```
+
 b. In our Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
 ```bash
 vagrant up
 vagrant ssh
+
 sudo vim /etc/hosts
+
+cat /etc/hosts
+ping ipa.devopsdaydayup.org
+```
+
+### 4. Config Vagrant VM
+
+Run below commands to stop systemd-resolved
+
+```bash
+sudo systemctl disable systemd-resolved
+sudo systemctl stop systemd-resolved
+```
+
+Add below entry to `/etc/resolv.conf`
+
+```bash
+nameserver 8.8.8.8
+nameserver 8.8.4.4
 ```
 
 ## Steps
