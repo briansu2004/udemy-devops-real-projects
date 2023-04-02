@@ -2,43 +2,9 @@
 
 Windows + Ubunbu (Docker)
 
-<!--
-TODO:
+## Project Goal
 
-Change ipa.mydevopsrealprojects.com to ipa.mydevopsrealprojects.com
-
-need to update `.env` file as well.
-
-Issues:
-
-<!--
-when `docker compose`
-
-```bash
-Attaching to 007-vaultfreeipavagrantiam-freeipa-1, 007-vaultfreeipavagrantiam-vault-1
-007-vaultfreeipavagrantiam-vault-1    | ==> Vault server configuration:
-007-vaultfreeipavagrantiam-vault-1    | 
-007-vaultfreeipavagrantiam-vault-1    |              Api Address: http://127.0.0.1:8200
-007-vaultfreeipavagrantiam-vault-1    |                      Cgo: disabled
-007-vaultfreeipavagrantiam-vault-1    |          Cluster Address: https://127.0.0.1:8201
-007-vaultfreeipavagrantiam-vault-1    |               Go Version: go1.19.2
-007-vaultfreeipavagrantiam-vault-1    |               Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", max_request_duration: "1m30s", max_request_size: "33554432", tls: "disabled")
-007-vaultfreeipavagrantiam-vault-1    |                Log Level: info
-007-vaultfreeipavagrantiam-vault-1    |                    Mlock: supported: true, enabled: false
-007-vaultfreeipavagrantiam-vault-1    |            Recovery Mode: false
-007-vaultfreeipavagrantiam-vault-1    |                  Storage: raft (HA available)
-007-vaultfreeipavagrantiam-vault-1    |                  Version: Vault v1.12.1, built 2022-10-27T12:32:05Z
-007-vaultfreeipavagrantiam-vault-1    |              Version Sha: e34f8a14fb7a88af4640b09f3ddbb5646b946d9c
-007-vaultfreeipavagrantiam-vault-1    | 
-007-vaultfreeipavagrantiam-vault-1    | ==> Vault server started! Log data will stream in below:
-007-vaultfreeipavagrantiam-vault-1    | 
-007-vaultfreeipavagrantiam-vault-1    | 2023-04-02T13:56:03.810Z [INFO]  proxy environment: http_proxy="" https_proxy="" no_proxy=""
-007-vaultfreeipavagrantiam-vault-1    | 2023-04-02T13:56:03.822Z [INFO]  core: Initializing version history cache for core
-Error response from daemon: driver failed programming external connectivity on endpoint 007-vaultfreeipavagrantiam-freeipa-1 (fbf037e0e3c777469c8e41405b91ea029a8f7dacc686356ccecd80db6f51b291): Error starting userland proxy: listen tcp4 0.0.0.0:53: bind: address already in use
-```
--->
-
-## Scenario
+In this lab, we will learn how to get a **signed SSH certificate** from **Vault** for a **LDAP** user in order to login a Vagrant VM via SSH.
 
 We have a running **FreeIPA** system which has two users: `devops` and `bob`.
 
@@ -52,13 +18,15 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ## Prerequisites
 
-### 1. Install Docker for Windows
+### 1. Install Vagrant for Windows
 
-### 2. Install Vagrant for Windows
+### 2. Install Docker for Ubunbu
 
-### 3. Config hosts
+### 3. Config the hosts for Windows and Ubuntu
 
 a. In the local host (Windows), update `C:\Windows\System32\drivers\etc\hosts` by adding this entry: `192.168.33.10 ipa.mydevopsrealprojects.com`
+
+Verify -
 
 ```dos
 ping ipa.mydevopsrealprojects.com
@@ -72,17 +40,18 @@ vagrant ssh
 
 sudo vim /etc/hosts
 
-cat /etc/hosts
 ping ipa.mydevopsrealprojects.com
 ```
 
-### 4. Config the Vagrant VM
+### 4. Config the Ubuntu
 
 Run below commands to stop systemd-resolved
 
 ```bash
 sudo systemctl disable systemd-resolved
 sudo systemctl stop systemd-resolved
+
+sudo apt install jq -y
 ```
 
 <!--
@@ -98,18 +67,6 @@ And add these entries to `/etc/resolv.conf`
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
-
-<!--
-Clean up:
-
-```bash
-docker container ls -a
-docker volume ls 
-docker image ls 
-
-docker volume ls -q | xargs docker volume rm
-```
--->
 
 ## Steps
 
@@ -209,7 +166,7 @@ identity_policies    []
 policies             ["root"]
 ```
 
-### 2. Enable **ssh-client-signer** Engine in Vault
+### 3. Enable **ssh-client-signer** Engine in Vault
 
 ```bash
 vault secrets enable -path=ssh-client-signer ssh
@@ -231,7 +188,7 @@ public_key    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDJp1VviwBqjtXiBzti+WOlO4nmUJ
 
 We should get **a SSH CA public key** in the output, which will be used later on the Vagrant VM host configurations. Make a note of this key.
 
-### 3. Create Vault **roles** for signing client SSH keys
+### 4. Create Vault **roles** for signing client SSH keys
 
 We are going to create two roles in Vault. One is `admin-role` and another one is `user-role`.
 
@@ -317,7 +274,7 @@ Success! Data written to: ssh-client-signer/roles/user-role
 ```
 -->
 
-### 4. Create Vault **Policies**
+### 5. Create Vault **Policies**
 
 We are going to create policies for cooresponding roles created above.
 
@@ -383,7 +340,7 @@ Success! Uploaded policy: user-policy
 ```
 -->
 
-### 5. Enable **LDAP Engine** and configure the FreeLDAP setting in Vault
+### 6. Enable **LDAP Engine** and configure the FreeLDAP setting in Vault
 
 ```bash
 vault auth enable ldap
@@ -436,7 +393,7 @@ Success! Data written to: auth/ldap/users/bob
 ```
 -->
 
-### 6. Configure the SSH Setting in the **Vagrant VM** Host
+### 7. Configure the SSH Setting in the **Vagrant VM** Host
 
 We need Vagrant VM for this step.
 
@@ -537,23 +494,15 @@ vagrant@vagrant:/etc/ssh$ tail /etc/ssh/ssh_config
 ```
 -->
 
-### 7. Create LDAP users in **FreeIPA**
+### 8. Create LDAP users in **FreeIPA**
+
+a. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.mydevopsrealprojects.com>). Type the username as `admin` and the password as `admin123`
 
 <!--
-update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
-
-a. In our local host, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
-
-a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.mydevopsrealprojects.com`
-
-???
+**Note**: they are defined in `.env` file.
 -->
 
-b. Open the **browser** and go to The **FreeIPA portal** (<https://ipa.mydevopsrealprojects.com>). Type the username as `admin` and the password as `admin123`
-
-**Note**: they are defined in `.env` file.
-
-c. Click **"Add"** in **"Users"** page and enter below info:
+b. Click **"Add"** in **"Users"** page and enter below info:
 
 - **User login:** devops
 - **First Name:** devops
@@ -561,7 +510,7 @@ c. Click **"Add"** in **"Users"** page and enter below info:
 - **New Password:** *(e.g. admin123)*
 - **Verify Password:** *(e.g. admin123)*
 
-d. Click **"Add and Add Another"** to create another user `user`:
+c. Click **"Add and Add Another"** to create another user `user`:
 
 - **User login:** bob
 - **First Name:** bob
@@ -573,7 +522,7 @@ Click **"Add"** to finish the creation.
 
 We should be able to see two users appearing in the **"Active users"** page.
 
-### 8. Client Configurations to login as admin user
+### 9. Client Configurations to login as admin user
 
 Now we are all set in server's end. In order to have a user to login to the Vagrant Host, the user needs to **create an SSH key pair** and then send the SSH **public key** to **Vault** to be **signed** by its SSH CA. The **signed SSH certificate** will then be used to connect to the target host.
 
@@ -585,12 +534,15 @@ a. In our local host (Mac? Ubuntu), create a SSH key pair
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
 ```
 
+<!--
 > Note: Just leave it blank and press Enter
+-->
 
 ```bash
 ssh-add ~/.ssh/admin-key
 ```
 
+<!--
 If there are issues,
 
 ```bash
@@ -611,30 +563,26 @@ sudo systemctl start ssh
 eval `ssh-agent -s`
 ssh-add
 ```
+-->
 
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
 
 ```bash
 # Note: This is the password for `admin` user in the Vagrant VM
-
 cat > payload.json<<EOF
 {
   "password": "admin123"  
 }
 EOF
 
-sudo apt install jq -y
-
-#VAULT_ADDRESS=0.0.0.0
 VAULT_ADDRESS=192.168.33.10
+echo $VAULT_ADDRESS
 
+# Note: We can see the token in `client_token` field
 VAULT_TOKEN=$(curl -s \
     --request POST \
     --data @payload.json \
     http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/devops |jq .auth.client_token|tr -d '"')
-
-# Note: We can see the token in `client_token` field
-
 echo $VAULT_TOKEN
 
 cat > public-key.json <<EOF
@@ -651,10 +599,7 @@ SIGNED_KEY=$(curl \
     --request POST \
     --data @public-key.json \
     http://$VAULT_ADDRESS:8200/v1/ssh-client-signer/sign/admin-role | jq .data.signed_key|tr -d '"'|tr -d '\n')
-
 echo $SIGNED_KEY
-
-#SIGNED_KEY=${SIGNED_KEY::-2}
 
 echo $SIGNED_KEY > admin-signed-key.pub
 
@@ -664,6 +609,8 @@ ssh -i admin-signed-key.pub admin@192.168.33.10
 Wait for 3 mins and try again, we will see `Permission denied` error, as the certificate has expired.
 
 <!--
+#SIGNED_KEY=${SIGNED_KEY::-2}
+
 curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops
 curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops | jq .auth.client_token|tr -d '"'
 curl -s --request POST --data @payload.json http://127.0.0.1:8200/v1/auth/ldap/login/devops
@@ -726,6 +673,7 @@ tcp6       0      0 :::389                  :::*                    LISTEN
 unix  3      [ ]         STREAM     CONNECTED     20389  
 -->
 
+<!--
 > Note: If We are in Vault container trying to login the Vagrant VM, We can use below `vault` commands as well:
 
 ```bash
@@ -746,6 +694,7 @@ We can type `whoami` to see which user account We are logging with.
 $ ssh -i admin-signed-key.pub -o IdentitiesOnly=yes admin@192.168.33.10
 admin@192.168.33.10: Permission denied (publickey).
 ```
+-->
 
 ### 9. Client Configurations to login as non-admin user
 
@@ -755,8 +704,6 @@ a. In our local host (Mac?), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/bob-key
-
-# Note: Just leave it blank and press Enter
 
 ssh-add ~/.ssh/bob-key
 ```
@@ -771,15 +718,13 @@ cat > payload.json<<EOF
 }
 EOF
 
-sudo apt install jq -y
-VAULT_ADDRESS=0.0.0.0
+VAULT_ADDRESS=192.168.33.10
+echo $VAULT_ADDRESS
+
 VAULT_TOKEN=$(curl -s \
     --request POST \
     --data @payload.json \
     http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/bob |jq .auth.client_token|tr -d '"')
-
-#> Note: We can see the token in `client_token` field
-
 echo $VAULT_TOKEN
 
 cat > public-key.json <<EOF
@@ -797,14 +742,15 @@ SIGNED_KEY=$(curl \
     --data @public-key.json \
     http://$VAULT_ADDRESS:8200/v1/ssh-client-signer/sign/user-role | jq .data.signed_key|tr -d '"'|tr -d '\n')
 echo $SIGNED_KEY
-SIGNED_KEY=${SIGNED_KEY::-2}
+#SIGNED_KEY=${SIGNED_KEY::-2}
 echo $SIGNED_KEY > bob-signed-key.pub
 
-ssh -i bob-signed-key.pub -i ~/.ssh/bob-key  app-user@192.168.33.10
-
-# Wait for 3 mins and try again, We will see `Permission denied` error, as the certificate has expired
+ssh -i bob-signed-key.pub -i ~/.ssh/bob-key app-user@192.168.33.10
 ```
 
+Wait for 3 mins and try again, we will see `Permission denied` error, as the certificate has expired
+
+<!--
 > Note: If We are in Vault container trying to login the Vagrant VM, We can use below `vault` commands as well:
 
 ```bash
@@ -816,9 +762,4 @@ ssh -i ~/.ssh/user-signed-key.pub user@192.168.33.10
 ```
 
 We can now ssh to the Vagrant VM via the signed ssh key. We can type `whoami` to see which user account We are logging with.
-
-<!--
-```bash
-
-```
 -->

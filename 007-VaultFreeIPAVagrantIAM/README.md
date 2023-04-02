@@ -15,10 +15,10 @@ In this lab, we will learn how to get a **signed SSH certificate** from **Vault*
 
 This lab has to use Ubuntu (and docker inside it).
 
+[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
+
 <!--
 [Windows Only](01_N_WindowsOnly.md)
-
-[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 [Mac Only](03_N_MacOnly.md)
 

@@ -177,3 +177,15 @@ apt install iputils-ping
 ![1679060043420](image/Ubuntu_InstallDocker_etc/1679060043420.png)
 
 -->
+
+<!--
+Clean up:
+
+```bash
+docker container ls -a
+docker volume ls 
+docker image ls 
+
+docker volume ls -q | xargs docker volume rm
+```
+-->

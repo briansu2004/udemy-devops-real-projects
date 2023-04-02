@@ -1,7 +1,8 @@
 # Project 007: Managing SSH Access with Vault
 
-Mac + Ubunbu (Docker)
+Windows + Ubunbu (Docker)
 
+<!--
 TODO:
 
 Change ipa.mydevopsrealprojects.com to ipa.mydevopsrealprojects.com
@@ -51,20 +52,19 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ## Prerequisites
 
-### 1. Install Docker for Mac
+### 1. Install Docker for Windows
 
-### 2. Install Vagrant for Mac
+### 2. Install Vagrant for Windows
 
 ### 3. Config hosts
 
-a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.mydevopsrealprojects.com`
+a. In the local host (Windows), update `C:\Windows\System32\drivers\etc\hosts` by adding this entry: `192.168.33.10 ipa.mydevopsrealprojects.com`
 
-```bash
-cat /etc/hosts
+```dos
 ping ipa.mydevopsrealprojects.com
 ```
 
-b. In our Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
+b. In the Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
 
 ```bash
 vagrant up
@@ -76,7 +76,7 @@ cat /etc/hosts
 ping ipa.mydevopsrealprojects.com
 ```
 
-### 4. Config Vagrant VM
+### 4. Config the Vagrant VM
 
 Run below commands to stop systemd-resolved
 
@@ -85,7 +85,14 @@ sudo systemctl disable systemd-resolved
 sudo systemctl stop systemd-resolved
 ```
 
-Add below entry to `/etc/resolv.conf`
+<!--
+```bash
+sudo systemctl enable systemd-resolved
+sudo systemctl start systemd-resolved
+```
+-->
+
+And add these entries to `/etc/resolv.conf`
 
 ```bash
 nameserver 8.8.8.8
@@ -121,8 +128,6 @@ a. **Initializing** the Vault
 ```bash
 docker exec -it $(docker ps -f name=vault-1 -q) sh
 
-#export VAULT_ADDR='http://127.0.0.1:8200'
-#export VAULT_ADDR='http://0.0.0.0:8200'
 export VAULT_ADDR='http://192.168.33.10:8200'
 vault operator init
 ```
