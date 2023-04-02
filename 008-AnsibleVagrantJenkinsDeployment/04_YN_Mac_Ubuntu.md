@@ -70,11 +70,16 @@ When you run ssh-copy-id, it will prompt you for the password for the remote ser
 We can run below **ad-hoc** command to make sure the Ansible is able to talk to the VM:
 
 ```bash
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects/008-AnsibleVagrantJenkinsDeployment
 ansible -i hosts.ini jenkins_vm -m ping 
 ```
 
+<!--
 > Note: If we are using other VM instead of Vagrant, we need to update the IP in `hosts.ini`
-we should get below response if it is successful
+-->
+
+We should get below response if it is successful.
 
 ```bash
 jenkins_vm | SUCCESS => {
@@ -86,13 +91,15 @@ jenkins_vm | SUCCESS => {
 }
 ```
 
-Then, in our **local host**, run below Ansible playbook script:
+Then, in our local host (Mac), run below Ansible playbook script:
 
 ```bash
 ansible-playbook install-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
 ```
 
-> Note: The password is stored in `Vagrantfile` for `admin` user if we are using Vagrant as VM. The default is `admin123`. we should see below output if the installation is successful.
+<!--
+> Note: The password is stored in `Vagrantfile` for `admin` user if we are using Vagrant as VM. The default is `admin123`. We should see below output if the installation is successful.
+-->
 
 Below output when the deployment is done:
 
