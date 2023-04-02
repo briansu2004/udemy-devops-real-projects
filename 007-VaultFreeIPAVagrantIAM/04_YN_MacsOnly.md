@@ -1,6 +1,8 @@
 # Project 007: Managing SSH Access with Vault
 
-Windows + Ubuntu (Docker)
+Windows (Docker) + Ubunbu
+
+Has issues!
 
 ## Scenario
 
@@ -16,9 +18,9 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ## Prerequisites
 
-### 1. Install Vagrant for Windows
+### 1. Install Docker for Windows
 
-### 2. Install Docker for Linux in Vagrant
+### 2. Install Vagrant for Windows
 
 ## Steps
 

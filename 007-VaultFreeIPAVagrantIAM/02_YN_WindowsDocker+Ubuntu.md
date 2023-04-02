@@ -1,6 +1,8 @@
 # Project 007: Managing SSH Access with Vault
 
-Windows only
+Windows (Docker) + Ubunbu
+
+Has issues!
 
 ## Scenario
 
