@@ -1,6 +1,6 @@
 # Project 007: Managing SSH Access with Vault
 
-Windows (Docker) + Ubunbu
+Mac (Docker)
 
 ???
 
@@ -26,7 +26,7 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ### 1. Docker compose
 
-```bash
+```dos
 cd \devbox
 rd /s /q udemy-devops-real-projects
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
@@ -38,7 +38,7 @@ docker compose up
 
 a. **Initializing** the Vault
 
-```bash
+```dos
 docker ps -f name=vault-1 -q
 
 docker exec -it <Vault-ContainerId> sh
@@ -50,7 +50,7 @@ vault operator init
 **Note:** Make a note of the output. This is the only time ever We see those **unseal keys** and **root token**. If we lose it, We won't be able to seal vault any more.
 
 <!--
-```bash
+```dos
 /vault/data # export VAULT_ADDR='http://127.0.0.1:8200'
 /vault/data # vault operator init
 Unseal Key 1: uauEc34ZOx1FX6cCxXcBegm6D6W4zUFSQCJEOrdQZzcs
@@ -80,7 +80,7 @@ Type `vault operator unseal <unseal key>`. The unseal keys are from previous out
 
 When the value of  `Sealed` changes to **false**, the Vault is unsealed. We should see below similar output once it is unsealed
 
-```bash
+```dos
 Unseal Key (will be hidden): 
 Key                     Value
 ---                     -----
@@ -106,7 +106,7 @@ c. Sign in to Vault with **root** user
 
 Type `vault login` and enter the `<Initial Root Token>` retrieving from previous output
 
-```bash
+```dos
 / # vault login
 Token (will be hidden): 
 Success! We are now authenticated. The token information displayed below
@@ -126,7 +126,7 @@ policies             ["root"]
 
 ### 2. Enable **ssh-client-signer** Engine in Vault
 
-```bash
+```dos
 vault secrets enable -path=ssh-client-signer ssh
 
 vault write ssh-client-signer/config/ca generate_signing_key=true
@@ -152,7 +152,7 @@ We are going to create two roles in Vault. One is `admin-role` and another one i
 
 admin-role
 
-```bash
+```dos
 vault write ssh-client-signer/roles/admin-role -<<EOH
 {
  "allow_user_certificates": true,
@@ -193,7 +193,7 @@ Success! Data written to: ssh-client-signer/roles/admin-role
 
 user-role
 
-```bash
+```dos
 vault write ssh-client-signer/roles/user-role -<<EOH
 {
  "allow_user_certificates": true,
@@ -238,7 +238,7 @@ We are going to create policies for cooresponding roles created above.
 
 admin-policy
 
-```bash
+```dos
 vault policy write admin-policy - << EOF
 # List available SSH roles
 path "ssh-client-signer/roles/*" {
@@ -269,7 +269,7 @@ Success! Uploaded policy: admin-policy
 
 user-policy
 
-```bash
+```dos
 vault policy write user-policy - << EOF
 # List available SSH roles
 path "ssh-client-signer/roles/*" {
@@ -300,7 +300,7 @@ Success! Uploaded policy: user-policy
 
 ### 5. Enable **LDAP Engine** and configure the FreeLDAP setting in Vault
 
-```bash
+```dos
 vault auth enable ldap
 
 vault write auth/ldap/config \
@@ -355,7 +355,7 @@ Success! Data written to: auth/ldap/users/bob
 
 We need Vagrant VM for this step.
 
-```bash
+```dos
 vagrant up
 
 vagrant ssh
@@ -490,7 +490,7 @@ Let's go through what that may look like for FreeIPA user `devops`, who is a sys
 
 a. In Our **local host**, create a SSH key pair
 
-```bash
+```dos
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
 
 > Note: Just leave it blank and press Enter
@@ -500,7 +500,7 @@ ssh-add ~/.ssh/admin-key
 
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
 
-```bash
+```dos
 # Note: This is the password for `admin` user in the Vagrant VM
 
 cat > payload.json<<EOF
@@ -544,7 +544,7 @@ ssh -i admin-signed-key.pub  admin@192.168.33.10
 
 > Note: If We are in Vault container trying to login the Vagrant VM, We can use below `vault` commands as well:
 
-```bash
+```dos
 vault login -method=ldap username=devops
 vault write -field=signed_key ssh-client-signer/sign/admin-role \
     public_key=@$HOME/.ssh/admin-key.pub valid_principals=admin > ~/.ssh/admin-signed-key.pub
@@ -558,7 +558,7 @@ We can type `whoami` to see which user account We are logging with.
 
 `exit` the Vagrant host and wait for 3 mins, and then We can try to login again with the same command above, We will find the permission is denied, as the SSH cert is expired.
 
-```bash
+```dos
 $ ssh -i admin-signed-key.pub -o IdentitiesOnly=yes admin@192.168.33.10
 admin@192.168.33.10: Permission denied (publickey).
 ```
@@ -569,7 +569,7 @@ Now we are going to login as non-admin user. In FreeIPA, it is `bob`. And in the
 
 a. In Our **local host**, create a SSH key pair
 
-```bash
+```dos
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/bob-key
 > Note: Just leave it blank and press Enter
 ssh-add ~/.ssh/bob-key
@@ -577,7 +577,7 @@ ssh-add ~/.ssh/bob-key
 
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
 
-```bash
+```dos
 # Note: Below is the password for `user` user in the Vagrant VM
 cat > payload.json<<EOF
 {
@@ -619,7 +619,7 @@ ssh -i bob-signed-key.pub -i ~/.ssh/bob-key  app-user@192.168.33.10
 
 > Note: If We are in Vault container trying to login the Vagrant VM, We can use below `vault` commands as well:
 
-```bash
+```dos
 vault login -method=ldap username=bob
 vault write -field=signed_key ssh-client-signer/sign/user-role \
     public_key=@$HOME/.ssh/user-key.pub valid_principals=user > ~/.ssh/user-signed-key.pub
