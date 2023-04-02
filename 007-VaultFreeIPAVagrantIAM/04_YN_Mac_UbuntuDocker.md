@@ -533,18 +533,20 @@ c. Click **"Add"** in **"Users"** page and enter below info:
 - **User login:** devops
 - **First Name:** devops
 - **Last Name:** devops
-- **New Password:** *(Type any password We want,i.g. admin123)*
-- **Verify Password:** *(Type any password We want)*
+- **New Password:** *(e.g. admin123)*
+- **Verify Password:** *(e.g. admin123)*
 
 d. Click **"Add and Add Another"** to create another user `user`:
 
 - **User login:** bob
 - **First Name:** bob
 - **Last Name:** li
-- **New Password:** *(Type any password We want, i.g. user123)*
-- **Verify Password:** *(Type any password We want)*
+- **New Password:** *(e.g. user123)*
+- **Verify Password:** *(e.g. user123)*
 
-Click **"Add"** to finish the creation. We should be able to see two users appearing in the **"Active users"** page.
+Click **"Add"** to finish the creation. 
+
+We should be able to see two users appearing in the **"Active users"** page.
 
 ### 8. Client Configurations to login as admin user
 
@@ -552,13 +554,15 @@ Now we are all set in server's end. In order to have a user to login to the Vagr
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In our local host (Mac?), create a SSH key pair
+a. In our local host (Mac), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
+```
 
 > Note: Just leave it blank and press Enter
 
+```bash
 ssh-add ~/.ssh/admin-key
 ```
 
@@ -574,12 +578,17 @@ cat > payload.json<<EOF
 EOF
 
 sudo apt install jq -y
+
 VAULT_ADDRESS=0.0.0.0
+
 VAULT_TOKEN=$(curl -s \
     --request POST \
     --data @payload.json \
     http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/devops |jq .auth.client_token|tr -d '"')
-> Note: We can see the token in `client_token` field
+
+curl -s --request POST --data @payload.json http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/devops
+
+# Note: We can see the token in `client_token` field
 
 echo $VAULT_TOKEN
 
