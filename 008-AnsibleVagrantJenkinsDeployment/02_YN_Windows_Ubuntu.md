@@ -48,6 +48,8 @@ python3-jenkins-job-builder/focal,focal 3.2.0-1 all
 python3-jenkinsapi/focal,focal 0.3.11-1ubuntu1 all
 ```
 
+Btw <https://pkg.origin.jenkins.io/debian-stable/> has the official information.
+
 <!--
 Issues:
 

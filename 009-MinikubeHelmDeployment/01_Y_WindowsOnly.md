@@ -8,12 +8,17 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in K8s.
 
 ### 1. Install Minikube for Windows
 
-We can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
+`choco install minikube`
 
-### 2. Install Helm v3.x
+<!--
+[Minikube official website](https://minikube.sigs.k8s.io/docs/start/)
+-->
 
-Run the following commands to install **Helm v3.x**:
+### 2. Install Helm for Windows
 
+`choco install kubernetes-helm`
+
+<!--
 > ref: <https://helm.sh/docs/intro/install/>
 
 ```dos
@@ -21,9 +26,6 @@ curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
-
-<!--
-### 3. Install Vagrant for Windows
 -->
 
 ## Steps
