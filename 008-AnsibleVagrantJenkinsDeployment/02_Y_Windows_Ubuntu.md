@@ -80,15 +80,6 @@ ansible --version
 ```
 
 <!--
-### 2. Install Ansible for Ubuntu
-
-```bash
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install ansible -y
-ansible --version
-```
-
 ```bash
 vagrant@vagrant:~$ ansible --version
 
@@ -145,16 +136,6 @@ $ exit
 Connection to 192.168.33.10 closed.
 DevOps 🚀 devbox % 
 ```
-
-ssh-copy-id is a command-line tool used to securely copy a user's public key to a remote server's authorized_keys file, allowing the user to log in to the server without having to enter a password.
-
-The command syntax for ssh-copy-id is:
-
-`ssh-copy-id [options] [user@]hostname`
-
-Here, options refers to any additional command-line options that can be passed to the command, and user@hostname specifies the remote server to which the public key is to be copied. If user is not specified, the current username is used by default.
-
-When you run ssh-copy-id, it will prompt you for the password for the remote server. Once you enter the password, the command will copy your public key to the remote server's authorized_keys file. From that point forward, you should be able to log in to the server using SSH without having to enter a password.
 -->
 
 We can run below **ad-hoc** command to make sure the Ansible is able to talk to the VM:
@@ -181,7 +162,7 @@ jenkins_vm | SUCCESS => {
 }
 ```
 
-Then, in our local host (Mac), run below Ansible playbook script:
+Run below Ansible playbook script:
 
 ```bash
 sudo apt-get install sshpass
