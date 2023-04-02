@@ -2,7 +2,6 @@
 
 Windows + Ubunbu (Docker)
 
-<!--
 TODO:
 
 Change ipa.devopsdaydayup.org to ipa.mydevopsrealprojects.com

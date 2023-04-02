@@ -1,22 +1,44 @@
 # Project 008: Install Jenkins Using Ansible
 
+Windows + Ubuntu
+
+Still have the same issue.
+
+Solutions:
+
+1. Try again at home 
+
+2. Wait for tomorrow
+
+Last Sunday also had same experience!
+
+<!--
+Issues:
+
+Can't use a Windows system for the Ansible control node.
+
+Install 2 Vagrant VMs in Windows?
+-->
+
 ## Project Goal
 
 In this lab, we will learn how to use Ansible to install Jenkins.
 
 ## Prerequisites
 
-### 1. Install Vagrant for Mac
+### 1. Install 2 Vagrant VMs for Windows
+
+Because we can't install ansible for Windows directly.
+
+1 Vagrant VM will be installed ansible.
+
+### 2. Install Ansible for Ubuntu
 
 ```bash
 sudo apt update
 sudo apt upgrade
-```
-
-### 2. Install Ansible for Mac
-
-```bash
-brew install ansible
+sudo apt install ansible -y
+ansible --version
 ```
 
 <!--
@@ -48,7 +70,11 @@ ansible 2.9.6
 > Note: Before we run the Ansible Playbook, we need to SSH into the Vagrant VM created above and accept the finger print. If we don't do this, then we may encounter errors when we try and run the Ansible Playbook
 
 ```bash
+ssh-keygen -t rsa -b 4096
+
+
 ssh-copy-id admin@192.168.33.10
+
 ssh admin@192.168.33.10 
 exit
 ```
@@ -121,6 +147,8 @@ jenkins_vm | SUCCESS => {
 Then, in our local host (Mac), run below Ansible playbook script:
 
 ```bash
+sudo apt-get install sshpass
+
 ansible-playbook install-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
 ```
 

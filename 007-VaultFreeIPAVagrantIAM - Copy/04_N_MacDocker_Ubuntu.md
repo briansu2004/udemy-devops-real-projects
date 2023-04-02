@@ -1,42 +1,19 @@
 # Project 007: Managing SSH Access with Vault
 
-Windows + Ubunbu (Docker)
+Mac (Docker) + Ubunbu
 
-<!--
-TODO:
+Has issues:
 
-Change ipa.devopsdaydayup.org to ipa.mydevopsrealprojects.com
-
-need to update `.env` file as well.
-
-Issues:
-
-<!--
-when `docker compose`
+when `docker compose up` -
 
 ```bash
-Attaching to 007-vaultfreeipavagrantiam-freeipa-1, 007-vaultfreeipavagrantiam-vault-1
-007-vaultfreeipavagrantiam-vault-1    | ==> Vault server configuration:
-007-vaultfreeipavagrantiam-vault-1    | 
-007-vaultfreeipavagrantiam-vault-1    |              Api Address: http://127.0.0.1:8200
-007-vaultfreeipavagrantiam-vault-1    |                      Cgo: disabled
-007-vaultfreeipavagrantiam-vault-1    |          Cluster Address: https://127.0.0.1:8201
-007-vaultfreeipavagrantiam-vault-1    |               Go Version: go1.19.2
-007-vaultfreeipavagrantiam-vault-1    |               Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", max_request_duration: "1m30s", max_request_size: "33554432", tls: "disabled")
-007-vaultfreeipavagrantiam-vault-1    |                Log Level: info
-007-vaultfreeipavagrantiam-vault-1    |                    Mlock: supported: true, enabled: false
-007-vaultfreeipavagrantiam-vault-1    |            Recovery Mode: false
-007-vaultfreeipavagrantiam-vault-1    |                  Storage: raft (HA available)
-007-vaultfreeipavagrantiam-vault-1    |                  Version: Vault v1.12.1, built 2022-10-27T12:32:05Z
-007-vaultfreeipavagrantiam-vault-1    |              Version Sha: e34f8a14fb7a88af4640b09f3ddbb5646b946d9c
-007-vaultfreeipavagrantiam-vault-1    | 
-007-vaultfreeipavagrantiam-vault-1    | ==> Vault server started! Log data will stream in below:
-007-vaultfreeipavagrantiam-vault-1    | 
-007-vaultfreeipavagrantiam-vault-1    | 2023-04-02T13:56:03.810Z [INFO]  proxy environment: http_proxy="" https_proxy="" no_proxy=""
-007-vaultfreeipavagrantiam-vault-1    | 2023-04-02T13:56:03.822Z [INFO]  core: Initializing version history cache for core
-Error response from daemon: driver failed programming external connectivity on endpoint 007-vaultfreeipavagrantiam-freeipa-1 (fbf037e0e3c777469c8e41405b91ea029a8f7dacc686356ccecd80db6f51b291): Error starting userland proxy: listen tcp4 0.0.0.0:53: bind: address already in use
+007-vaultfreeipavagrantiam-freeipa-1  | Set hostname to <ipa.devopsdaydayup.org>.
+007-vaultfreeipavagrantiam-freeipa-1  | Initializing machine ID from random generator.
+007-vaultfreeipavagrantiam-freeipa-1  | Failed to create /init.scope control group: Read-only file system
+007-vaultfreeipavagrantiam-freeipa-1  | Failed to allocate manager object: Read-only file system
+007-vaultfreeipavagrantiam-freeipa-1  | [!!!!!!] Failed to allocate manager object, freezing.
+007-vaultfreeipavagrantiam-freeipa-1  | Freezing execution.
 ```
--->
 
 ## Scenario
 
@@ -52,64 +29,21 @@ The goal is that the `devops` user in FreeIPA should be able to login the Vagran
 
 ## Prerequisites
 
-### 1. Install Docker for Windows
+### 1. Install Docker for Mac
 
-### 2. Install Vagrant for Windows
+### 2. Install Vagrant for Mac
 
 ### 3. Config hosts
 
-a. In the local host (Windows), update `C:\Windows\System32\drivers\etc\hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
+a. In our local host (Mac), update `/etc/hosts` by adding this entry: `192.168.33.10 ipa.devopsdaydayup.org`
 
-```dos
-ping ipa.devopsdaydayup.org
-```
-
-b. In the Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
+b. In our Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.devopsdaydayup.org`
 
 ```bash
 vagrant up
 vagrant ssh
-
 sudo vim /etc/hosts
-
-cat /etc/hosts
-ping ipa.devopsdaydayup.org
 ```
-
-### 4. Config the Vagrant VM
-
-Run below commands to stop systemd-resolved
-
-```bash
-sudo systemctl disable systemd-resolved
-sudo systemctl stop systemd-resolved
-```
-
-<!--
-```bash
-sudo systemctl enable systemd-resolved
-sudo systemctl start systemd-resolved
-```
--->
-
-And add these entries to `/etc/resolv.conf`
-
-```bash
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-```
-
-<!--
-Clean up:
-
-```bash
-docker container ls -a
-docker volume ls 
-docker image ls 
-
-docker volume ls -q | xargs docker volume rm
-```
--->
 
 ## Steps
 
@@ -128,7 +62,7 @@ a. **Initializing** the Vault
 ```bash
 docker exec -it $(docker ps -f name=vault-1 -q) sh
 
-export VAULT_ADDR='http://192.168.33.10:8200'
+export VAULT_ADDR='http://127.0.0.1:8200'
 vault operator init
 ```
 
@@ -225,7 +159,7 @@ Success! Enabled the ssh secrets engine at: ssh-client-signer/
 /vault/data # vault write ssh-client-signer/config/ca generate_signing_key=true
 Key           Value
 ---           -----
-public_key    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDJp1VviwBqjtXiBzti+WOlO4nmUJgBJv4nJGLCJuSdgpdQuFtrpAkiOpdxIDjrIEKVe3Gg84OcsokxvXgN9bgkA3s+QE0XdfaOQ9TQOMxWYJYVNVGky7LvmW3/TrFhOu6oaPxpgtyrPDUS3ZCrHIMxKZZcHFL1ZxloZe/So9bpUtctYlSTLM68HT6VJQGFRLBSD08cLrOJ5q8FD5IM4kI6XK5swF5HRindcoPht0nmBbU9IDo3Lkgff1uT2r+xnXB0EsP9m4PXpOthVqgNmL0uwBK3IjGvaFcKn2NDQ3r/7bdoAZ1tCsr3KNfGNzivUqJVq13Ybm3x/+VrS5waT2RDtST2fooBwtedMQeqBsQ32aXobwi9tEmNB3qOCHZMcc/vncwas7WbFuHBFNJX2KOaOPRlhGuHrVuk91GRB+cl0PFr0N1kr5mbVPZcRY5jE8ZD1CK9QCaF5mGQUqpmQzhD5AMuGahQsB7dNKWqwAc6U4b5KhUwA2tMnIu3xr4cu2WkhbFI1hQg6wytCzqq9QZdG5FUBpcnzhQ+yxXrs7zR42qh839I6xrC6Kby0c7dzfYoEigUsmWGjKHlHOo/ARIAtOrVOLvWpS2jRyI2HQDRNAv+phpcV8pt7kv+m6L5vX8t1oCd5G9aNLj1nWHfhTFuU8w4YZRP4vrh9GziAhv2CQ==
+public_key    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvumPJpJHYKw269OjCVUEikrOLiOmkeRbWayWrWhK2zZXQLkfi7rCM0zEXNQGIh2gRtnhQpg9HeuwUKUYiIZ1991JMW5GYtMyBIdpAJVjp9VhWutH04Kd/50w3iqIMHTizZuQYlz+Hz97kN6wcUgpyXiOSeBCrBkNQRifnOAjeXQJOIRln/Nq1REqB8t6OzT4Pb7IHsVG5ty5AmnZz7/N3OSMCrJG11u8RABqtQoOi/wJFgd+mjoBvqf0mgZmGIwQ00PUtr/v6ZGH+R5UswzduFE6exHH6RPa4lQE6zXPaP6/6duP0ppeNOQT3OO+eCSmjTTvYfcjHJTpNTN10+VfnS7AKPfQTcge/Fm7afCL2LBAbGtItkwzhXKlT1JgEGliiOXD0DcOukbdKQcbYB+Ib/ThqbMEsfZNpOVGiIrZ8ADqC6AYfxdtDi7g0h+4bWK3b+GPZ/LJ6o4AdGrZv49Voji83mes6VOSnbKeAdwSp5biOuftKBM2CduoHZhPWNiWLG+3uRzuIDMA/kw1SFoVj1FKCarKWwSQAWf5PhM0Y3ywIUw9rGn7wDTWiK7ej0EVyYCbJ3twsXPR3edzNgy5vUle8HFtfPCvZEHpkW8y/Hrr7DKn0Xqxhvd1XbUbJ9Bv03C9qEKz66s2qmyFJeFuf810jqyZ7zC5uepgmzwsoAw==
 ```
 -->
 
@@ -395,7 +329,7 @@ vault write auth/ldap/config \
     groupdn="cn=groups,cn=accounts,dc=devopsdaydayup,dc=org" \
     groupfilter="" \
     binddn="uid=admin,cn=users,cn=accounts,dc=devopsdaydayup,dc=org" \
-    bindpass="admin123" \
+    bindpass="admin123" \ <--- This is the password for FreeIPA admin user
     insecure_tls=true \
     certificate="" \
     starttls=false \
@@ -485,7 +419,7 @@ drwxr-xr-x 2 root root   4096 Dec  2  2021 sshd_config.d
 -rw-r--r-- 1 root root    566 Feb 12  2022 ssh_host_rsa_key.pub    
 -rw-r--r-- 1 root root    342 Feb 12  2022 ssh_import_id
 vagrant@vagrant:~$
-vagrant@vagrant:~$ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3+ayyUcQCxcUDWgAZ4KoD83ZGkx+T/NMyKZwu5d9Ok0rLeeQGpRgVKaEaKK4kOk5aLQzqQ4fK1z3O15IILk08ysI0oPEKyhg/QepWwRRCA6jnmU3Nbmff6pBhkD2smaUgctcwSf/bgGhOavQ3z0m5Ukb/Aw6KFRVpPFe5njiYcpnD1TyWAvKEIwd5FK3VNyczr5a7XsQnScAEZsNdY8dq3I33tWeabESu7jj/MuYyApjxWkRlVSueOQTY9OlYDF2TR2Pwv69UxXDKPmYwBt1z8d37tH4Cnb7w+K+Im1KzkXcF+HODOgyX9Fv7lAuJWTOnrg9eGK5mNcVyHQR3xJPxWtIkkyfaroVjdYbE7LjuZ/J8rbYAQVkphmu5pp+wQcUMdeX+Mgv0761mZMGg+UdnRJzqHHtbQAxRHdZYcO9TvkRoThPPlmhKDpYgFfp2pCJCuEC0taZJD393UTzNGXscrlr48mREGX1m42ye8CghFfkK/Fi4JK3ePPKxA4pz82P813Q4HsgLKNP/5wFX8pIxr7dRTmOEtS5Uwu9kta3M0y+cg7NErE0ih19VAOUjKvj3wXgukpAOcjVhLJYG3hSu5M8YXp9aOY6IPW0ArP9cZHes2C6AA9at8UHEOmlXUaj0TzFW7CyQz+vIifDlSz5IjdSk8HJH8he8NPOrjvbyUQ==' | sudo tee /etc/ssh/trusted-CA.pem
+vagrant@vagrant:~$ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDSXZT+pLmFITOlvFDbX6/+wcp0T9ywrh8RvgVwcUvV2F2/nvGbebKvvRdpr92u//UmXVx5KK7Uhw2GGLUjB9ayQEcRY+ZySWdTJ5h5ap2yapSLxuCr4iO5nfKfawvNOCkgB0ReYBm0FH5DcpPiLd1m5mfNXDOcnKWok6GwB7JX1gPeKXqZ3ZEBkps6M97EeVY32P8kgXPAAsPnVXtQI36/9r+48TN1UHkDGFbRMS/vSoYeqdLgBVv/wtpfvbR8ACd4MWBPRFFtvp9sRo3X38fQM1TCdQmv/3+EOd85DbRS/kLD6nLZ5fJvWeCOURFz2xj6mD2wORq4qTIdoEmAVRI57Sp9Z76eRxxjjndVL3E+RUEmHkLUG/On72ltJTiuimXMBtn0L9OGIOnWdApl7XeQB7FEfgFuQEITS5KVh5QPN72rFRvul00t1YbEQbZ5Kk80Bn4gASVO7ov/0WdruMFvlLxUucyHhbGsEu/eS23QlNqwR3PMnh42mkcSUzw1EGNXs0WIAxJPWJ7QqWaBFOWMT48ODJp2R67vSqH5I8l1MZ8hPze7jXRUwUMIWLKpGQ2Wwt77d720j3gGXsdl5/kpSMh9HDmZND3SUc+tUfOWsXh0Tws+IGIAxoi8YZcieH1D2Cm1smpt9aJr4pkOLPIwEEYUMaG4israEs9vY/fn2w==' | sudo tee /etc/ssh/trusted-CA.pem
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvumPJpJHYKw269OjCVUEikrOLiOmkeRbWayWrWhK2zZXQLkfi7rCM0zEXNQGIh2gRtnhQpg9HeuwUKUYiIZ1991JMW5GYtMyBIdpAJVjp9VhWutH04Kd/50w3iqIMHTizZuQYlz+Hz97kN6wcUgpyXiOSeBCrBkNQRifnOAjeXQJOIRln/Nq1REqB8t6OzT4Pb7IHsVG5ty5AmnZz7/N3OSMCrJG11u8RABqtQoOi/wJFgd+mjoBvqf0mgZmGIwQ00PUtr/v6ZGH+R5UswzduFE6exHH6RPa4lQE6zXPaP6/6duP0ppeNOQT3OO+eCSmjTTvYfcjHJTpNTN10+VfnS7AKPfQTcge/Fm7afCL2LBAbGtItkwzhXKlT1JgEGliiOXD0DcOukbdKQcbYB+Ib/ThqbMEsfZNpOVGiIrZ8ADqC6AYfxdtDi7g0h+4bWK3b+GPZ/LJ6o4AdGrZv49Voji83mes6VOSnbKeAdwSp5biOuftKBM2CduoHZhPWNiWLG+3uRzuIDMA/kw1SFoVj1FKCarKWwSQAWf5PhM0Y3ywIUw9rGn7wDTWiK7ej0EVyYCbJ3twsXPR3edzNgy5vUle8HFtfPCvZEHpkW8y/Hrr7DKn0Xqxhvd1XbUbJ9Bv03C9qEKz66s2qmyFJeFuf810jqyZ7zC5uepgmzwsoAw==
 vagrant@vagrant:~$
 vagrant@vagrant:~$ ls -l /etc/ssh/
@@ -558,20 +492,18 @@ c. Click **"Add"** in **"Users"** page and enter below info:
 - **User login:** devops
 - **First Name:** devops
 - **Last Name:** devops
-- **New Password:** *(e.g. admin123)*
-- **Verify Password:** *(e.g. admin123)*
+- **New Password:** *(Type any password We want,i.g. admin123)*
+- **Verify Password:** *(Type any password We want)*
 
 d. Click **"Add and Add Another"** to create another user `user`:
 
 - **User login:** bob
 - **First Name:** bob
 - **Last Name:** li
-- **New Password:** *(e.g. user123)*
-- **Verify Password:** *(e.g. user123)*
+- **New Password:** *(Type any password We want, i.g. user123)*
+- **Verify Password:** *(Type any password We want)*
 
-Click **"Add"** to finish the creation.
-
-We should be able to see two users appearing in the **"Active users"** page.
+Click **"Add"** to finish the creation. We should be able to see two users appearing in the **"Active users"** page.
 
 ### 8. Client Configurations to login as admin user
 
@@ -579,37 +511,14 @@ Now we are all set in server's end. In order to have a user to login to the Vagr
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In our local host (Mac? Ubuntu), create a SSH key pair
+a. In our local host (Mac?), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
-```
 
 > Note: Just leave it blank and press Enter
 
-```bash
 ssh-add ~/.ssh/admin-key
-```
-
-If there are issues,
-
-```bash
-apk add openssh
-eval `ssh-agent -s`
-ssh-add
-```
-
-->
-
-```bash
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install openssh-server
-systemctl status ssh
-sudo systemctl start ssh
-
-eval `ssh-agent -s`
-ssh-add
 ```
 
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
@@ -624,16 +533,12 @@ cat > payload.json<<EOF
 EOF
 
 sudo apt install jq -y
-
-#VAULT_ADDRESS=0.0.0.0
-VAULT_ADDRESS=192.168.33.10
-
+VAULT_ADDRESS=0.0.0.0
 VAULT_TOKEN=$(curl -s \
     --request POST \
     --data @payload.json \
     http://$VAULT_ADDRESS:8200/v1/auth/ldap/login/devops |jq .auth.client_token|tr -d '"')
-
-# Note: We can see the token in `client_token` field
+> Note: We can see the token in `client_token` field
 
 echo $VAULT_TOKEN
 
@@ -644,87 +549,21 @@ cat > public-key.json <<EOF
 }
 EOF
 
-# Note: we can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
+> Note: we can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
 
 SIGNED_KEY=$(curl \
     --header "X-Vault-Token: $VAULT_TOKEN" \
     --request POST \
     --data @public-key.json \
     http://$VAULT_ADDRESS:8200/v1/ssh-client-signer/sign/admin-role | jq .data.signed_key|tr -d '"'|tr -d '\n')
-
 echo $SIGNED_KEY
-
-#SIGNED_KEY=${SIGNED_KEY::-2}
-
+SIGNED_KEY=${SIGNED_KEY::-2}
 echo $SIGNED_KEY > admin-signed-key.pub
 
 ssh -i admin-signed-key.pub admin@192.168.33.10
+
+# Wait for 3 mins and try again, We will see `Permission denied` error, as the certificate has expired
 ```
-
-Wait for 3 mins and try again, we will see `Permission denied` error, as the certificate has expired.
-
-<!--
-curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops
-curl -s --request POST --data @payload.json http://0.0.0.0:8200/v1/auth/ldap/login/devops | jq .auth.client_token|tr -d '"'
-curl -s --request POST --data @payload.json http://127.0.0.1:8200/v1/auth/ldap/login/devops
-curl -s --request POST --data @payload.json http://192.168.33.10:8200/v1/auth/ldap/login/devops
-
-```bash
-DevOps 🚀 devbox % curl -s --request POST --data @payload.json http://192.168.33.10:8200/v1/auth/ldap/login/devops
-{"request_id":"9f5e4a4c-d740-3df7-e10d-b55edb6caba2","lease_id":"","renewable":false,"lease_duration":0,"data":{},"wrap_info":null,"warnings":["no LDAP groups found in groupDN \"cn=groups,cn=accounts,dc=devopsdaydayup,dc=org\"; only policies from locally-defined groups available"],"auth":{"client_token":"hvs.CAESINxyNjyt6HdvSxGFBCr1d7yHCoA6nzPRTdpUOpa_fgPWGh4KHGh2cy5US0ZZbTM4Z2tQek5WMURuOWRlYUg3TWs","accessor":"YVPFfa5z0CcNeSNC695Li2P1","policies":["admin-policy","default"],"token_policies":["admin-policy","default"],"metadata":{"username":"devops"},"lease_duration":31622400,"renewable":true,"entity_id":"e0d59e79-19ef-9161-fbd8-8ca2e7f98778","token_type":"service","orphan":true,"mfa_requirement":null,"num_uses":0}}
-
-DevOps 🚀 devbox % curl -s --request POST --data @payload.json http://192.168.33.10:8200/v1/auth/ldap/login/devops | jq .auth.client_token|tr -d '"'
-hvs.CAESIEUFe5aHjDu8o6FrRwnuqYrJwxrHxWA1pS9r_Msm9B31Gh4KHGh2cy5uV1FVN3E2bUNKckRTdVI0djBrQVJrdWc
-
-# this command will have different results for all runs
-DevOps 🚀 devbox % curl \
-    --header "X-Vault-Token: $VAULT_TOKEN" \
-    --request POST \
-    --data @public-key.json \
-    http://$VAULT_ADDRESS:8200/v1/ssh-client-signer/sign/admin-role
-{"request_id":"1beed20b-f237-e88c-1166-8283cc3cd7f3","lease_id":"","renewable":false,"lease_duration":0,"data":{"serial_number":"bbad6c2989ae1adf","signed_key":"ssh-rsa-cert-v01@openssh.com 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\n"},"wrap_info":null,"warnings":null,"auth":null}
-
-DevOps 🚀 devbox % curl \
-    --header "X-Vault-Token: $VAULT_TOKEN" \
-    --request POST \
-    --data @public-key.json \
-    http://$VAULT_ADDRESS:8200/v1/ssh-client-signer/sign/admin-role | jq .data.signed_key|tr -d '"'|tr -d '\n'
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  2784    0  2333  100   451  55407  10711 --:--:-- --:--:-- --:--:-- 89806
-ssh-rsa-cert-v01@openssh.com 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\n%   
-
-DevOps 🚀 devbox % ssh -i admin-signed-key.pub admin@192.168.33.10
-admin@192.168.33.10's password: 
-Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-42-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-New release '22.04.2 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-The programs included with the Ubuntu system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
-applicable law.
-```
--->
-
-<!--
-sudo apt install net-tools
-
-vagrant@vagrant:~$ netstat -an | grep 389
-tcp        0      0 0.0.0.0:7389            0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN     
-tcp        0      0 10.0.2.15:38940         91.189.91.39:80         TIME_WAIT  
-tcp6       0      0 :::38927                :::*                    LISTEN     
-tcp6       0      0 :::7389                 :::*                    LISTEN     
-tcp6       0      0 :::389                  :::*                    LISTEN     
-unix  3      [ ]         STREAM     CONNECTED     20389  
--->
 
 > Note: If We are in Vault container trying to login the Vagrant VM, We can use below `vault` commands as well:
 

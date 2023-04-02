@@ -35,6 +35,15 @@ chmod 777 install_docker.sh
 sudo apt-get install -y docker-compose
 ```
 
+## Install Ansible in Ubuntu
+
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install ansible
+ansible --version
+```
+
 ## Install Terraform in Ubuntu
 
 ```bash
