@@ -32,7 +32,7 @@ chmod 777 install_docker.sh
 ## Install Docker Compose in Ubuntu
 
 ```bash
-sudo apt install docker-compose
+sudo apt-get install -y docker-compose
 ```
 
 ## Install Terraform in Ubuntu
