@@ -1,0 +1,45 @@
+# ansible-playbook install-jenkins.yml -i inventory.txt --ask-pass --ask-become-pass
+#
+# wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+---
+- hosts: jenkins_vm
+  become: yes
+  remote_user: admin
+  become_user: root
+  tasks:
+    # curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+    - name: Download Jenkins key
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+
+    # echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+    - name: Add Apt source list
+      lineinfile:
+        path: /etc/apt/sources.list.d/jenkins.list
+        line: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+        create: yes
+
+    - name: Run apt-get update
+      apt:
+        # update_cache: yes
+        update_cache: no
+        allow_unauthenticated: yes
+
+    # sudo apt-get update
+    # sudo apt-get install fontconfig openjdk-11-jre
+    # sudo apt-get install jenkins
+    - name: Install fontconfig
+      apt:
+        name: fontconfig
+        state: present
+    - name: Install Java
+      apt:
+        name: openjdk-11-jre
+        state: present
+
+    # apt search jenkins
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        # state: present

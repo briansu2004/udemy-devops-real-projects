@@ -2,6 +2,7 @@
 
 Windows + Ubuntu
 
+<!--
 Still have the same issue.
 
 Solutions:
@@ -49,6 +50,7 @@ python3-jenkinsapi/focal,focal 0.3.11-1ubuntu1 all
 ```
 
 Btw <https://pkg.origin.jenkins.io/debian-stable/> has the official information.
+-->
 
 <!--
 Issues:
@@ -57,6 +59,9 @@ Can't use a Windows system for the Ansible control node.
 
 Install 2 Vagrant VMs in Windows?
 -->
+
+
+
 
 ## Project Goal
 
