@@ -321,6 +321,8 @@ ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
 -->
 
 ```bash
+eval "$(ssh-agent -s)"
+
 ssh-add ~/.ssh/admin-key
 ```
 
