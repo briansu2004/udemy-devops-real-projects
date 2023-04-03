@@ -1,12 +1,12 @@
-version: "2"
+version: '2'
 
 services:
   nexus:
     image: sonatype/nexus3
     volumes:
-      - "nexus-data:/nexus-data"
+      - 'nexus-data:/nexus-data'
     ports:
-      - "8081:8081"
+      - '8081:8081'
   jenkins:
     build:
       context: .
@@ -26,11 +26,9 @@ services:
       - 'jenkins_data:/var/jenkins_home'
       - '/usr/bin/docker:/usr/bin/docker'
       - '/var/run/docker.sock:/var/run/docker.sock'
- 
+
 volumes:
-  nexus-data: 
+  nexus-data:
     driver: local
   jenkins_data:
     driver: local
-
-
