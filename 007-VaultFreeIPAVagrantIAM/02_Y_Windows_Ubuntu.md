@@ -310,21 +310,19 @@ Now we are all set in server's end. In order to have a user to login to the Vagr
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In our local host (Ubuntu), create a SSH key pair
+a. In our local host (Windows), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
+
+eval "$(ssh-agent -s)"
+
+ssh-add ~/.ssh/admin-key
 ```
 
 <!--
 > Note: Just leave it blank and press Enter
 -->
-
-```bash
-eval "$(ssh-agent -s)"
-
-ssh-add ~/.ssh/admin-key
-```
 
 <!--
 If there are issues,
@@ -351,8 +349,15 @@ ssh-add
 
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
 
-```bash
+<!--
 # Note: This is the password for `admin` user in the Vagrant VM
+
+# Note: We can see the token in `client_token` field
+
+# Note: we can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
+-->
+
+```bash
 cat > payload.json<<EOF
 {
   "password": "admin123"  
@@ -362,7 +367,6 @@ EOF
 VAULT_ADDRESS=192.168.33.10
 echo $VAULT_ADDRESS
 
-# Note: We can see the token in `client_token` field
 VAULT_TOKEN=$(curl -s \
     --request POST \
     --data @payload.json \
@@ -376,8 +380,6 @@ cat > public-key.json <<EOF
 }
 EOF
 
-# Note: we can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
-
 SIGNED_KEY=$(curl \
     --header "X-Vault-Token: $VAULT_TOKEN" \
     --request POST \
@@ -386,11 +388,15 @@ SIGNED_KEY=$(curl \
 echo $SIGNED_KEY
 
 echo $SIGNED_KEY > admin-signed-key.pub
+```
 
+```dos
 ssh -i admin-signed-key.pub admin@192.168.33.10
 ```
 
+<!--
 Wait for 3 mins and try again, we will see `Permission denied` error, as the certificate has expired.
+-->
 
 <!--
 #SIGNED_KEY=${SIGNED_KEY::-2}
@@ -402,7 +408,7 @@ curl -s --request POST --data @payload.json http://192.168.33.10:8200/v1/auth/ld
 ```
 -->
 
-### 9. Client Configurations to login as non-admin user
+### 10. Client Configurations to login as non-admin user
 
 Now we are going to login as non-admin user. In FreeIPA, it is `bob`. And in the Vagrant VM, it is `app-user`. We will be authenticated as `bob` from FreeIPA in Vault and then create a signed ssh key to login the Vagrant VM as `app-user`.
 
@@ -417,7 +423,6 @@ ssh-add ~/.ssh/bob-key
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
 
 ```bash
-# Note: Below is the password for `user` user in the Vagrant VM
 cat > payload.json<<EOF
 {
   "password": "user123"
@@ -440,18 +445,22 @@ cat > public-key.json <<EOF
 }
 EOF
 
-#> Note: We can retrieve the public key by running the following command: `cat ~/.ssh/bob-key.pub`
-
 SIGNED_KEY=$(curl \
     --header "X-Vault-Token: $VAULT_TOKEN" \
     --request POST \
     --data @public-key.json \
     http://$VAULT_ADDRESS:8200/v1/ssh-client-signer/sign/user-role | jq .data.signed_key|tr -d '"'|tr -d '\n')
 echo $SIGNED_KEY
-#SIGNED_KEY=${SIGNED_KEY::-2}
-echo $SIGNED_KEY > bob-signed-key.pub
 
+echo $SIGNED_KEY > bob-signed-key.pub
+```
+
+```dos
 ssh -i bob-signed-key.pub -i ~/.ssh/bob-key app-user@192.168.33.10
 ```
 
+<!--
+#SIGNED_KEY=${SIGNED_KEY::-2}
+
 Wait for 3 mins and try again, we will see `Permission denied` error, as the certificate has expired
+-->
