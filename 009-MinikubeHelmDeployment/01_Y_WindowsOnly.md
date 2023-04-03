@@ -76,6 +76,17 @@ We can explore all Minikube resources in this UI website.
 
 ### 3. Add Helm Repo
 
+<!--
+Clean up:
+
+```dos
+helm uninstall jenkins
+helm repo remove jenkins
+helm repo list
+```
+
+-->
+
 Add the helm repo as follows:
 
 ```dos
