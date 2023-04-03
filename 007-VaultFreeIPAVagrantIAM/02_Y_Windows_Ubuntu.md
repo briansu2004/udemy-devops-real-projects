@@ -304,6 +304,8 @@ Click **"Add"** to finish the creation.
 
 We should be able to see two users appearing in the **"Active users"** page.
 
+![1680488518186](image/02_Y_Windows_Ubuntu/1680488518186.png)
+
 ### 9. Client Configurations to login as admin user
 
 Now we are all set in server's end. In order to have a user to login to the Vagrant Host, the user needs to **create an SSH key pair** and then send the SSH **public key** to **Vault** to be **signed** by its SSH CA. The **signed SSH certificate** will then be used to connect to the target host.
