@@ -310,7 +310,7 @@ Now we are all set in server's end. In order to have a user to login to the Vagr
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In Ubuntu, create a SSH key pair
+a. In our local host (Windows), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
@@ -320,7 +320,42 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/admin-key
 ```
 
+<!--
+> Note: Just leave it blank and press Enter
+-->
+
+<!--
+If there are issues,
+
+```bash
+apk add openssh
+eval `ssh-agent -s`
+ssh-add
+```
+
+->
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install openssh-server
+systemctl status ssh
+sudo systemctl start ssh
+
+eval `ssh-agent -s`
+ssh-add
+```
+-->
+
 b. Login to **Vault** via **LDAP** credential by posting to vault's API
+
+<!--
+# Note: This is the password for `admin` user in the Vagrant VM
+
+# Note: We can see the token in `client_token` field
+
+# Note: we can retrieve the public key by running the following command: `cat ~/.ssh/admin-key.pub`
+-->
 
 ```bash
 cat > payload.json<<EOF
@@ -354,10 +389,6 @@ echo $SIGNED_KEY
 
 echo $SIGNED_KEY > admin-signed-key.pub
 ```
-
-c. In our local host (Windows), create a new file `admin-signed-key.pub` and paste the same content we got from last step.
-
-Then we can use it to ssh in our Vagrant vm.
 
 ```dos
 ssh -i admin-signed-key.pub admin@192.168.33.10
@@ -426,12 +457,8 @@ echo $SIGNED_KEY
 echo $SIGNED_KEY > bob-signed-key.pub
 ```
 
-c. In our local host (Windows), create a new file `bob-signed-key.pub` and paste the same content we got from last step.
-
-Then we can use it to ssh in our Vagrant vm.
-
 ```dos
-ssh -i bob-signed-key.pub app-user@192.168.33.10
+ssh -i bob-signed-key.pub -i ~/.ssh/bob-key app-user@192.168.33.10
 ```
 
 <!--
