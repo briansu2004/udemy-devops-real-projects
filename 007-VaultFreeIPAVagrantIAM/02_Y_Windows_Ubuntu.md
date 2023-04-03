@@ -417,6 +417,8 @@ a. In our local host (Mac?), create a SSH key pair
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/bob-key
 
+eval "$(ssh-agent -s)"
+
 ssh-add ~/.ssh/bob-key
 ```
 
