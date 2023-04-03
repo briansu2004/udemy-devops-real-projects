@@ -215,7 +215,7 @@ e. Click **"Save and Finish"** and click **"Start using Jenkins"**. Then we shou
 
 ### 4. Using Ansibel Role
 
-we are **done** with the Jenkins via Ansible.
+We are **done** with the Jenkins via Ansible.
 
 Now, we are going to use **Ansible Role** to install the Jenkins instead. **Ansible Role** are consists of many playbooks and it is a way to group multiple tasks together into one container to do automation in very effective manner with clean directory structures. It can be easily reuse the codes by anyone if it it is suitable.
 
