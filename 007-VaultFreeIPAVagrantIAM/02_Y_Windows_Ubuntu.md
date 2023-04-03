@@ -35,7 +35,6 @@ ping ipa.mydevopsrealprojects.com
 b. In the Vagrant VM, update `/etc/hosts` by adding this entry: `0.0.0.0 ipa.mydevopsrealprojects.com`
 
 ```bash
-vagrant up
 vagrant ssh
 
 sudo vim /etc/hosts
@@ -252,12 +251,10 @@ vault write auth/ldap/users/bob  policies=user-policy
 We need Vagrant VM for this step.
 
 ```bash
-vagrant up
-
 vagrant ssh
 ```
 
-> Note: The trusted CA key was generated in previous step 2
+> Note: The trusted CA key was generated in previous step 2.
 
 ```bash
 echo 'ssh-rsa <TRUSTED CA Key>' | sudo tee /etc/ssh/trusted-CA.pem
@@ -313,7 +310,7 @@ Now we are all set in server's end. In order to have a user to login to the Vagr
 
 Let's go through what that may look like for FreeIPA user `devops`, who is a system administrator.
 
-a. In our local host (Mac? Ubuntu), create a SSH key pair
+a. In our local host (Ubuntu), create a SSH key pair
 
 ```bash
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/admin-key
