@@ -60,9 +60,6 @@ Can't use a Windows system for the Ansible control node.
 Install 2 Vagrant VMs in Windows?
 -->
 
-
-
-
 ## Project Goal
 
 In this lab, we will learn how to use Ansible to install Jenkins.
@@ -190,6 +187,10 @@ PLAY [jenkins_vm] **************************************************************
 PLAY RECAP *********************************************************************************************
 jenkins_vm                 : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
 ```
+
+<!--
+`dpkg --get-selections | grep jenkins`
+-->
 
 ### 3. Unlocking Jenkins
 
