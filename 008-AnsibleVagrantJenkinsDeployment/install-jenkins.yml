@@ -38,10 +38,10 @@
         # update_cache: no
         # allow_unauthenticated: yes
 
-    - name: Install fontconfig
-      apt:
-        name: fontconfig
-        state: present
+    # - name: Install fontconfig
+    #   apt:
+    #     name: fontconfig
+    #     state: present
     - name: Install Java
       apt:
         name: openjdk-11-jre

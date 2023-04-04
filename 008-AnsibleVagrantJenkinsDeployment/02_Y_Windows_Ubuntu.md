@@ -16,14 +16,12 @@ Because we can't install ansible for Windows directly.
 
 ### 2. Create a Vagrant VMs
 
-### 3. Install Ansible for Ubuntu
-
-In both 2 Vagrant VMs?
+### 3. Install Ansible for Ubuntu (in the 2nd Vagrant VM)
 
 ```bash
 sudo apt update
 sudo apt upgrade
-sudo apt install ansible -y
+sudo apt install ansible
 ansible --version
 ```
 
