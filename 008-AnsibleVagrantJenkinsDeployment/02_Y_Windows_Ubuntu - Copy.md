@@ -2,23 +2,77 @@
 
 Windows + Ubuntu
 
+<!--
+Still have the same issue.
+
+Solutions:
+
+1. Try again at home
+
+2. Wait for tomorrow
+
+Last Sunday also had same experience!
+
+3. make sure jenkins is available for the command `apt search jenkins`!
+
+Maybe Sunday they are doing some updates!
+
+```bash
+vagrant@vagrant:~$ sudo apt-get install jenkins
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Package jenkins is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'jenkins' has no installation candidate
+
+vagrant@vagrant:~$ apt search jenkins | grep jenkins
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+jenkins-debian-glue/focal,focal 0.20.1 all
+jenkins-debian-glue-buildenv/focal,focal 0.20.1 all
+jenkins-job-builder/focal,focal 3.2.0-1 all
+jenkins-job-builder-doc/focal,focal 3.2.0-1 all
+libjenkins-htmlunit-core-js-java/focal,focal 2.6-hudson-1-1fakesync1 all
+libjenkins-json-java/focal,focal 2.4-jenkins-3-5 all
+libjenkins-json-java-doc/focal,focal 2.4-jenkins-3-5 all
+  Documentation for libjenkins-json-java
+libjenkins-trilead-ssh2-java/focal,focal 217-jenkins-8-1 all
+libjenkins-trilead-ssh2-java-doc/focal,focal 217-jenkins-8-1 all
+  Documentation for libjenkins-trilead-ssh2-java
+python-jenkins-doc/focal,focal 0.4.16-1 all
+python3-jenkins/focal,focal 0.4.16-1 all
+python3-jenkins-job-builder/focal,focal 3.2.0-1 all
+python3-jenkinsapi/focal,focal 0.3.11-1ubuntu1 all
+```
+
+Btw <https://pkg.origin.jenkins.io/debian-stable/> has the official information.
+-->
+
+<!--
+Issues:
+
+Can't use a Windows system for the Ansible control node.
+
+Install 2 Vagrant VMs in Windows?
+-->
+
 ## Project Goal
 
 In this lab, we will learn how to use Ansible to install Jenkins.
 
 ## Prerequisites
 
-### 1. Install Vagrant for Windows
+### 1. Install 2 Vagrant VMs for Windows
 
 Because we can't install ansible for Windows directly.
 
 1 Vagrant VM will be installed ansible.
 
-### 2. Create a Vagrant VMs
-
-### 3. Install Ansible for Ubuntu
-
-In both 2 Vagrant VMs?
+### 2. Install Ansible for Ubuntu
 
 ```bash
 sudo apt update
@@ -26,6 +80,19 @@ sudo apt upgrade
 sudo apt install ansible -y
 ansible --version
 ```
+
+<!--
+```bash
+vagrant@vagrant:~$ ansible --version
+
+ansible 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/vagrant/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.8.10 (default, Mar 13 2023, 10:26:41) [GCC 9.4.0]
+```
+-->
 
 ## Steps
 
@@ -40,14 +107,6 @@ ssh-copy-id admin@192.168.33.10
 
 ssh admin@192.168.33.10 
 exit
-
-eval "$(ssh-agent -s)"
-
-ls ~/.ssh/id_*
-
-ssh-add ~/.ssh/id_rsa
-
-ssh-add -l
 ```
 
 <!--
@@ -130,27 +189,20 @@ jenkins_vm                 : ok=6    changed=4    unreachable=0    failed=0    s
 ```
 
 <!--
+`dpkg --get-selections | grep jenkins`
+
+Before -
+
 ```bash
-vagrant@vagrant:~/udemy-devops-real-projects/008-AnsibleVagrantJenkinsDeployment$ ansible-playbook install-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
-SSH password: 
-BECOME password[defaults to SSH password]:
+vagrant@vagrant:~$ dpkg --get-selections | grep jenkins
+jenkins                                         deinstall
+```
 
-PLAY [jenkins_vm] ************************************************************************************************************************
-TASK [Gathering Facts] *******************************************************************************************************************ok: [jenkins_vm]
+After -
 
-TASK [Download Jenkins key] **************************************************************************************************************ok: [jenkins_vm]
-
-TASK [Add Apt source list] ***************************************************************************************************************ok: [jenkins_vm]
-
-TASK [Run apt-get update] ****************************************************************************************************************ok: [jenkins_vm]
-
-TASK [Install fontconfig] ****************************************************************************************************************ok: [jenkins_vm]
-
-TASK [Install Java] **********************************************************************************************************************ok: [jenkins_vm]
-
-TASK [Install Jenkins] *******************************************************************************************************************changed: [jenkins_vm]
-
-PLAY RECAP *******************************************************************************************************************************jenkins_vm                 : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```bash
+vagrant@vagrant:~$ dpkg --get-selections | grep jenkins
+jenkins                                         install
 ```
 -->
 
@@ -158,7 +210,7 @@ PLAY RECAP *********************************************************************
 
 When we first access the new Jenkins install, we are asked to unlock it using an automatically-generated password.
 
-a. **Browse** to <http://192.168.33.10:8080> and wait until the Unlock Jenkins page appears.
+a. **Browse** to <http://192.168.33.10> (or whichever port we configured for Jenkins when installing it) and wait until the Unlock Jenkins page appears.
 
 b. Run `sudo cat /var/lib/jenkins/secrets/initialAdminPassword` in the Vagrant VM or any other VM we installed the Jenkins and enter the password showed and click "Next".
 
@@ -174,11 +226,8 @@ d. Fill out the info for our First **Amdin User**.
 
 Click **"Save and Continue"**
 
-![1680568248856](image/02_Y_Windows_Ubuntu/1680568248856.png)
-
 e. Click **"Save and Finish"** and click **"Start using Jenkins"**. Then we should login as the admin user we just created previously
 
-<!--
 ### 4. Using Ansibel Role
 
 We are **done** with the Jenkins via Ansible.
@@ -193,36 +242,13 @@ We are going to apply the Ansible Playbook `uninstall-jenkins.yaml` to remove th
 ansible-playbook uninstall-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
 ```
 
-```bash
-vagrant@vagrant:~/udemy-devops-real-projects/008-AnsibleVagrantJenkinsDeployment$ ansible-playbook uninstall-jenkins.yml -i hosts.ini --ask-pass --ask-become-pass
-SSH password: 
-BECOME password[defaults to SSH password]:
-
-PLAY [jenkins_vm] ************************************************************************************************************************
-TASK [Gathering Facts] *******************************************************************************************************************ok: [jenkins_vm]
-
-TASK [Uninstall Jenkins] *****************************************************************************************************************changed: [jenkins_vm]
-
-TASK [Uninstall Java] ********************************************************************************************************************changed: [jenkins_vm]
-
-PLAY RECAP *******************************************************************************************************************************jenkins_vm                 : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-```
-
 Run below command to download the Jenkins Role from **Ansible Galaxy**:
 
 ```bash
-ansible-galaxy install geerlingguy.jenkins -i hosts.ini --ask-pass --ask-become-pass
+ansible-galaxy install geerlingguy.jenkins
 ```
 
-```bash
-vagrant@vagrant:~/udemy-devops-real-projects/008-AnsibleVagrantJenkinsDeployment$ ansible-galaxy install geerlingguy.jenkins
-- downloading role 'jenkins', owned by geerlingguy
-- downloading role from https://github.com/geerlingguy/ansible-role-jenkins/archive/5.0.1.tar.gz
-- extracting geerlingguy.jenkins to /home/vagrant/.ansible/roles/geerlingguy.jenkins
-- geerlingguy.jenkins (5.0.1) was installed successfully
-```
-
-The role will be installed under `~/.ansible/roles`
+The Role will be installed under `~/.ansible/roles`
 
 ```bash
 cd ~/.ansible/roles/geerlingguy.jenkins
@@ -245,4 +271,3 @@ Run below command to apply the **Ansible Role**:
 ```bash
 ansible-playbook install-jenkins-role.yml -i hosts.ini --ask-pass --ask-become-pass
 ```
--->
