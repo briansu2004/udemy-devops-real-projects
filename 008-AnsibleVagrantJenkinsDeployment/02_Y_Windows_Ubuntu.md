@@ -190,6 +190,20 @@ jenkins_vm                 : ok=6    changed=4    unreachable=0    failed=0    s
 
 <!--
 `dpkg --get-selections | grep jenkins`
+
+Before -
+
+```bash
+vagrant@vagrant:~$ dpkg --get-selections | grep jenkins
+jenkins                                         deinstall
+```
+
+After -
+
+```bash
+vagrant@vagrant:~$ dpkg --get-selections | grep jenkins
+jenkins                                         install
+```
 -->
 
 ### 3. Unlocking Jenkins
