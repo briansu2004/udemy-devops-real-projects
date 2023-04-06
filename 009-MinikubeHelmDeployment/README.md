@@ -1,8 +1,8 @@
-# Project 009: Helm Deployment in Kubernetest
+# Project 009: Helm Deployment in Kubernetes
 
 ## Project Goal
 
-In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetest.
+In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 ## Environments
 
