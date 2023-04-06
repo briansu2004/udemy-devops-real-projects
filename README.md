@@ -27,11 +27,11 @@ Project 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy t
 
 [Project 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy to Tomcat in Vagrant VM](006-NexusJenkinsVagrantCICD/README.md)
 
-Project 007: Managing SSH Access with Vault
+[Project 007: Managing SSH Access with Vault](007-VaultFreeIPAVagrantIAM)
 
-Project 008: Install Jenkins Using Ansible
+[Project 008: Install Jenkins Using Ansible](008-AnsibleVagrantJenkinsDeployment)
 
-Project 009: Helm Deployment in Kubernetes
+[Project 009: Helm Deployment in Kubernetes](009-MinikubeHelmDeployment)
 
 ## More projects (WIP)
 
