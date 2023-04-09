@@ -15,8 +15,9 @@ In thhis lab, we will go through the process of **deploying a Vault Helm chart**
 
 [Windows Only](01_YN_WindowsOnly.md)
 
+[With_Windows_Ubuntu](02_YN_Windows_Ubuntu.md)
+
 <!--
-[With_Windows_Ubuntu](02_Y_Windows_Ubuntu.md)
 
 [Mac Only](03_N_MacOnly.md)
 
