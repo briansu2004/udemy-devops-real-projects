@@ -11,6 +11,18 @@ Issues:
 ⛔  Exiting due to RSRC_INSUFFICIENT_CORES: Requested cpu count 2 is greater than the available cpus of 1
 ```
 
+```bash
+vagrant@vagrant:~$ helm list
+Error: Kubernetes cluster unreachable: <html><head><meta http-equiv='refresh' content='1;url=/login?from=%2Fversion'/><script>window.location.replace('/login?from=%2Fversion');</script></head><body style='background-color:white; color:white;'>
+
+
+Authentication required
+<!--
+-->
+
+</body></html>
+```
+
 ## Project Goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
