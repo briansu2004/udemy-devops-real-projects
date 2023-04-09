@@ -20,7 +20,7 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 To use the Helm chart, **add the Hashicorp helm repository** and check that you have access to the chart:
 
-```dos
+```bash
 helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo update
 helm search repo hashicorp/vault
@@ -43,9 +43,9 @@ hashicorp/vault 0.24.0          1.13.1          Official HashiCorp Vault Chart
 
 **Install** the latest release of the Vault Helm chart with below command:
 
-```dos
+```bash
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects\014-VaultInjectorMinikube
+cd udemy-devops-real-projects/014-VaultInjectorMinikube
 helm install vault hashicorp/vault -f values.yaml
 ```
 
