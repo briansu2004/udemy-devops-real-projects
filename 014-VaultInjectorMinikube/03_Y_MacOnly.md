@@ -2,10 +2,6 @@
 
 Mac only
 
-Issues:
-
-???
-
 ## Project Goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
