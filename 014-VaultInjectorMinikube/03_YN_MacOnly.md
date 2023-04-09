@@ -66,16 +66,43 @@ helm install vault hashicorp/vault -f values_mac.yaml
 
 a. **Initiate** vault
 
-???
 
-```dos
+```bash
+docker ps
+docker exec -it <ContainerName> sh
+# kubectl exec -it <POD_NAME> -- sh -c 'which vault'
+
 vault operator init
 ```
 
+<!--
+```bash
+/ $ vault operator init
+Unseal Key 1: FQwAnZCUIN80zM03SfndDEIxVm8/owBOgjIx9oS0fPL5
+Unseal Key 2: 5diVo848wP0I43IVoFbAIuuO909Oej7wVfasTcs2NkRk
+Unseal Key 3: jY3PSPd12pvpfxflj8YHBNVRjK8q+jDzzeP5G184G8wd
+Unseal Key 4: zc4VY9seZw/0sg0AnnuJc4oUd9H/bST2NEFTxW1biUCZ
+Unseal Key 5: Zzeclhs9hLd2uDpYYYtrSbYdSSqhkEmw8JJ5eMMER0Nt
+
+Initial Root Token: hvs.2qvdZJViuTnS44a1Jcj8oaBq
+
+Vault initialized with 5 key shares and a key threshold of 3. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,
+restarted, or stopped, you must supply at least 3 of these keys to unseal it
+before it can start servicing requests.
+
+Vault does not store the generated root key. Without at least 3 keys to
+reconstruct the root key, Vault will remain permanently sealed!
+
+It is possible to generate new unseal keys, provided you have a quorum of
+existing unseal keys shares. See "vault operator rekey" for more information.
+```
+--->
+
 **Note:** Make a note of the output. This is the only time ever you see those **unseal keys** and **root token**. If you lose it, you won't be able to seal vault any more.
 
-b. **Unsealing** the vault </br>
-Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. You will need at lease **3 keys** to unseal the vault. </br>
+b. **Unsealing** the vault
+Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. You will need at lease **3 keys** to unseal the vault.
 
 When the value of  `Sealed` changes to **false**, the Vault is unsealed. You should see below similar output once it is unsealed
 
@@ -101,7 +128,8 @@ Raft Committed Index    31
 Raft Applied Index      31
 ```
 
-c. Sign in to Vault with **root** user </br>
+c. Sign in to Vault with **root** user
+
 Type `vault login` and enter the `<Initial Root Token>` retrieving from previous output
 
 ```dos
@@ -149,7 +177,7 @@ username    root
 
 ### 5. Configure Kubernetes authentication
 
-Stay on the Vault pod and configure the kuberentes authentication </br>
+Stay on the Vault pod and configure the kuberentes authentication
 a. **Enable** the Kuberetes atuh in the Vault
 
 ```dos
