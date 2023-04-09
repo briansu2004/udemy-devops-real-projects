@@ -4,19 +4,13 @@ Mac only
 
 ## Project Goal
 
-In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
+In thhis lab, we will go through the process of **deploying a Vault Helm chart** in a Kubernetes cluster running on **Minikube**. Once we have the Vault instance up and running, we will create a **deployment** that utilizes **Vault as a sidecar** to **inject secrets** into the pod as a file. This approach ensures that the application running in the pod has access to the necessary secrets without compromising their security by storing them in plain text within the container.
 
 ## Prerequisites
 
 ### 1. Install Docker for Mac
 
 ### 2. Install Minikube for Mac
-
-```dos
-minikube start
-```
-
-or
 
 ```dos
 minikube start --driver=docker --kubernetes-version=v1.26.3
