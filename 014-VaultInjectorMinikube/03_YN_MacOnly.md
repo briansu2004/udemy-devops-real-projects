@@ -336,15 +336,26 @@ kubectl patch deployment app-deployment --patch "$(cat patch-app-deployment.yaml
 
 <!--
 ```bash
-devops@Brians-MacBook-Pro 014-VaultInjectorMinikube % kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
-pod/app-deployment-d5f84c98d-9w5hz condition met
-pod/app-deployment-d5f84c98d-gjtwf condition met
-pod/app-deployment-d5f84c98d-kvw62 condition met
+devops@Brians-MacBook-Pro 014-VaultInjectorMinikube % kubectl patch deployment app-deployment --patch "$(cat patch-app-deployment.yaml)"
+deployment.apps/app-deployment patched
 ```
 -->
 
 Once the vault sidecar is successfully injected into the app deployment's pod, we should be able to verify its presence by inspecting the pod's configuration.
 
 ```dos
+kubectl get pod
+
 kubectl exec $(kubectl get pod|grep app-deployment|awk '{print $1}') -- cat /vault/secrets/database-config.txt
 ```
+
+<!--
+```bash
+kubectl exec $(kubectl get pod|grep app-deployment|awk '{print $1}') -- cat /vault/secrets/database-config.txt
+Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
+
+        export password=changeme
+
+        export username=root
+    %
+```>
