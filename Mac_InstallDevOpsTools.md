@@ -18,18 +18,41 @@ vagrant --version
 
 ```bash
 brew install VirtualBox
+
+VBoxManage --version
 ```
-
-or
-
-<https://www.virtualbox.org/wiki/Downloads>
 
 ## Install Docker (and Docker Compose) in Mac
 
 Docker Desktop
 
+```bash
+brew install docker
+
+docker version
+```
+
 ## Install minikube in Mac
+
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 && \
+sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+
+minikube version
+```
+
+## Install kubectl in Mac
+
+```bash
+brew install kubectl
+
+kubectl version
+```
 
 ## Install Helm in Mac
 
-...
+```bash
+brew install helm
+
+helm version
+```

@@ -17,11 +17,10 @@ In thhis lab, we will go through the process of **deploying a Vault Helm chart**
 
 [With_Windows_Ubuntu](02_YN_Windows_Ubuntu.md)
 
+[Mac Only](03_YN_MacOnly.md)
+
+[With_Mac_Ubuntu](04_YN_Mac_Ubuntu.md)
+
 <!--
 
-[Mac Only](03_N_MacOnly.md)
-
-[With_Mac_Ubuntu](04_Y_MacDocker_Ubuntu.md)
-
-[With_Mac_Ubuntu](04_Y_Mac_UbuntuDocker.md)
 -->
