@@ -6,7 +6,9 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 ## Prerequisites
 
-### 1. Install Minikube for Windows
+### 1. Install Docker for Windows
+
+### 2. Install Minikube for Windows
 
 `choco install minikube`
 
@@ -14,7 +16,7 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 [Minikube official website](https://minikube.sigs.k8s.io/docs/start/)
 -->
 
-### 2. Install Helm for Windows
+### 3. Install Helm for Windows
 
 `choco install kubernetes-helm`
 

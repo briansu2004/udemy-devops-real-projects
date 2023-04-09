@@ -8,9 +8,9 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 | #  | Env  | Y/N  | Recommended   |  Comment |
 |---|---|---|---|---|
-| 1 | Windows only | YN | YN |   |
+| 1 | Windows only | Y | Y |   |
 | 2 | Windows + Ubuntu | Y | Y |   |
-| 3 | Mac only | YN | YN |   |
+| 3 | Mac only | Y | Y |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
 
 [Windows Only](01_Y_WindowsOnly.md)
