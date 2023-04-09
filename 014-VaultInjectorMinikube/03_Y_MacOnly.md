@@ -349,6 +349,7 @@ Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
 
         export username=root
     %
-```>
+```
+-->
 
 ![Result](images/result.png)
