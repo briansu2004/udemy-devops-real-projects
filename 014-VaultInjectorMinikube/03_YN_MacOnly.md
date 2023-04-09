@@ -23,7 +23,7 @@ minikube start
 or
 
 ```dos
-minikube start --kubernetes-version=v1.26.1
+minikube start --driver=docker --kubernetes-version=v1.26.3
 ```
 
 ### 3. Install Helm for Mac
