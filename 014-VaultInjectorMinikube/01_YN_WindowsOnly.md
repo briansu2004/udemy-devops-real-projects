@@ -144,10 +144,12 @@ vault operator init
 ```
 
 **Note:**
+
 Make a note of the output. This is the only time ever we see those **unseal keys** and **root token**. If we lose it, we won't be able to seal vault any more.
 
-b. **Unsealing** the vault </br>
-Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. we will need at lease **3 keys** to unseal the vault. </br>
+b. **Unsealing** the vault
+
+Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. we will need at lease **3 keys** to unseal the vault.
 
 When the value of  `Sealed` changes to **false**, the Vault is unsealed. we should see below similar output once it is unsealed
 
@@ -173,7 +175,7 @@ Raft Committed Index    31
 Raft Applied Index      31
 ```
 
-c. Sign in to Vault with **root** user </br>
+c. Sign in to Vault with **root** user
 Type `vault login` and enter the `<Initial Root Token>` retrieving from previous output
 
 ```dos
@@ -221,7 +223,8 @@ username    root
 
 ### 5. Configure Kubernetes authentication
 
-Stay on the Vault pod and configure the kuberentes authentication </br>
+Stay on the Vault pod and configure the kuberentes authentication
+
 a. **Enable** the Kuberetes atuh in the Vault
 
 ```dos
