@@ -15,12 +15,11 @@ In thhis lab, we will go through the process of **deploying a Vault Helm chart**
 
 [Windows Only](01_YN_WindowsOnly.md)
 
-[With_Windows_Ubuntu](02_YN_Windows_Ubuntu.md)
-
-[Mac Only](03_YN_MacOnly.md)
-
-[With_Mac_Ubuntu](04_YN_Mac_Ubuntu.md)
+[Mac Only](03_Y_MacOnly.md)
 
 <!--
 
+[With_Windows_Ubuntu](02_YN_Windows_Ubuntu.md)
+
+[With_Mac_Ubuntu](04_YN_Mac_Ubuntu.md)
 -->
