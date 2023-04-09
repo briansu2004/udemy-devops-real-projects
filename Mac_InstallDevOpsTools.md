@@ -14,6 +14,16 @@ brew install vagrant
 vagrant --version
 ```
 
+## Install VirtualBox in Mac
+
+```bash
+brew install VirtualBox
+```
+
+or
+
+<https://www.virtualbox.org/wiki/Downloads>
+
 ## Install Docker (and Docker Compose) in Mac
 
 Docker Desktop
