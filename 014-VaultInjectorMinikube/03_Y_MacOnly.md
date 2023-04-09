@@ -88,7 +88,7 @@ existing unseal keys shares. See "vault operator rekey" for more information.
 ```
 --->
 
-**Note:** 
+**Note:**
 
 Make a note of the output. This is the only time ever we see those **unseal keys** and **root token**. If we lose it, we won't be able to seal vault any more.
 
@@ -350,3 +350,5 @@ Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
         export username=root
     %
 ```>
+
+![Result](images/result.png)
