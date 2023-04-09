@@ -143,6 +143,30 @@ kubectl exec -it vault-0 -- sh
 vault operator init
 ```
 
+<!--
+```bash
+/ $ vault operator init
+Unseal Key 1: sSilf5U+hYtF1yMrDsLsCmMqSzyKCZKNxVdC8iag01XH
+Unseal Key 2: Xw7I9jigse5JZNBeSUoC4iUjJHF02GuJmfTXQXvcCoX/
+Unseal Key 3: Ih/2UfDI2i4RxwpnFaJDbnO6tzf9kHfCdpmeKhE8fPFz
+Unseal Key 4: vJhMqPGPHEPL3BlIk88okNFfPdekKrsGAyXr22kULD6C
+Unseal Key 5: Y+8b3yzOvN7cFxPx6oi62K7Tn0de/ahnzfYJ24VfszK8
+
+Initial Root Token: hvs.RJGvA7wXMyKhNReZFaw6dVb9
+
+Vault initialized with 5 key shares and a key threshold of 3. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,        
+restarted, or stopped, you must supply at least 3 of these keys to unseal it 
+before it can start servicing requests.
+
+Vault does not store the generated root key. Without at least 3 keys to      
+reconstruct the root key, Vault will remain permanently sealed!
+
+It is possible to generate new unseal keys, provided you have a quorum of    
+existing unseal keys shares. See "vault operator rekey" for more information.
+```
+-->
+
 **Note:**
 
 Make a note of the output. This is the only time ever we see those **unseal keys** and **root token**. If we lose it, we won't be able to seal vault any more.
@@ -176,6 +200,7 @@ Raft Applied Index      31
 ```
 
 c. Sign in to Vault with **root** user
+
 Type `vault login` and enter the `<Initial Root Token>` retrieving from previous output
 
 ```dos
@@ -197,11 +222,14 @@ policies             ["root"]
 ```
 
 ### 4. Enable Vault KV Secrets Engine Version 2 and Create a Secret
->
+
+<!--
 > Refer to <https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2>
+-->
 
 ```dos
 vault secrets enable -path=internal-app kv-v2
+
 vault kv put internal-app/database/config username=root password=changeme
 ```
 
@@ -276,12 +304,28 @@ kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
 
 To enable the vault to inject secrets into a deployment's pods, we need to patch the  code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
 
+<!--
 ```dos
 kubectl patch deployment app-deployment --patch "$(cat patch-app-deployment.yaml)"
 ```
 
-Once the vault sidecar is successfully injected into the app deployment's pod, we should be able to verify its presence by inspecting the pod's configuration.
+==>
+-->
 
 ```dos
+kubectl patch deployment app-deployment --patch (Get-Content patch-app-deployment.yaml | Out-String)
+```
+
+Once the vault sidecar is successfully injected into the app deployment's pod, we should be able to verify its presence by inspecting the pod's configuration.
+
+<!--
+```dos
 kubectl exec $(kubectl get pod|grep app-deployment|awk '{print $1}') -- cat /vault/secrets/database-config.txt
+```
+
+==>
+-->
+
+```dos
+kubectl exec $(kubectl get pod | Select-String 'app-deployment' | ForEach-Object { $_.Line.Split(' ')[0] }) -- cat /vault/secrets/database-config.txt
 ```
