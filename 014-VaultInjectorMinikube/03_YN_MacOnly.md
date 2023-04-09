@@ -66,7 +66,6 @@ helm install vault hashicorp/vault -f values_mac.yaml
 
 a. **Initiate** vault
 
-
 ```bash
 docker ps
 docker exec -it <ContainerName> sh
@@ -151,13 +150,36 @@ policies             ["root"]
 ```
 
 ### 4. Enable Vault KV Secrets Engine Version 2 and Create a Secret
->
+
+<!--
 > Refer to <https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2>
+-->
 
 ```dos
 vault secrets enable -path=internal-app kv-v2
+
 vault kv put internal-app/database/config username=root password=changeme
 ```
+
+<!--
+```bash
+/ $ vault secrets enable -path=internal-app kv-v2
+Success! Enabled the kv-v2 secrets engine at: internal-app/
+/ $ 
+/ $ vault kv put internal-app/database/config username=root password=changeme
+========== Secret Path ==========
+internal-app/data/database/config
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2023-04-09T21:02:11.54113053Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
+```
+-->
 
 You can **read** the data by running this:
 
@@ -175,6 +197,29 @@ password    changeme
 username    root
 ```
 
+<!--
+```bash
+/ $ vault kv get internal-app/database/config
+========== Secret Path ==========
+internal-app/data/database/config
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2023-04-09T21:02:11.54113053Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            1
+
+====== Data ======
+Key         Value
+---         -----
+password    changeme
+username    root
+```
+-->
+
 ### 5. Configure Kubernetes authentication
 
 Stay on the Vault pod and configure the kuberentes authentication
@@ -183,6 +228,13 @@ a. **Enable** the Kuberetes atuh in the Vault
 ```dos
 vault auth enable kubernetes
 ```
+
+<!--
+```bash
+/ $ vault auth enable kubernetes
+Success! Enabled kubernetes auth method at: kubernetes/
+```
+-->
 
 b. Create a **role** for the service account which is used by the deployment
 
@@ -197,7 +249,28 @@ path "internal-app/data/database/config" {
 EOF
 ```
 
+<!--
+```bash
+/ $ echo $KUBERNETES_PORT_443_TCP_ADDR
+10.96.0.1
+/ $ 
+/ $ vault write auth/kubernetes/config \
+>     kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+Success! Data written to: auth/kubernetes/config
+/ $ 
+/ $ vault policy write internal-app - <<EOF
+> path "internal-app/data/database/config" {
+>   capabilities = ["read"]
+> }
+> EOF
+Success! Uploaded policy: internal-app
+```
+-->
+
+<!--
 > Note: Since version 2 kv has prefixed `data/`, your secret path will be `internal-app/data/database/config`, instead of `internal-app/database/config`
+-->
+
 c. Associate the role created above to the **service account**
 
 ```dos
