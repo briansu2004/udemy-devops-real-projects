@@ -19,6 +19,7 @@ At line:1 char:1
 ```
 -->
 
+<!--
 ```dos
 PS C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube> docker ps
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED      STATUS         PORTS                                                                                                                             NAMES
@@ -29,6 +30,7 @@ root@minikube:/#
 root@minikube:/# vault operator init
 bash: vault: command not found
 ```
+-->
 
 ## Project Goal
 
@@ -41,13 +43,7 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 ### 2. Install Minikube for Windows
 
 ```dos
-minikube start
-```
-
-or
-
-```dos
-minikube start --kubernetes-version=v1.26.1
+minikube start --driver=docker --kubernetes-version=v1.26.3
 ```
 
 ### 3. Install Helm for Windows
@@ -56,7 +52,7 @@ minikube start --kubernetes-version=v1.26.1
 
 ### 1. Add Helm Repo
 
-To use the Helm chart, **add the Hashicorp helm repository** and check that you have access to the chart:
+To use the Helm chart, **add the Hashicorp helm repository** and check that we have access to the chart:
 
 ```dos
 helm repo add hashicorp https://helm.releases.hashicorp.com
@@ -65,10 +61,14 @@ helm search repo hashicorp/vault
 ```
 
 <!--
+helm repo list
+
+helm list
+
 PS C:\devbox> helm repo add hashicorp https://helm.releases.hashicorp.com
-"hashicorp" has been added to your repositories
+"hashicorp" has been added to our repositories
 PS C:\devbox> helm repo update
-Hang tight while we grab the latest from your chart repositories...
+Hang tight while we grab the latest from our chart repositories...
 ...Successfully got an update from the "hashicorp" chart repository
 ...Successfully got an update from the "jenkins" chart repository
 Update Complete. ⎈Happy Helming!⎈
@@ -98,14 +98,14 @@ NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 NOTES:
-Thank you for installing HashiCorp Vault!
+Thank we for installing HashiCorp Vault!
 
-Now that you have deployed Vault, you should look over the docs on using
+Now that we have deployed Vault, we should look over the docs on using
 Vault with Kubernetes available here:
 
 https://www.vaultproject.io/docs/
 
-Your release is named vault. To learn more about the release, try:
+our release is named vault. To learn more about the release, try:
 
   $ helm status vault
   $ helm get manifest vault
@@ -117,14 +117,14 @@ NAMESPACE: default
 STATUS: deployed
 REVISION: 1
 NOTES:
-Thank you for installing HashiCorp Vault!
+Thank we for installing HashiCorp Vault!
 
-Now that you have deployed Vault, you should look over the docs on using
+Now that we have deployed Vault, we should look over the docs on using
 Vault with Kubernetes available here:
 
 https://www.vaultproject.io/docs/
 
-Your release is named vault. To learn more about the release, try:
+our release is named vault. To learn more about the release, try:
 
   $ helm status vault
   $ helm get manifest vault
@@ -135,18 +135,21 @@ Your release is named vault. To learn more about the release, try:
 
 a. **Initiate** vault
 
-???
+```bash
+kubectl get pod
 
-```dos
+kubectl exec -it vault-0 -- sh
+
 vault operator init
 ```
 
-**Note:** Make a note of the output. This is the only time ever you see those **unseal keys** and **root token**. If you lose it, you won't be able to seal vault any more.
+**Note:**
+Make a note of the output. This is the only time ever we see those **unseal keys** and **root token**. If we lose it, we won't be able to seal vault any more.
 
 b. **Unsealing** the vault </br>
-Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. You will need at lease **3 keys** to unseal the vault. </br>
+Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. we will need at lease **3 keys** to unseal the vault. </br>
 
-When the value of  `Sealed` changes to **false**, the Vault is unsealed. You should see below similar output once it is unsealed
+When the value of  `Sealed` changes to **false**, the Vault is unsealed. we should see below similar output once it is unsealed
 
 ```dos
 Unseal Key (will be hidden): 
@@ -176,8 +179,8 @@ Type `vault login` and enter the `<Initial Root Token>` retrieving from previous
 ```dos
 / # vault login
 Token (will be hidden): 
-Success! You are now authenticated. The token information displayed below
-is already stored in the token helper. You do NOT need to run "vault login"
+Success! we are now authenticated. The token information displayed below
+is already stored in the token helper. we do NOT need to run "vault login"
 again. Future Vault requests will automatically use this token.
 
 Key                  Value
@@ -200,13 +203,13 @@ vault secrets enable -path=internal-app kv-v2
 vault kv put internal-app/database/config username=root password=changeme
 ```
 
-You can **read** the data by running this:
+we can **read** the data by running this:
 
 ```dos
 vault kv get internal-app/database/config
 ```
 
-Then you should be able to see below output
+Then we should be able to see below output
 
 ```dos
 ====== Data ======
@@ -238,7 +241,10 @@ path "internal-app/data/database/config" {
 EOF
 ```
 
-> Note: Since version 2 kv has prefixed `data/`, your secret path will be `internal-app/data/database/config`, instead of `internal-app/database/config`
+<!--
+> Note: Since version 2 kv has prefixed `data/`, our secret path will be `internal-app/data/database/config`, instead of `internal-app/database/config`
+-->
+
 c. Associate the role created above to the **service account**
 
 ```dos
@@ -265,13 +271,13 @@ kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
 
 ### 7. Update the deployment to Enable the Vault Injection
 
-To enable the vault to inject secrets into a deployment's pods, you need to patch the  code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
+To enable the vault to inject secrets into a deployment's pods, we need to patch the  code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
 
 ```dos
 kubectl patch deployment app-deployment --patch "$(cat patch-app-deployment.yaml)"
 ```
 
-Once the vault sidecar is successfully injected into the app deployment's pod, you should be able to verify its presence by inspecting the pod's configuration.
+Once the vault sidecar is successfully injected into the app deployment's pod, we should be able to verify its presence by inspecting the pod's configuration.
 
 ```dos
 kubectl exec $(kubectl get pod|grep app-deployment|awk '{print $1}') -- cat /vault/secrets/database-config.txt
