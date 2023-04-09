@@ -66,6 +66,8 @@ helm install vault hashicorp/vault -f values_mac.yaml
 
 a. **Initiate** vault
 
+Go on the Vault pod
+
 ```bash
 docker ps
 docker exec -it <ContainerName> sh
@@ -223,6 +225,7 @@ username    root
 ### 5. Configure Kubernetes authentication
 
 Stay on the Vault pod and configure the kuberentes authentication
+
 a. **Enable** the Kuberetes atuh in the Vault
 
 ```dos
@@ -280,6 +283,17 @@ c. Associate the role created above to the **service account**
     policies=internal-app \
     ttl=24h
 ```
+
+<!--
+```bash
+/ $  vault write auth/kubernetes/role/internal-app \
+>     bound_service_account_names=app-sa \
+>     bound_service_account_namespaces=default \
+>     policies=internal-app \
+>     ttl=24h
+Success! Data written to: auth/kubernetes/role/internal-app
+```
+-->
 
 ### 6. Launch an Application
 
