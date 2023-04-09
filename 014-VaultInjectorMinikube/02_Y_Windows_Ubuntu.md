@@ -2,6 +2,15 @@
 
 Windows + Ubuntu
 
+Issues:
+
+```bash
+😄  minikube v1.30.1 on Ubuntu 20.04 (vbox/amd64)
+✨  Automatically selected the docker driver. Other choices: none, ssh
+
+⛔  Exiting due to RSRC_INSUFFICIENT_CORES: Requested cpu count 2 is greater than the available cpus of 1
+```
+
 ## Project Goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
