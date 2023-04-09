@@ -59,9 +59,9 @@ a. **Initiate** vault
 Go on the Vault pod
 
 ```bash
-docker ps
-docker exec -it <ContainerName> sh
-# kubectl exec -it <POD_NAME> -- sh -c 'which vault'
+kubectl get pod
+
+kubectl exec -it vault-0 -- sh
 
 vault operator init
 ```
