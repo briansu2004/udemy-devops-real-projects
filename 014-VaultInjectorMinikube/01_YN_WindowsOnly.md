@@ -135,6 +135,8 @@ Your release is named vault. To learn more about the release, try:
 
 a. **Initiate** vault
 
+???
+
 ```dos
 vault operator init
 ```
