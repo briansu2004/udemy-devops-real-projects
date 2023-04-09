@@ -1,4 +1,4 @@
-# Project 014: Helm Deployment in Kubernetes
+# Project 014: Deploy and Use Vault As Agent Sidecar Injector
 
 Windows only
 

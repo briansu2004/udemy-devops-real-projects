@@ -143,6 +143,12 @@ sudo apt-get install -y kubectl
 kubectl version --client
 ```
 
+or with minikube
+
+```bash
+minikube kubectl
+```
+
 ## Install kubenetes in Ubuntu
 
 ```bash
