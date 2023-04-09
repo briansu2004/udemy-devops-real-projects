@@ -56,8 +56,6 @@ helm install vault hashicorp/vault -f values_mac.yaml
 
 a. **Initiate** vault
 
-Go on the Vault pod
-
 ```bash
 kubectl get pod
 
@@ -90,9 +88,12 @@ existing unseal keys shares. See "vault operator rekey" for more information.
 ```
 --->
 
-**Note:** Make a note of the output. This is the only time ever we see those **unseal keys** and **root token**. If we lose it, we won't be able to seal vault any more.
+**Note:** 
+
+Make a note of the output. This is the only time ever we see those **unseal keys** and **root token**. If we lose it, we won't be able to seal vault any more.
 
 b. **Unsealing** the vault
+
 Type `vault operator unseal <unseal key>`. The unseal keys are from previous output. we will need at lease **3 keys** to unseal the vault.
 
 When the value of  `Sealed` changes to **false**, the Vault is unsealed. we should see below similar output once it is unsealed
@@ -173,13 +174,13 @@ version            1
 ```
 -->
 
-we can **read** the data by running this:
+We can **read** the data by running this:
 
 ```dos
 vault kv get internal-app/database/config
 ```
 
-Then we should be able to see below output
+Then we should be able to see below output:
 
 ```dos
 ====== Data ======
