@@ -1,21 +1,6 @@
 # Project 014: Helm Deployment in Kubernetes
 
-Windows
-
-Issues:
-
-`vault operator init` has issues.
-
-```dos
-PS C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube> vault operator init
-vault : The term 'vault' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path
-was included, verify that the path is correct and try again.
-At line:1 char:1
-+ vault operator init
-+ ~~~~~
-    + CategoryInfo          : ObjectNotFound: (vault:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
-```
+Windows + Ubuntu
 
 ## Project Goal
 
@@ -23,11 +8,11 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 ## Prerequisites
 
-### 1. Install Docker for Windows
+### 1. Install Vagrant for Windows
 
-### 2. Install Minikube for Windows
+### 2. Install Docker for Ubuntun
 
-### 3. Install Helm for Windows
+### 3. Install Helm for Ubuntun
 
 ## Steps
 
