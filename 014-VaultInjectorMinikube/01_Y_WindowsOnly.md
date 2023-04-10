@@ -146,7 +146,7 @@ vault write auth/kubernetes/role/internal-app \
     ttl=24h
 ```
 
-### 6. Launch an Application
+### 6. Launch an application
 
 Apply the `app-deployment.yaml` to deploy a deployment:
 
@@ -160,7 +160,7 @@ Wait for the pods are **ready**
 kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
 ```
 
-### 7. Update the deployment to Enable the Vault Injection
+### 7. Update the deployment to enable the Vault Injection
 
 To enable the vault to inject secrets into a deployment's pods, we need to patch the code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
 
