@@ -208,12 +208,12 @@ Recipe: gitlab::gitlab-rails
      (up to date)
   * templatesymlink[Create a gitlab_incoming_email_secret and create a symlink to Rails root] action create (skipped due to only_if)
   * templatesymlink[Create a gitlab_service_desk_email_secret and create a symlink to Rails root] action create (skipped due to only_if)
-  * templatesymlink[Create a gitlab_pages_secret and create a symlink to Rails root] action create[2023-01-18T22:26:32+00:00] WARN: only_if block for templatesymlink[Create a gitlab_pages_secret and create a symlink to Rails root] returned a string, did you mean to run a command?
+  * templatesymlink[Create a gitlab_pages_secret and create a symlink to Rails root] action create[2023-01-18T22:26:32+00:00] WARN: only_if block for templatesymlink[Create a gitlab_pages_secret and create a symlink to Rails root] returned a string, did we mean to run a command?
 
     * template[/var/opt/gitlab/gitlab-rails/etc/gitlab_pages_secret] action create (up to date)
     * link[Link /opt/gitlab/embedded/service/gitlab-rails/.gitlab_pages_secret to /var/opt/gitlab/gitlab-rails/etc/gitlab_pages_secret] action create (up to date)
      (up to date)
-  * templatesymlink[Create a gitlab_kas_secret and create a symlink to Rails root] action create[2023-01-18T22:26:32+00:00] WARN: only_if block for templatesymlink[Create a gitlab_kas_secret and create a symlink to Rails root] returned a string, did you mean to run a command?
+  * templatesymlink[Create a gitlab_kas_secret and create a symlink to Rails root] action create[2023-01-18T22:26:32+00:00] WARN: only_if block for templatesymlink[Create a gitlab_kas_secret and create a symlink to Rails root] returned a string, did we mean to run a command?
 
     * template[/var/opt/gitlab/gitlab-rails/etc/gitlab_kas_secret] action create (up to date)
     * link[Link /opt/gitlab/embedded/service/gitlab-rails/.gitlab_kas_secret to /var/opt/gitlab/gitlab-rails/etc/gitlab_kas_secret] action create (up to date)

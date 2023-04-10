@@ -152,23 +152,23 @@ Initializing provider plugins...
 - Installed kreuzwerker/docker v2.13.0 (self-signed, key ID 24E54F214569A8A5)
 
 Partner and community providers are signed by their developers.
-If you'd like to know more about provider signing, you can read about it here:
+If you'd like to know more about provider signing, we can read about it here:
 https://www.terraform.io/docs/cli/plugins/signing.html
 
 Terraform has created a lock file .terraform.lock.hcl to record the provider
-selections it made above. Include this file in your version control repository
+selections it made above. Include this file in our version control repository
 so that Terraform can guarantee to make the same selections by default when
-you run "terraform init" in the future.
+we run "terraform init" in the future.
 
 Terraform has been successfully initialized!
 
 You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
+any changes that are required for our infrastructure. All Terraform commands
 should now work.
 
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
+If we ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize our working directory. If we forget, other
+commands will detect it and remind we to do so if necessary.
 ```
 -->
 

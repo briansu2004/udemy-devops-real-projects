@@ -114,7 +114,7 @@ exit
 DevOps 🚀 devbox % ssh-copy-id admin@192.168.33.10
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/Users/x239757/.ssh/id_rsa.pub"
 /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
-/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if we are prompted now it is to install the new keys
 admin@192.168.33.10's password: 
 Permission denied, please try again.
 admin@192.168.33.10's password: 
@@ -122,7 +122,7 @@ admin@192.168.33.10's password:
 Number of key(s) added:        1
 
 Now try logging into the machine, with:   "ssh 'admin@192.168.33.10'"
-and check to make sure that only the key(s) you wanted were added.
+and check to make sure that only the key(s) we wanted were added.
 
 DevOps 🚀 devbox % ssh admin@192.168.33.10 
 Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-42-generic x86_64)

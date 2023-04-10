@@ -1,10 +1,10 @@
 env=$1
 if [ -z "$env" ]; then
-    read -p $'Please enter the environment you wanted to deploy to: \n(example: test)\n' env
+    read -p $'Please enter the environment we wanted to deploy to: \n(example: test)\n' env
 fi
 
 if [ $env != "test" ] && [ $env != "test" ]; then
-    echo "Error: Please enter the environment you are going to deploy to!\n(example: test)\n"
+    echo "Error: Please enter the environment we are going to deploy to!\n(example: test)\n"
     exit 1
 else
     echo "You are going to deploy to $env now!"

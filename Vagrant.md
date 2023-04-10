@@ -30,7 +30,7 @@ For Windows
 vagrant plugin install vagrant-disksize
 ```
 
-Use the following in your Vagrantfile:
+Use the following in our Vagrantfile:
 
 ```dos
 vagrant.configure('2') do |config|

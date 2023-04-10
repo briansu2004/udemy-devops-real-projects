@@ -21,7 +21,7 @@ docker compose up
 
 ### 2. Add Elasticsearch CA certificates
 
-As the communication between Elasticsearch and metricbeat is using tls, you need to add the Elasticsearch CA into the server which is going to be monitored.
+As the communication between Elasticsearch and metricbeat is using tls, we need to add the Elasticsearch CA into the server which is going to be monitored.
 
 a. Copy the CA certificate from one of Elasticsearch containers
 
@@ -59,14 +59,14 @@ YODMWORSi2eVcBZjVWHi88wdAZHKbVGLBe+dIqk=
 
 b. Run below command:
 
-<!-- Go to the local host which you want to monitor -->
+<!-- Go to the local host which we want to monitor -->
 <!-- In Vagrant Ubuntu -->
 
 ```bash
 sudo apt-get install -y ca-certificates
 cd /usr/local/share/ca-certificates/
 sudo vim elasticsearch-ca.crt
-# Paste the CA certificate you copied in above step and then run below command to add it to the host
+# Paste the CA certificate we copied in above step and then run below command to add it to the host
 cat /usr/local/share/ca-certificates/elasticsearch-ca.crt
 
 sudo update-ca-certificates
@@ -76,7 +76,7 @@ sudo update-ca-certificates
 
 Deploy a metricbeat service in the monitored server to collect the metric data.
 
-> Note: In this example, we are monitoring the local host. For other hosts, you just need to update the ELK host IP address in the `metricbeat.yaml` to make sure the metricbeat can reach the Elasticsearch.
+> Note: In this example, we are monitoring the local host. For other hosts, we just need to update the ELK host IP address in the `metricbeat.yaml` to make sure the metricbeat can reach the Elasticsearch.
 
 ```dos
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
@@ -127,7 +127,7 @@ sudo systemctl status metricbeat
 # sudo systemctl restart metricbeat
 # sudo systemctl stop metricbeat
 
-# if you are in wsl use following command
+# if we are in wsl use following command
 #
 # sudo service metricbeat stop
 # sudo service metricbeat start
@@ -190,6 +190,6 @@ Enter the username (default is elastic) / password set in `.env`.
 
 b. Click the menu icon in the top left and go to "Dashboard"
 
-c. Select "[Metricbeat System] Host overview ECS" and you should be able to see all metric data from the local host presented in the dashboard.
+c. Select "[Metricbeat System] Host overview ECS" and we should be able to see all metric data from the local host presented in the dashboard.
 
 ![1673320776011](image/02_Y_Windows_Ubuntu/1673320776011.png)

@@ -3,7 +3,7 @@
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
+# backwards compatibility). Please don't change it unless we know what
 # you're doing.
 Vagrant.configure("2") do |config|
   # The most common configuration options are documented and commented below.
@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "geerlingguy/ubuntu2004"
 
-  # Disable automatic box update checking. If you disable this, then
+  # Disable automatic box update checking. If we disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
-  # your network.
+  # our network.
   config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  # Provider-specific configuration so you can fine-tune various
+  # Provider-specific configuration so we can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     vb.memory = "4096"
   end
   #
-  # View the documentation for the provider you are using for more
+  # View the documentation for the provider we are using for more
   # information on available options.
 
   # Enable provisioning with a shell script. Additional provisioners such as

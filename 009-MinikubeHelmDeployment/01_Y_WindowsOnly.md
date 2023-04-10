@@ -64,7 +64,7 @@ minikube   Ready    control-plane   4m37s   v1.25.3
 
 ### 2. Enable Minikube Dashboard
 
-We can also enable your **Minikube dashboard** by running below command:
+We can also enable our **Minikube dashboard** by running below command:
 
 ```dos
 minikube dashboard
@@ -116,19 +116,19 @@ minikube logs -f
 
 ### 5. Access Jenkins Website
 
-Now, you have deployed a Jenkins service in the Minikube. You can check if the Jenkins pod is in `Running` state
+Now, we have deployed a Jenkins service in the Minikube. You can check if the Jenkins pod is in `Running` state
 
 ```dos
 kubectl get pod
 ```
 
-If so, **forward** the port to your local and then you can access the Jenkins website
+If so, **forward** the port to our local and then we can access the Jenkins website
 
 ```dos
 kubectl --namespace default port-forward svc/jenkins 8080:8080
 ```
 
-Open your **browser** and type `http://127.0.0.1:8080`
+Open our **browser** and type `http://127.0.0.1:8080`
 
 <!--
 `http://0.0.0.0:8080`
@@ -161,15 +161,15 @@ Minikue dashboard:
 
 # Create Your Own Helm Chart
 
-In above lab, we went through the steps to deploy an app via Helm Chart in K8s. In practical, you may need to create your own helm chart to deploy your own developed code.In the following article, we will create a **customized helm chart** and store it in the **GitHub page**.
+In above lab, we went through the steps to deploy an app via Helm Chart in K8s. In practical, we may need to create our own helm chart to deploy our own developed code.In the following article, we will create a **customized helm chart** and store it in the **GitHub page**.
 
-## 1. Create your own Github repo
+## 1. Create our own Github repo
 
 You can refer to [here](https://docs.github.com/en/get-started/quickstart/create-a-repo) for how to **create a repo** in the Github.
 
 ## 2. Create a Helm Chart
 
-In your repo created above, run below commands to **create a Helm Chart**
+In our repo created above, run below commands to **create a Helm Chart**
 
 ```
 mkdir helm-charts
@@ -177,7 +177,7 @@ cd helm-charts
 helm create test-service
 ```
 
-Then you will see a folder `test-service` is created. Below is the structure in the folder
+Then we will see a folder `test-service` is created. Below is the structure in the folder
 
 ```
 $ tree test-service/
@@ -199,14 +199,14 @@ test-service/
 ```
 
 **charts:** Charts that this chart depends on. You can define the **dependencies** in `Chart.yaml`</br>
-**Chart.yaml:** Information about your chart</br>
+**Chart.yaml:** Information about our chart</br>
 **templates:** All template manifest files</br>
-**values.yaml:** The default values for your templates</br>
-You can modify this Helm Chart files as you need.
+**values.yaml:** The default values for our templates</br>
+You can modify this Helm Chart files as we need.
 
-## 3. Package and upload your Helm Chart
+## 3. Package and upload our Helm Chart
 
-You need to package your Helm Chart into `tgz` file and upload to the Github.
+You need to package our Helm Chart into `tgz` file and upload to the Github.
 
 ```dos
 helm package test-service
@@ -238,7 +238,7 @@ mkdir docs
 mv helm-charts/{index.yaml,test-service-0.1.0.tgz} docs
 ```
 
-**Commit** the changes to your Github repo
+**Commit** the changes to our Github repo
 
 ```dos
 git add .
@@ -248,17 +248,17 @@ git push
 
 ## 4. Create Github Pages
 
-In order to make your `tgz` downloadable from your Github site, you need to enable your Github Pages. </br>
-a. Go to your Github site and head into **your repo** which is planning to be used to hold your Helm Chart.</br>
+In order to make our `tgz` downloadable from our Github site, we need to enable our Github Pages. </br>
+a. Go to our Github site and head into **our repo** which is planning to be used to hold our Helm Chart.</br>
 b. Go to **"Settings"** and click "Pages" in the left lane. </br>
 c. In the **Branch** section, select "main" and "/docs". </br>
 d. Click "Save" to apply the change. </br>
-Once the Github Page is setup, you should be able to download the `tgz` file from the site. The URL should be like `https://<your_github_username>.github.io/<your_repo_name>`
+Once the Github Page is setup, we should be able to download the `tgz` file from the site. The URL should be like `https://<your_github_username>.github.io/<your_repo_name>`
 ![github_page](images/github_page.jpg)
 
-## 5. Deploy your own Helm Chart
+## 5. Deploy our own Helm Chart
 
-Now you are ready to deploy your own created Helm Chart! </br>
+Now we are ready to deploy our own created Helm Chart! </br>
 **Add the Helm repository** locally
 
 ```
@@ -266,10 +266,10 @@ helm repo add myrepo https://<your_github_username>.github.io/<your_repo_name>
 
 # i.g.
 $ helm repo add myrepo https://devops2021.github.io/devopsdaydayup
-"myrepo" has been added to your repositories
+"myrepo" has been added to our repositories
 ```
 
-**Install** this Helm Chart into your Minikube
+**Install** this Helm Chart into our Minikube
 
 ```
 helm install test-service myrepo/test-service
@@ -287,7 +287,7 @@ NOTES:
 1. Get the application URL by running these commands:
   export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=test-service,app.kubernetes.io/instance=test-service" -o jsonpath="{.items[0].metadata.name}")
   export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
+  echo "Visit http://127.0.0.1:8080 to use our application"
   kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 ```
 -->

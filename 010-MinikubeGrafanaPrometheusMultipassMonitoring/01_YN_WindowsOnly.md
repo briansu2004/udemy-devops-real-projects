@@ -1,67 +1,22 @@
-# Project 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Containers and VMs
+# Lab 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Containers and VMs
 
 Windows only
 
-## Steps
+## Prerequisites
 
-### Monitor Kuberentes Nodes and Containers
+### 1. Install Docker
 
-#### 1. Install Docker
+### 2. Install Minikube
 
-#### 2. Install Minikube
+### 3. Start Minikube
 
-```dos
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
-sudo install minikube-darwin-amd64 /usr/local/bin/minikube
-```
-
-[Minikube installation guide](https://minikube.sigs.k8s.io/docs/start/)
-
-#### 3. Start Minikube
-
-```dos
-minikube start
-minikube status
-```
-
-#### 4. Install kubectl
-
-[k8s official website](https://kubernetes.io/docs/tasks/tools/)
-
-[Install and Set Up kubectl on macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
-
-```dos
-brew install kubectl
-```
-
-or
-
-```dos
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
-
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl.sha256"
-
-echo "$(cat kubectl.sha256)  kubectl" | shasum -a 256 --check
-
-chmod +x ./kubectl
-
-sudo mv ./kubectl /usr/local/bin/kubectl
-sudo chown root: /usr/local/bin/kubectl
-
-kubectl version --client
-kubectl version --client --output=yaml
-```
+### 4. Install kubectl
 
 ```dos
 minikube kubectl
 ```
 
-Then, when you run the command `kubectl get node`, you should see below output:
-
-```dos
-NAME       STATUS   ROLES           AGE     VERSION
-minikube   Ready    control-plane   4m37s   v1.25.3
-```
+## Steps for monitoring Kuberentes nodes and containers
 
 #### 5. Enable Minikube Dashboard
 
@@ -69,9 +24,9 @@ minikube   Ready    control-plane   4m37s   v1.25.3
 minikube dashboard
 ```
 
-A Kuberentes Dashboard will pop out in your browser immediately. You can explore all Minikube resources in this UI website.
+A Kuberentes Dashboard will pop out in our browser immediately. You can explore all Minikube resources in this UI website.
 
-#### 6. Install Helm v3.x
+#### 6. Install Helm
 
 <https://helm.sh/docs/intro/install/>
 
@@ -83,7 +38,7 @@ chmod 700 get_helm.sh
 
 #### 7. Deploy Metrics Server
 
-In order to collect more metrics from the cluster, you should install **metrics server** on the cluster first. You can download the manifest file as follows:
+In order to collect more metrics from the cluster, we should install **metrics server** on the cluster first. You can download the manifest file as follows:
 
 ```dos
 brew install wget
@@ -91,7 +46,7 @@ brew install wget
 wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
 
-Then you need to **update the yaml file** by **adding** below section to **turn off the TLS verification** (more detail please see the [**Issue 1**](#issue1) in the **troubleshooting section** below)
+Then we need to **update the yaml file** by **adding** below section to **turn off the TLS verification** (more detail please see the [**Issue 1**](#issue1) in the **troubleshooting section** below)
 
 ```dos
 apiVersion: apps/v1
@@ -139,7 +94,7 @@ Lastly, **apply** the manifest:
 kubectl -n kube-system apply -f components.yaml
 ```
 
-Once the Pod is ready, you can run below command to test out if the metric server is working.
+Once the Pod is ready, we can run below command to test out if the metric server is working.
 
 ```dos
 kubectl top node
@@ -173,19 +128,19 @@ helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f va
 
 #### 10. Configure Grafana Dashboard Manually
 
-Once the deployment is settle, you can **port-forward** to the Grafana service to access the portal from your local:
+Once the deployment is settle, we can **port-forward** to the Grafana service to access the portal from our local:
 
 ```dos
 kubectl -n default port-forward svc/prometheus-grafana 8888:80
 ```
 
-Open your **brower** and then type the URL: [http://localhost:8888](http://localhost:8888). You should see the **Grafana login portal**. You can retrieve the **admin password** by running below command in another terminal:
+Open our **brower** and then type the URL: [http://localhost:8888](http://localhost:8888). You should see the **Grafana login portal**. You can retrieve the **admin password** by running below command in another terminal:
 
 ```dos
 kubectl get secret prometheus-grafana -o=jsonpath="{.data.admin-password}"|base64 -d
 ```
 
-Enter the username (**admin**) and the password you got above (e.g. **prom-operator**), then you should be logged in the Grafana welcome board.
+Enter the username (**admin**) and the password we got above (e.g. **prom-operator**), then we should be logged in the Grafana welcome board.
 
 Go to the **Dashboards** section in the left navigation lane, and click **+New dashboard** to open a new dashboard. Follow below steps to add some **variables** before creating a panel.
 
@@ -275,7 +230,7 @@ Click **Apply** to save the change
 
 Click **Save** to save the dashboard. Name it as **Container Health Status**
 
-Once you go back to the Dashboard, you will see the **Node**/**Container**/**Namespace**/**Interval** sections are available in the top left with dropdown menu for choosing.
+Once we go back to the Dashboard, we will see the **Node**/**Container**/**Namespace**/**Interval** sections are available in the top left with dropdown menu for choosing.
 
 Now we are going to add a new **Panel**. Click **Add Panel** in the top right and click **Add a new panel** area. In the section **A**, type below query in the **Enter a PromQL query** field:
 
@@ -303,13 +258,13 @@ Expanding the **Time series** section in the top right and search for **Bar gaug
 
 #### 11. Configure Dashboard by Importing Json file
 
-Instead of manually configuring the dashboard, you can also **import the pre-defined dashboard from a json file**.
+Instead of manually configuring the dashboard, we can also **import the pre-defined dashboard from a json file**.
 
-In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then you should see the dashboard imported.
+In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then we should see the dashboard imported.
 
 #### 12. Download Dashboard Template
 
-A variety of dashboard templates are available to meet different needs in [**Grafana Labs**](https://grafana.com/grafana/dashboards/). you can go to there and search for any dashboard you like, and just need to copy the **ID** and paste to **Grafana website** -> **Dashboard** -> **Import** -> **Import via grafana.com** and click **Load** to load the template from the website.
+A variety of dashboard templates are available to meet different needs in [**Grafana Labs**](https://grafana.com/grafana/dashboards/). we can go to there and search for any dashboard we like, and just need to copy the **ID** and paste to **Grafana website** -> **Dashboard** -> **Import** -> **Import via grafana.com** and click **Load** to load the template from the website.
 
 ![Template ID](images/template-id.png)
 
@@ -317,7 +272,7 @@ A variety of dashboard templates are available to meet different needs in [**Gra
 
 #### 13. Find Help from Your AI Friend
 
-You can also take advanage of your AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
+You can also take advanage of our AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
 
 ![chatgpg](images/chatgpg.png)
 
@@ -327,9 +282,9 @@ You can use Prometheus to monitor VMs outside of the Kubernetes cluster in addit
 
 #### 1. [Option] Deploy a test VM
 
-If you don't want to install **node exporter** in your local machine directly, you can just spin up a fresh new VM by [multipass](https://multipass.run/install).
+If we don't want to install **node exporter** in our local machine directly, we can just spin up a fresh new VM by [multipass](https://multipass.run/install).
 
-If you are using Ubunut, you can run below commands to create a new VM via `multipass`:
+If we are using Ubunut, we can run below commands to create a new VM via `multipass`:
 
 ```dos
 snap install multipass
@@ -358,7 +313,7 @@ You can update the **IP address** into `values.prometheus-only.yaml` file under 
 
 #### 2. Install Node Exporter
 
-To monitor VMs with Prometheus, you must install the [node exporter](https://github.com/prometheus/node_exporter/releases) on each VM you want to monitor.
+To monitor VMs with Prometheus, we must install the [node exporter](https://github.com/prometheus/node_exporter/releases) on each VM we want to monitor.
 
 ```dos
 wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
@@ -369,25 +324,25 @@ cd node_exporter-*.*-amd64
 
 #### 3. Deploy Prometheus Helm Chart
 
-To monitor the VM, which is not part of the K8s cluster, you can deploy [another Prometheus Helm Chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus) in the existing Minikube cluster. However, you may need to uninstall the previous deployment to avoid port conflict issues, if the default port has not been changed.
+To monitor the VM, which is not part of the K8s cluster, we can deploy [another Prometheus Helm Chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus) in the existing Minikube cluster. However, we may need to uninstall the previous deployment to avoid port conflict issues, if the default port has not been changed.
 
 ```dos
 helm -n default uninstall prometheus-grafana
 ```
 
-Then you can deploy the new Helm Chart:
+Then we can deploy the new Helm Chart:
 
 ```dos
 helm install prometheus prometheus-community/prometheus -f values.prometheus-only.yaml
 ```
 
-Once the Pod is up and running, you can **port forward** the **prometheus-server** to your local port to be access
+Once the Pod is up and running, we can **port forward** the **prometheus-server** to our local port to be access
 
 ```dos
 kubectl -n default port-forward prometheus-server 9080:80
 ```
 
-Open your browser and go to [http://localhost:9080](http://localhost:9080). Type below query in **Expression** field and click **Execute** to run the query:
+Open our browser and go to [http://localhost:9080](http://localhost:9080). Type below query in **Expression** field and click **Execute** to run the query:
 
 ```dos
 (1 - (node_memory_MemAvailable_bytes{job="multipass-vm"} / (node_memory_MemTotal_bytes{job="multipass-vm"})))* 100
@@ -405,20 +360,20 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm install grafana grafana/grafana 
 ```
 
-Get your `admin` user password by running:
+Get our `admin` user password by running:
 
 ```dos
 kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-The Grafana server can be **accessed via port 80** on the following DNS name from within your cluster:
+The Grafana server can be **accessed via port 80** on the following DNS name from within our cluster:
 
 ```dos
 export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}")
 kubectl --namespace monitoring port-forward $POD_NAME 3000
 ```
 
-**Login** with the password from above and the username: `admin` in [http://localhost:3000](http://localhost:3000) via your browser. Go to **Configuration** (gear icon in the left lane) -> **Data sources** -> Click **Add data source** -> Choose **Prometheus**. In the URL, enter `http://prometheus-server` and then **Save & test** the change.
+**Login** with the password from above and the username: `admin` in [http://localhost:3000](http://localhost:3000) via our browser. Go to **Configuration** (gear icon in the left lane) -> **Data sources** -> Click **Add data source** -> Choose **Prometheus**. In the URL, enter `http://prometheus-server` and then **Save & test** the change.
 Go to **Explorer** and type below query in the PromQL query field
 
 ```dos
@@ -487,7 +442,7 @@ alertmanager:
 
 #### 2. Re-deploy Prometheus
 
-Then, you can update the Prometheus Helm Deployment by running following command:
+Then, we can update the Prometheus Helm Deployment by running following command:
 
 ```dos
 helm upgrade prometheus prometheus-community/prometheus -f values.prometheus-only.yaml
@@ -501,7 +456,7 @@ After completing the deployment, use the **Prometheus UI** to verify that the al
 kubectl port-forward svc/prometheus-server 8888:80
 ```
 
-Go to **Alerts** tab in the top and you should see 2 **Inactive** alerts there
+Go to **Alerts** tab in the top and we should see 2 **Inactive** alerts there
 ![alert-rules-1](images/alert-rules-1.png)
 To trigger the alert, navigate to the VM being monitored and run the command below to increase the RAM usage to 95%.
 
@@ -511,22 +466,8 @@ sudo apt install stress-ng -y
 stress-ng --vm 1 --vm-bytes 95% --vm-method all --verify -t 10m -v
 ```
 
-Please wait a few minutes and you will receive a notification in the designated Slack channel.
+Please wait a few minutes and we will receive a notification in the designated Slack channel.
 ![slack](images/slack.png)
-
-## Clean up - post project
-
-Stop Multipass VM if using
-
-```dos
-multipass stop <VM_name>
-```
-
-Stop Minikube
-
-```dos
-minikube stop
-```
 
 <!--
 ## <a name="troubleshooting">Troubleshooting</a>
@@ -539,7 +480,7 @@ When deploying metrics server in the cluster, the deployment won't be ready and 
 E0112 15:02:25.912192       1 scraper.go:140] "Failed to scrape node" err="Get \"https://192.168.49.2:10250/metrics/resource\": x509: cannot validate certificate for 192.168.49.2 because it doesn't contain any IP SANs" node="minikube"
 ```
 
-When you run `kubectl top node` below error occurs:
+When we run `kubectl top node` below error occurs:
 
 ```
 Error from server (ServiceUnavailable): the server is currently unable to handle the request (get nodes.metrics.k8s.io)

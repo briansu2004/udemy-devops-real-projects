@@ -86,17 +86,17 @@ Then go to [http://gitlab.mydevopsrealprojects.com](http://gitlab.mydevopsrealpr
 
 ## 5. Get the GitLab registration token
 
-Click **"New project"** to create your first project
+Click **"New project"** to create our first project
 
 -> Click **"Create blank project"**
 
--> Type your project name in **"Lab Name"**
+-> Type our project name in **"Lab Name"**
 
 -> Select **"Public"**
 
 -> Click **"Create project"**
 
--> Go to the new project you just created, and **"Setting"** -> **"CI/CD"**
+-> Go to the new project we just created, and **"Setting"** -> **"CI/CD"**
 
 -> Expand **"Runners"** section.
 
@@ -173,7 +173,7 @@ cat >> /etc/gitlab/gitlab.rb <<EOF
  registry['env'] = {
    'SSL_CERT_DIR' => "/opt/gitlab/embedded/ssl/certs/"
  }
- # Note: Make sure to update below 'rootcertbundle' default value 'certificate.crt" to 'gitlab-registry.crt', otherwise you may get error.
+ # Note: Make sure to update below 'rootcertbundle' default value 'certificate.crt" to 'gitlab-registry.crt', otherwise we may get error.
  registry['rootcertbundle'] = "/var/opt/gitlab/registry/gitlab-registry.crt"
  nginx['ssl_certificate'] = "/etc/gitlab/ssl/registry.gitlab.$YOUR_GITLAB_DOMAIN.crt"
  nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/registry.gitlab.$YOUR_GITLAB_DOMAIN.key"
@@ -206,7 +206,7 @@ cat /etc/docker/certs.d/registry.gitlab.$YOUR_GITLAB_DOMAIN:5005/registry.gitlab
 -->
 
 ```dos
-# Login the host you are going to run the docker commands
+# Login the host we are going to run the docker commands
 # In the Vagrant Ubuntu
 export YOUR_GITLAB_DOMAIN=mydevopsrealprojects.com
 echo $YOUR_GITLAB_DOMAIN
@@ -216,7 +216,7 @@ sudo docker cp $(docker ps -f name=web -q):/etc/gitlab/ssl/registry.gitlab.$YOUR
 sudo ls /etc/docker/certs.d/registry.gitlab.$YOUR_GITLAB_DOMAIN:5055
 cat /etc/docker/certs.d/registry.gitlab.$YOUR_GITLAB_DOMAIN:5055/registry.gitlab.mydevopsrealprojects.com.crt
 
-# Test docker login and you should be able to login now
+# Test docker login and we should be able to login now
 # Note: for Windows we can't use the default 5005 as it is blocked
 docker login registry.gitlab.$YOUR_GITLAB_DOMAIN:5055 
 Username: root
@@ -241,7 +241,7 @@ sudo ls /etc/docker/certs.d/registry.gitlab.$YOUR_GITLAB_DOMAIN:5055
 
 Test if the docker image push works once login successfully -
 
-Login to the gitlab server web UI and go to the project created, and then go to "Packages and registries" -> "Container Registry", should be able to see the valid registry URL you suppose to use in order to build and push your image.
+Login to the gitlab server web UI and go to the project created, and then go to "Packages and registries" -> "Container Registry", should be able to see the valid registry URL we suppose to use in order to build and push our image.
 
 e.g. `docker build -t registry.gitlab.mydevopsrealprojects.com:5005/gitlab-instance-d350f73c/first-projct .`
 
@@ -393,13 +393,13 @@ Configuration (with the authentication token) was saved in "/etc/gitlab-runner/c
 root@bad518d25b44:/usr/local/share/ca-certificates# cat /etc/gitlab-runner/config.toml 
 ```
 
-Once you finish above step, you should be able to see an available running in the project's CICD Runners section.
+Once we finish above step, we should be able to see an available running in the project's CICD Runners section.
 
 ![1674338440742](image/02_Y_Windows_Ubuntu/1674338440742.png)
 
 ## 10. Prepare the GitLab project repo
 
-**git clone** from your gitlab project repo to your local and copy necessary files from the repo (in the same folder as this README.md)
+**git clone** from our gitlab project repo to our local and copy necessary files from the repo (in the same folder as this README.md)
 
 ```bash
 ls -la ~/udemy-devops-9projects-free/003-GitlabCICD/
@@ -417,7 +417,7 @@ git commit -m "First commit"
 git push
 ```
 
-Once you push the code, you should be able to see the pipeline is automatically triggered under the project -> "CI/CD" -> "Jobs"
+Once we push the code, we should be able to see the pipeline is automatically triggered under the project -> "CI/CD" -> "Jobs"
 
 ![1674347541464](image/02_Y_Windows_Ubuntu/1674347541464.png)
 

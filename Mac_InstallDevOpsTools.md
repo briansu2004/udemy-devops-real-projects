@@ -16,23 +16,23 @@ vagrant --version
 
 ### Use Docker as the provider for Vagrant on Mac
 
-To use Docker as the provider for Vagrant on your Mac, follow these steps:
+To use Docker as the provider for Vagrant on our Mac, follow these steps:
 
-Install Vagrant on your Mac by following the instructions on the official Vagrant documentation.
+Install Vagrant on our Mac by following the instructions on the official Vagrant documentation.
 
-Install the Docker provider plugin for Vagrant by running the following command in your Terminal window:
+Install the Docker provider plugin for Vagrant by running the following command in our Terminal window:
 
 `vagrant plugin install vagrant-docker-compose`
 
 This command will install the Docker provider plugin for Vagrant.
 
-Create a new Vagrantfile in your project directory or use an existing one.
+Create a new Vagrantfile in our project directory or use an existing one.
 
-In your Vagrantfile, configure Vagrant to use the Docker provider by adding the following line:
+In our Vagrantfile, configure Vagrant to use the Docker provider by adding the following line:
 
 `config.vm.provider "docker"`
 
-You can also configure additional settings for the Docker provider, such as the image to use, by adding more lines to your Vagrantfile.
+You can also configure additional settings for the Docker provider, such as the image to use, by adding more lines to our Vagrantfile.
 
 Run the vagrant up command to start the Vagrant environment with the Docker provider.
 
@@ -40,7 +40,7 @@ Run the vagrant up command to start the Vagrant environment with the Docker prov
 
 This command will start the Vagrant environment with the Docker provider.
 
-Once the Vagrant environment is started, you can use the vagrant ssh command to SSH into the environment and interact with your Docker containers.
+Once the Vagrant environment is started, we can use the vagrant ssh command to SSH into the environment and interact with our Docker containers.
 
 ## Install VirtualBox in Mac
 
