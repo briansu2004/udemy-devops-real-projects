@@ -12,9 +12,16 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 ### 2. Install Minikube for Windows
 
+
+```dos
+minikube start --driver=docker --kubernetes-version=v1.26.1
+```
+
+<!--
 ```dos
 minikube start --driver=docker --kubernetes-version=v1.26.3
 ```
+-->
 
 ### 3. Install Helm for Windows
 
@@ -27,7 +34,6 @@ To use the Helm chart, **add the Hashicorp helm repository** and check that we h
 ```dos
 helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo update
-helm search repo hashicorp/vault
 ```
 
 <!--
