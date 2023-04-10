@@ -2,14 +2,6 @@
 
 Windows only
 
-Issues:
-
-The last step has issues.
-
-```dos
-kubectl exec $(kubectl get pod | Select-String 'app-deployment' | ForEach-Object { $_.Line.Split(' ')[0] }) -- cat /vault/secrets/database-config.txt
-```
-
 ## Lab Goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
@@ -73,13 +65,8 @@ vault operator init
 
 <!--
 ```bash
-Unseal Key 1: 1EuGHEkrCHKoGHdy6jhN/dTghJVXpkvM32c4q5aLhwSG
-Unseal Key 2: Tp3dGvepFy0jLzJ/kmA3+6PSnt2hVNERBO3lrib9WMom
-Unseal Key 3: yy/cwX2tc05HQeUZOkGNc15IFqFFk/nY0uKXk59Bs6FK
-Unseal Key 4: 6ixUZvOjF5rcT11yt5IAmi1mJ5DuPvVEAQ1fPPxixXIe
-Unseal Key 5: /lITzxMwE8jysGU33xkw2LLgPdHJYVqcD73QE1z/ixZP
 
-Initial Root Token: hvs.ZKzhVVnHgUTooTKSZWdVZ5BG
+```
 -->
 
 **Note:**
@@ -226,11 +213,12 @@ Power Shell
 ```dos
 kubectl get pod
 
-kubectl exec app-deployment-575c8d94cf-5xfr7 -- cat /vault/secrets/database-config.txt
+kubectl exec <any app-deployment pod name> -- cat /vault/secrets/database-config.txt
 ```
 
 Result:
 
+<!--
 ```dos
 C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl get pod
 NAME                                    READY   STATUS    RESTARTS   AGE
@@ -246,6 +234,21 @@ Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
         export password=changeme
 
         export username=root
+
+C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-fg5nf -- cat /vault/secrets/database-config.txt 
+Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
+
+        export password=changeme
+
+        export username=root    
+
+C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-x7cgx -- cat /vault/secrets/database-config.txt 
+Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
+
+        export password=changeme
+
+        export username=root    
 ```
+-->
 
 ![Result](images/result_windows.png)
