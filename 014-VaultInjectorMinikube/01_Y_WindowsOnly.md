@@ -168,7 +168,7 @@ kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
 To enable the vault to inject secrets into a deployment's pods, we need to patch the code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
 
 <!--
-Power Shell
+Power Shell has issues!
 
 ```dos
 kubectl patch deployment app-deployment --patch (Get-Content patch-app-deployment.yaml | Out-String)
