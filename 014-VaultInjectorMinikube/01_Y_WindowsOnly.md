@@ -20,6 +20,12 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 ### 2. Install Minikube for Windows
 
+<!--
+```dos
+minikube delete
+```
+-->
+
 ```dos
 minikube start --driver=docker --kubernetes-version=v1.26.1
 ```
