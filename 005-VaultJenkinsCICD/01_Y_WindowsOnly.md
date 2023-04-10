@@ -1,6 +1,6 @@
 # Lab 005: Vault Jenkins Pipeline
 
-## Lab Goal
+## Lab goal
 
 In this lab, we will learn how to integrate Vault into Jenkins pipeline, as well as the basic usage of Hashicorp Vault.
 

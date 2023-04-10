@@ -60,7 +60,7 @@ Can't use a Windows system for the Ansible control node.
 Install 2 Vagrant VMs in Windows?
 -->
 
-## Lab Goal
+## Lab goal
 
 In this lab, we will learn how to use Ansible to install Jenkins.
 

@@ -2,7 +2,7 @@
 
 In this lab, we will setup a ELK (Elasticsearch/Logstash/Kibana) stack to monitor a server.
 
-## Lab Goal
+## Lab goal
 
 Learn how to deploy a ELK with docker-compose, as well as configuring metricbeat service to collect the system metric from a server and present them in Kibana.
 

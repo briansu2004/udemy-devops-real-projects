@@ -2,7 +2,7 @@
 
 Windows + Ubuntu
 
-## Lab Goal
+## Lab goal
 
 In this lab, we will learn how to use Ansible to install Jenkins.
 

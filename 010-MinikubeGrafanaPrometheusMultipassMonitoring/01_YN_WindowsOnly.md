@@ -1,6 +1,6 @@
 # Project 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Containers and VMs
 
-Mac only
+Windows only
 
 ## Steps
 

@@ -1,6 +1,6 @@
 # Lab 009: Helm Deployment in Kubernetes
 
-## Lab Goal
+## Lab goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 

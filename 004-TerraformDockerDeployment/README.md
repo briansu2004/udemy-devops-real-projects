@@ -1,6 +1,6 @@
 # Lab 004: Deploy Docker with Terraform Script
 
-## Lab Goal
+## Lab goal
 
 In this lab, we will use terraform script to create a docker container.
 

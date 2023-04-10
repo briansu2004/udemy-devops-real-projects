@@ -2,25 +2,9 @@
 
 In this lab, we will setup a Gitlab CICD pipeline, which will build the source code to a docker image and push it to the container registry in GitLab and then re-deploy the docker container with the latest image in our local host.
 
-## Goal
+## Lab goal
 
 Understand how to setup/configure Gitlab as CICD pipeline. Familarize with gitlab pipeline.
-
-## Prerequisites
-
-- Ubuntu 20.04 OS (Minimum 2 core CPU/8GB RAM/30GB Disk)
-- Docker
-- Docker Compose
-
-## Vagrant home
-
-- Windows
-
-`c:\devbox`
-
-- Mac
-
-`~/devbox`
 
 ## Environments
 

@@ -2,7 +2,7 @@
 
 Windows + Ubunbu (Docker)
 
-## Lab Goal
+## Lab goal
 
 In this lab, we will learn how to get a **signed SSH certificate** from **Vault** for a **LDAP** user in order to login a Vagrant VM via SSH.
 

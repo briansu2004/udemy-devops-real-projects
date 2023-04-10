@@ -3,19 +3,9 @@
 
 In this lab, we will setup a Jenkins CICD pipeline, which will pull the source code from github and re-deploy the docker container in our local host.
 
-# Lab Goal
+# Lab goal
 
 Understand how to setup/configure Jenkins as CICD pipeline. Familiarize with Jenkinsfile.
-
-## Vagrant home
-
-- Windows
-
-`c:\devbox`
-
-- Mac
-
-`~/devbox`
 
 ## Environments
 

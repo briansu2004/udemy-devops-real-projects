@@ -43,6 +43,8 @@ Lab 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy to To
 
 [Lab 009: Helm Deployment in Kubernetes](009-MinikubeHelmDeployment)
 
+[Lab 014: Deploy and Use Vault As Agent Sidecar Injector](014-VaultInjectorMinikube/README.md)
+
 ## More labs (WIP)
 
 ```dos
@@ -50,5 +52,4 @@ Lab 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Contain
 Lab 011: Create Read Only Kubeconfig File
 Lab 012: Backup Vault in Minio
 Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
-Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 ```
