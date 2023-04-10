@@ -2,15 +2,15 @@
 
 ## Install Docker (and Docker Compose) in Windows
 
-Docker Desktop
+<https://docs.docker.com/desktop/install/windows-install/>
 
 ## Install VirtualBox in Windows
 
-...
+<https://www.virtualbox.org/wiki/Downloads>
 
 ## Install Vagrant in Windows
 
-...
+<https://developer.hashicorp.com/vagrant/docs/installation>
 
 ### Use Docker as the provider for Vagrant on Windows
 
@@ -42,7 +42,11 @@ Once the Vagrant environment is started, we can use the vagrant ssh command to S
 
 ## Install minikube in Windows
 
+<https://minikube.sigs.k8s.io/docs/start/>
+
 ```dos
+minikube start --driver=docker --kubernetes-version=v1.26.1
+
 minikube version
 ```
 
@@ -57,5 +61,7 @@ kubectl version
 ## Install Helm in Windows
 
 ```dos
+choco install kubernetes-helm
+
 helm version
 ```
