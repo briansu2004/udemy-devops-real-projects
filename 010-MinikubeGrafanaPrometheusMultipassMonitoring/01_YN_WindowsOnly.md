@@ -10,11 +10,11 @@ Windows only
 
 ### 3. Start Minikube
 
-### 4. Install kubectl
-
 ```dos
-minikube kubectl
+minikube start --driver=docker --kubernetes-version=v1.26.1
 ```
+
+### 4. Install kubectl
 
 ### 5. Install Helm
 
