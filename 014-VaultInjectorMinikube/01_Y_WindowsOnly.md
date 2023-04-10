@@ -2,6 +2,14 @@
 
 Windows only
 
+Issues:
+
+The last step has issues.
+
+```dos
+kubectl exec $(kubectl get pod | Select-String 'app-deployment' | ForEach-Object { $_.Line.Split(' ')[0] }) -- cat /vault/secrets/database-config.txt
+```
+
 ## Lab Goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.

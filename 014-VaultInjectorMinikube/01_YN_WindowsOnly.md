@@ -4,33 +4,11 @@ Windows only
 
 Issues:
 
-`vault operator init` has issues.
+The last step has issues.
 
-<!--
 ```dos
-PS C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube> vault operator init
-vault : The term 'vault' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path
-was included, verify that the path is correct and try again.
-At line:1 char:1
-+ vault operator init
-+ ~~~~~
-    + CategoryInfo          : ObjectNotFound: (vault:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
+kubectl exec $(kubectl get pod | Select-String 'app-deployment' | ForEach-Object { $_.Line.Split(' ')[0] }) -- cat /vault/secrets/database-config.txt
 ```
--->
-
-<!--
-```dos
-PS C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube> docker ps
-CONTAINER ID   IMAGE                                 COMMAND                  CREATED      STATUS         PORTS                                                                                                                             NAMES
-c12c356d0ba7   gcr.io/k8s-minikube/kicbase:v0.0.37   "/usr/local/bin/entr…"   6 days ago   Up 4 minutes   127.0.0.1:2233->22/tcp, 127.0.0.1:2234->2376/tcp, 127.0.0.1:2236->5000/tcp, 127.0.0.1:2237->8443/tcp, 127.0.0.1:2235->32443/tcp   minikube
-PS C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>
-PS C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube> docker exec -it c12 bash
-root@minikube:/#
-root@minikube:/# vault operator init
-bash: vault: command not found
-```
--->
 
 ## Lab Goal
 
