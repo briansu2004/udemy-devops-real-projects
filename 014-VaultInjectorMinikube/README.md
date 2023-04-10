@@ -13,7 +13,7 @@ In thhis lab, we will go through the process of **deploying a Vault Helm chart**
 | 3 | Mac only | YN | YN |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
 
-[Windows Only](01_YN_WindowsOnly.md)
+[Windows Only](01_Y_WindowsOnly.md)
 
 <!--
 
