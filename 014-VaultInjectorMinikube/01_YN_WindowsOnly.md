@@ -84,8 +84,6 @@ hashicorp/vault 0.24.0          1.13.1          Official HashiCorp Vault Chart
 ```dos
 git clone https://github.com/briansu2004/udemy-devops-real-projects.git
 cd udemy-devops-real-projects\014-VaultInjectorMinikube
-# helm uninstall vault
-# helm list
 helm install vault hashicorp/vault -f values_windows.yaml
 ```
 
