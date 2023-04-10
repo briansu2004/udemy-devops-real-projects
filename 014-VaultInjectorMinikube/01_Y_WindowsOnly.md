@@ -73,13 +73,13 @@ vault operator init
 
 <!--
 ```bash
-Unseal Key 1: d1zj4SMst9I+UBUY0Y0OJLF+2Ombuc+UzXzocPsi4tKz
-Unseal Key 2: ft176onpLj6YfHnOANW/Qva45+dnlDmnXeqETY2Sj3KM
-Unseal Key 3: DJc8iMkfyhDUW6MvyuFixWCu06N+AGVxUIW3BYnBJ4UZ
-Unseal Key 4: ojNLOStH3niHpySir8Fxa2BSb83J/ah1rW+FVfY/4dKy
-Unseal Key 5: 0dfpfF1Iixx+5Qsn6udTe98PTiZDwV095x2teUUyd5RP
+Unseal Key 1: 1EuGHEkrCHKoGHdy6jhN/dTghJVXpkvM32c4q5aLhwSG
+Unseal Key 2: Tp3dGvepFy0jLzJ/kmA3+6PSnt2hVNERBO3lrib9WMom
+Unseal Key 3: yy/cwX2tc05HQeUZOkGNc15IFqFFk/nY0uKXk59Bs6FK
+Unseal Key 4: 6ixUZvOjF5rcT11yt5IAmi1mJ5DuPvVEAQ1fPPxixXIe
+Unseal Key 5: /lITzxMwE8jysGU33xkw2LLgPdHJYVqcD73QE1z/ixZP
 
-Initial Root Token: hvs.AOMFXX1L8ZnlVHI5hNaiB4Se
+Initial Root Token: hvs.ZKzhVVnHgUTooTKSZWdVZ5BG
 -->
 
 **Note:**
@@ -108,7 +108,7 @@ vault secrets enable -path=internal-app kv-v2
 vault kv put internal-app/database/config username=root password=changeme
 ```
 
-we can **read** the data by running this:
+We can **read** the data by running this:
 
 ```dos
 vault kv get internal-app/database/config
@@ -174,17 +174,46 @@ Wait for the pods are **ready**
 kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
 ```
 
+<!--
+```dos
+C:\devbox>kubectl get pod
+NAME                                    READY   STATUS              RESTARTS   AGE
+app-deployment-d5f84c98d-2t28l          0/1     ContainerCreating   0          14s
+app-deployment-d5f84c98d-6m5g2          0/1     ContainerCreating   0          14s
+app-deployment-d5f84c98d-vd9v5          0/1     ContainerCreating   0          14s
+vault-0                                 1/1     Running             0          12m
+vault-agent-injector-589c565bdf-nw5mk   1/1     Running             0          12m
+
+C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
+pod/app-deployment-d5f84c98d-2t28l condition met
+pod/app-deployment-d5f84c98d-6m5g2 condition met
+pod/app-deployment-d5f84c98d-vd9v5 condition met
+
+C:\devbox>kubectl get pod
+NAME                                    READY   STATUS    RESTARTS   AGE
+app-deployment-d5f84c98d-2t28l          1/1     Running   0          45s
+app-deployment-d5f84c98d-6m5g2          1/1     Running   0          45s
+app-deployment-d5f84c98d-vd9v5          1/1     Running   0          45s
+vault-0                                 1/1     Running   0          13m
+vault-agent-injector-589c565bdf-nw5mk   1/1     Running   0          13m
+```
+-->
+
 ### 7. Update the deployment to enable the Vault Injection
 
 To enable the vault to inject secrets into a deployment's pods, we need to patch the code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
 
 <!--
-```dos
+Git bash
+
+```bash
 kubectl patch deployment app-deployment --patch "$(cat patch-app-deployment.yaml)"
 ```
 
 ==>
 -->
+
+Power Shell
 
 ```dos
 kubectl patch deployment app-deployment --patch (Get-Content patch-app-deployment.yaml | Out-String)
@@ -192,16 +221,31 @@ kubectl patch deployment app-deployment --patch (Get-Content patch-app-deploymen
 
 Once the vault sidecar is successfully injected into the app deployment's pod, we should be able to verify its presence by inspecting the pod's configuration.
 
-<!--
-```dos
-kubectl exec $(kubectl get pod|grep app-deployment|awk '{print $1}') -- cat /vault/secrets/database-config.txt
-```
-
-==>
--->
+Power Shell
 
 ```dos
-kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
+kubectl get pod
 
-kubectl exec $(kubectl get pod | Select-String 'app-deployment' | ForEach-Object { $_.Line.Split(' ')[0] }) -- cat /vault/secrets/database-config.txt
+kubectl exec app-deployment-575c8d94cf-5xfr7 -- cat /vault/secrets/database-config.txt
 ```
+
+Result:
+
+```dos
+C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl get pod
+NAME                                    READY   STATUS    RESTARTS   AGE
+app-deployment-575c8d94cf-5xfr7         2/2     Running   0          5m10s
+app-deployment-575c8d94cf-fg5nf         2/2     Running   0          5m16s
+app-deployment-575c8d94cf-x7cgx         2/2     Running   0          5m53s
+vault-0                                 1/1     Running   0          20m
+vault-agent-injector-589c565bdf-nw5mk   1/1     Running   0          20m
+
+C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-5xfr7 -- cat /vault/secrets/database-config.txt
+Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
+
+        export password=changeme
+
+        export username=root
+```
+
+![Result](images/result_windows.png)

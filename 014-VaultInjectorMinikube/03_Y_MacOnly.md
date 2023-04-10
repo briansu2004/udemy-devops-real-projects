@@ -352,4 +352,4 @@ Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
 ```
 -->
 
-![Result](images/result.png)
+![Result](images/result_mac.png)
