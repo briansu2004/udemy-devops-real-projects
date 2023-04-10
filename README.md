@@ -12,7 +12,7 @@ Enjoy 😀
 
 - [DevOps Labs: 3 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects-free-version/)
 
-## Projects
+## Labs
 
 <!--
 ```dos
@@ -43,7 +43,7 @@ Lab 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy to To
 
 [Lab 009: Helm Deployment in Kubernetes](009-MinikubeHelmDeployment)
 
-## More projects (WIP)
+## More labs (WIP)
 
 ```dos
 Lab 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Containers and VMs
