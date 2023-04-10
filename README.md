@@ -2,6 +2,16 @@
 
 Enjoy 😀
 
+## Courses
+
+- [DevOps Labs: 14 Real DevOps Projects](Coming soon)
+
+- [DevOps Labs: 9 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects/)
+
+- [DevOps Labs: 6 Real DevOps Projects](https://www.udemy.com/course/devops-labs-6-real-devops-projects/)
+
+- [DevOps Labs: 3 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects-free-version/)
+
 ## Projects
 
 <!--
