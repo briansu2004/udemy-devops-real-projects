@@ -1,8 +1,8 @@
-# Project 014: Deploy and Use Vault As Agent Sidecar Injector
+# Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 
 Mac only
 
-## Project Goal
+## Lab Goal
 
 In thhis lab, we will go through the process of **deploying a Vault Helm chart** in a Kubernetes cluster running on **Minikube**. Once we have the Vault instance up and running, we will create a **deployment** that utilizes **Vault as a sidecar** to **inject secrets** into the pod as a file. This approach ensures that the application running in the pod has access to the necessary secrets without compromising their security by storing them in plain text within the container.
 

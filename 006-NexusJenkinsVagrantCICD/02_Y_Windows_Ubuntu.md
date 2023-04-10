@@ -1,6 +1,6 @@
-# Project 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy to Tomcat in Vagrant VM
+# Lab 006: Push War file to Nexus Repository Via Jenkins Pipeline and Deploy to Tomcat in Vagrant VM
 
-## Project Goal
+## Lab Goal
 
 In this lab, we will set up a **Nexus** repository and push a war file from **Jenkins Pipeline**, then we will deploy the war file to a **Tomcat 9** installed in a **Vagrant VM**.
 

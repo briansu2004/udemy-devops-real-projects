@@ -1,5 +1,5 @@
 
-# Project 002: Jenkins CICD Pipeline
+# Lab 002: Jenkins CICD Pipeline
 
 Windows only
 

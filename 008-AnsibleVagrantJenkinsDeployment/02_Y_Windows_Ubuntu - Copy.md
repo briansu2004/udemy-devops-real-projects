@@ -1,4 +1,4 @@
-# Project 008: Install Jenkins Using Ansible
+# Lab 008: Install Jenkins Using Ansible
 
 Windows + Ubuntu
 
@@ -60,7 +60,7 @@ Can't use a Windows system for the Ansible control node.
 Install 2 Vagrant VMs in Windows?
 -->
 
-## Project Goal
+## Lab Goal
 
 In this lab, we will learn how to use Ansible to install Jenkins.
 

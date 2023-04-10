@@ -1,4 +1,4 @@
-# Project 003: GitLab CICD Pipeline
+# Lab 003: GitLab CICD Pipeline
 
 Windows + Ubuntu
 
@@ -90,7 +90,7 @@ Click **"New project"** to create your first project
 
 -> Click **"Create blank project"**
 
--> Type your project name in **"Project Name"**
+-> Type your project name in **"Lab Name"**
 
 -> Select **"Public"**
 

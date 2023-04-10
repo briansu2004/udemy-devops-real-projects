@@ -1,4 +1,4 @@
-# Project 003: GitLab CICD Pipeline
+# Lab 003: GitLab CICD Pipeline
 
 In this lab, we will setup a Gitlab CICD pipeline, which will build the source code to a docker image and push it to the container registry in GitLab and then re-deploy the docker container with the latest image in our local host.
 

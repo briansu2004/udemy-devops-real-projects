@@ -1,6 +1,6 @@
-# Project 008: Install Jenkins Using Ansible
+# Lab 008: Install Jenkins Using Ansible
 
-## Project Goal
+## Lab Goal
 
 In this lab, we will learn how to use Ansible to install Jenkins
 

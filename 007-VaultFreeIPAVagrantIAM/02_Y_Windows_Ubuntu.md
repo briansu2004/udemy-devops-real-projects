@@ -1,8 +1,8 @@
-# Project 007: Managing SSH Access with Vault
+# Lab 007: Managing SSH Access with Vault
 
 Windows + Ubunbu (Docker)
 
-## Project Goal
+## Lab Goal
 
 In this lab, we will learn how to get a **signed SSH certificate** from **Vault** for a **LDAP** user in order to login a Vagrant VM via SSH.
 

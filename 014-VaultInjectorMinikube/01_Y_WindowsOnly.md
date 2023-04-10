@@ -1,8 +1,8 @@
-# Project 014: Deploy and Use Vault As Agent Sidecar Injector
+# Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 
 Windows only
 
-## Project Goal
+## Lab Goal
 
 In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 

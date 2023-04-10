@@ -1,4 +1,4 @@
-# Project 001: ELK Monitoring
+# Lab 001: ELK Monitoring
 
 Windows + Ubuntu (vagrant vbox)
 

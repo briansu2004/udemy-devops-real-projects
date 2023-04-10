@@ -1,4 +1,4 @@
-# Project 004: Deploy Docker with Terraform Script
+# Lab 004: Deploy Docker with Terraform Script
 
 Windows + Ubuntu
 
@@ -86,7 +86,7 @@ Note: the GitLab server need a few minutes to start.
 
 ### 4. Create a new project in our Gitlab server and generate a personal access token
 
-Login to our Gitlab server website (`http://gitlab.mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Project name"**, e.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"**
+Login to our Gitlab server website (`http://gitlab.mydevopsrealprojects.com`) and Click **"New project"** -> **"Create blank project"** -> Type a project name in **"Lab name"**, e.g. *first_project*, select **"Public"** in **Visiblity Level** section -> Click **"Create project"**
 
 ![1679781263992](image/02_Y_Windows_Ubuntu/1679781263992.png)
 
@@ -114,7 +114,7 @@ We have to update `config/test/config.tfbackend` file with the credential/gitlab
 
 The below is the definition for the variables:
 
-- **PROJECT_ID:** Go to the project and head to **"Setting"** -> **"General"**, and we will see **"Project ID"** in the page.
+- **PROJECT_ID:** Go to the project and head to **"Setting"** -> **"General"**, and we will see **"Lab ID"** in the page.
 - **TF_USERNAME:** If we haven't created our own user, the default user should be `root`
 - **TF_PASSWORD:** This is the gitlab **personal access token**, which we can fetch from previous step
 - **TF_ADDRESS:** This is URL to store our **terraform state file**.
