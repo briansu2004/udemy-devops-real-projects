@@ -14,6 +14,7 @@ In this lab, we will learn how to deploy a Jenkins via Helm Chart in Kubernetes.
 
 <!--
 ```dos
+minikube stop
 minikube delete
 ```
 -->
@@ -21,12 +22,6 @@ minikube delete
 ```dos
 minikube start --driver=docker --kubernetes-version=v1.26.1
 ```
-
-<!--
-```dos
-minikube start --driver=docker --kubernetes-version=v1.26.3
-```
--->
 
 ### 3. Install Helm for Windows
 
@@ -115,7 +110,7 @@ username    root
 
 Stay on the Vault pod and configure the kuberentes authentication
 
-a. **Enable** the Kuberetes atuh in the Vault
+a. **Enable** the Kuberetes auth in the Vault
 
 ```dos
 vault auth enable kubernetes
@@ -132,6 +127,13 @@ path "internal-app/data/database/config" {
 }
 EOF
 ```
+
+<!--
+```bash
+vault policy list
+vault policy read internal-app
+```
+-->
 
 <!--
 > Note: Since version 2 kv has prefixed `data/`, our secret path will be `internal-app/data/database/config`, instead of `internal-app/database/config`
@@ -161,36 +163,18 @@ Wait for the pods are **ready**
 kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
 ```
 
-<!--
-```dos
-C:\devbox>kubectl get pod
-NAME                                    READY   STATUS              RESTARTS   AGE
-app-deployment-d5f84c98d-2t28l          0/1     ContainerCreating   0          14s
-app-deployment-d5f84c98d-6m5g2          0/1     ContainerCreating   0          14s
-app-deployment-d5f84c98d-vd9v5          0/1     ContainerCreating   0          14s
-vault-0                                 1/1     Running             0          12m
-vault-agent-injector-589c565bdf-nw5mk   1/1     Running             0          12m
-
-C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl wait pods -n default -l app=nginx --for condition=Ready --timeout=1000s
-pod/app-deployment-d5f84c98d-2t28l condition met
-pod/app-deployment-d5f84c98d-6m5g2 condition met
-pod/app-deployment-d5f84c98d-vd9v5 condition met
-
-C:\devbox>kubectl get pod
-NAME                                    READY   STATUS    RESTARTS   AGE
-app-deployment-d5f84c98d-2t28l          1/1     Running   0          45s
-app-deployment-d5f84c98d-6m5g2          1/1     Running   0          45s
-app-deployment-d5f84c98d-vd9v5          1/1     Running   0          45s
-vault-0                                 1/1     Running   0          13m
-vault-agent-injector-589c565bdf-nw5mk   1/1     Running   0          13m
-```
--->
-
 ### 7. Update the deployment to enable the Vault Injection
 
 To enable the vault to inject secrets into a deployment's pods, we need to patch the code in `patch-app-deployment.yaml` into the **annotation** section of the deployment file:
 
 <!--
+Power Shell
+
+```dos
+kubectl patch deployment app-deployment --patch (Get-Content patch-app-deployment.yaml | Out-String)
+```
+-->
+
 Git bash
 
 ```bash
@@ -198,17 +182,8 @@ kubectl patch deployment app-deployment --patch "$(cat patch-app-deployment.yaml
 ```
 
 ==>
--->
-
-Power Shell
-
-```dos
-kubectl patch deployment app-deployment --patch (Get-Content patch-app-deployment.yaml | Out-String)
-```
 
 Once the vault sidecar is successfully injected into the app deployment's pod, we should be able to verify its presence by inspecting the pod's configuration.
-
-Power Shell
 
 ```dos
 kubectl get pod
