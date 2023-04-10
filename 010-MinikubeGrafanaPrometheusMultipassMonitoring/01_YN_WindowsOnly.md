@@ -16,9 +16,15 @@ Windows only
 minikube kubectl
 ```
 
-## Steps for monitoring Kuberentes nodes and containers
+### 5. Install Helm
 
-#### 5. Enable Minikube Dashboard
+<https://helm.sh/docs/intro/install/>
+
+## Steps
+
+### (Part 1) Monitoring Kuberentes nodes and containers
+
+#### 1. Enable Minikube Dashboard
 
 ```dos
 minikube dashboard
@@ -26,23 +32,11 @@ minikube dashboard
 
 A Kuberentes Dashboard will pop out in our browser immediately. You can explore all Minikube resources in this UI website.
 
-#### 6. Install Helm
-
-<https://helm.sh/docs/intro/install/>
-
-```dos
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 > get_helm.sh
-chmod 700 get_helm.sh
-./get_helm.sh
-```
-
-#### 7. Deploy Metrics Server
+#### 2. Deploy Metrics Server
 
 In order to collect more metrics from the cluster, we should install **metrics server** on the cluster first. You can download the manifest file as follows:
 
 ```dos
-brew install wget
-
 wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
 
@@ -108,7 +102,7 @@ NAME       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
 minikube   622m         7%     2411Mi          15%  
 ```
 
-#### 8. Add Helm Repo
+#### 3. Add Helm Repo
 
 Once Helm is set up properly, **add** the **repo** as follows:
 
@@ -118,7 +112,7 @@ helm repo update
 helm search repo prometheus-community
 ```
 
-#### 9. Deploy Prometheus Helm Chart
+#### 4. Deploy Prometheus Helm Chart
 
 Install Prometheus Helm Chart by running below command:
 
@@ -126,7 +120,7 @@ Install Prometheus Helm Chart by running below command:
 helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
 ```
 
-#### 10. Configure Grafana Dashboard Manually
+#### 5. Configure Grafana Dashboard Manually
 
 Once the deployment is settle, we can **port-forward** to the Grafana service to access the portal from our local:
 
@@ -256,13 +250,13 @@ Expanding the **Time series** section in the top right and search for **Bar gaug
 
 ![Top 5 Memory Intense Pods](images/top-5-memory-intense-pod.png)
 
-#### 11. Configure Dashboard by Importing Json file
+#### 6. Configure Dashboard by Importing Json file
 
 Instead of manually configuring the dashboard, we can also **import the pre-defined dashboard from a json file**.
 
 In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then we should see the dashboard imported.
 
-#### 12. Download Dashboard Template
+#### 7. Download Dashboard Template
 
 A variety of dashboard templates are available to meet different needs in [**Grafana Labs**](https://grafana.com/grafana/dashboards/). we can go to there and search for any dashboard we like, and just need to copy the **ID** and paste to **Grafana website** -> **Dashboard** -> **Import** -> **Import via grafana.com** and click **Load** to load the template from the website.
 
@@ -270,13 +264,13 @@ A variety of dashboard templates are available to meet different needs in [**Gra
 
 ![Template Import](images/template-import.png)
 
-#### 13. Find Help from Your AI Friend
+#### 8. Find Help from Your AI Friend
 
 You can also take advanage of our AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
 
 ![chatgpg](images/chatgpg.png)
 
-### Monitor VMs
+### (Part 2) Monitoring VMs
 
 You can use Prometheus to monitor VMs outside of the Kubernetes cluster in addition to containers. Below are the steps to do so.
 
@@ -382,12 +376,18 @@ Go to **Explorer** and type below query in the PromQL query field
 ```
 
 The graph will appear as shown below.
+
 ![grafana-query](images/grafana-query.png)
+
 One useful node expertor dashboard template is available in [this website](https://grafana.com/grafana/dashboards/15172-node-exporter-for-prometheus-dashboard-based-on-11074/) or in `vm-health-status.json` file under the same folder as this README.
 
-### Alert Manager
+### (Part 3) Alert Manager
 
-The next crucial step in setting up the monitoring system is to properly configure **alerts**. The alert configuration will be handled by the **Alert Manager service**, which will then forward the alerts to various messaging platforms, including but not limited to Slack, Telegram, Discord, and Microsoft Teams. In our laboratory, we will utilize **Slack** as the messaging platform. Participants can either create their own Slack channel (see [here](https://api.slack.com/messaging/webhooks) how to create a Slack webhook) or contact me at **chance.chen21@gmail.com** to join the existing one.
+The next crucial step in setting up the monitoring system is to properly configure **alerts**.
+
+The alert configuration will be handled by the **Alert Manager service**, which will then forward the alerts to various messaging platforms, including but not limited to Slack, Telegram, Discord, and Microsoft Teams.
+
+In our laboratory, we will utilize **Slack** as the messaging platform. Participants can either create their own Slack channel (see [here](https://api.slack.com/messaging/webhooks) how to create a Slack webhook) or contact me at **chance.chen21@gmail.com** to join the existing one.
 
 ### 1. Update Configuration
 
@@ -468,67 +468,3 @@ stress-ng --vm 1 --vm-bytes 95% --vm-method all --verify -t 10m -v
 
 Please wait a few minutes and we will receive a notification in the designated Slack channel.
 ![slack](images/slack.png)
-
-<!--
-## <a name="troubleshooting">Troubleshooting</a>
-
-### <a name=issue1>Issue 1: Error from server (ServiceUnavailable): the server is currently unable to handle the request (get nodes.metrics.k8s.io)</a>
-
-When deploying metrics server in the cluster, the deployment won't be ready and showing below error
-
-```
-E0112 15:02:25.912192       1 scraper.go:140] "Failed to scrape node" err="Get \"https://192.168.49.2:10250/metrics/resource\": x509: cannot validate certificate for 192.168.49.2 because it doesn't contain any IP SANs" node="minikube"
-```
-
-When we run `kubectl top node` below error occurs:
-
-```
-Error from server (ServiceUnavailable): the server is currently unable to handle the request (get nodes.metrics.k8s.io)
-```
-
-Solution:
-Add below command section in the deployment manifest yaml file to disable the TLS verification
-
-```
-command:
-- --kubelet-insecure-tls
-- --kubelet-preferred-address-types=InternalIP
-```
-
-Above are all steps to deploy/setup Premotheus-Grafana in a Kubernetes cluster.
-
-> ref: <https://thospfuller.com/2020/11/29/easy-kubernetes-metrics-server-install-in-minikube-in-five-steps/>
-
-## <a name="reference">Reference</a>
-
-- [Prometheus Overview](https://prometheus.io/docs/introduction/overview/)
-- [Grafana Github README](https://github.com/grafana/helm-charts/blob/main/charts/grafana/README.md)
-- [Grafana Awesome Alert](https://awesome-prometheus-alerts.grep.to/)
-- [Prometheus Queries Example Official](https://prometheus.io/docs/prometheus/latest/querying/examples/)
-- [Prometheus Queries Example 1](https://www.opsramp.com/guides/prometheus-monitoring/prometheus-alerting/)
-- [Prometheus Queries Example 2](https://sysdig.com/blog/prometheus-query-examples/)
-- [Prometheus Queries Example 3](https://sysdig.com/blog/getting-started-with-promql-cheatsheet/)
-- [Prometheus Queries Example 4](https://www.containiq.com/post/promql-cheat-sheet-with-examples)
-- [Node Exporter Installation](https://prometheus.io/docs/guides/node-exporter/)
-- [Step-by-step guide to setting up Prometheus Alertmanager with Slack, PagerDuty, and Gmail](https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/)
-- [Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/)
-- [Defining Recording Rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/)
-- [Setup Alertmanager](https://ashish.one/blogs/setup-alertmanager/)
-- [Alert Script](https://gist.github.com/cherti/61ec48deaaab7d288c9fcf17e700853a)
-
-```
-url=prometheus-2-alertmanager.monitoring.svc:9093/api/v2/alerts
-startsAt=`date --iso-8601=seconds`
-endsAt=`date --iso-8601=seconds`
-curl -XPOST $url -H "Content-Type: application/json" -d '[{"status": "firing","labels": {"alertname": "my_cool_alert","service": "curl","severity": "warning","instance": "0"},"annotations": {"summary": "This is a summary","description": "This is a description."},"generatorURL": "http://prometheus.int.example.net/<generating_expression>","startsAt": "2023-01-15T01:05:36+00:00"}]'
-
-curl -XPOST $url -H "Content-Type: application/json" -d '[{"status": "firing","labels": {"alertname": "my_cool_alert","service": "curl","severity": "warning","instance": "0"},"annotations": {"summary": "This is a summary","description": "This is a description."},"generatorURL": "http://prometheus.int.example.net/<generating_expression>","startsAt": "'`date --iso-8601=seconds`'"}]'
-
-curl -XPOST -H "Content-Type: application/json" $url -d '[{"status": "resolved","labels": {"alertname": "my_cool_alert","service": "curl","severity": "warning","instance": "0"},"annotations": {"summary": "This is a summary","description": "This is a description."},"generatorURL": "http://prometheus.int.example.net/<generating_expression>","startsAt": "2020-07-23T01:05:36+00:00","endsAt": "2020-07-23T01:05:38+00:00"}]'
-```
-
-- [Alert Script 2](https://gist.github.com/cherti/61ec48deaaab7d288c9fcf17e700853a)
-- [Alert Script 3](https://gist.github.com/carinadigital/fd2960fdccd77dbdabc849656c43a070)
-- [stress-ng USAGE](https://stackoverflow.com/questions/45317515/stress-ng-ram-testing-commands)
-- [Multipass Commandline](https://multipass.run/docs/launch-command)
--->
