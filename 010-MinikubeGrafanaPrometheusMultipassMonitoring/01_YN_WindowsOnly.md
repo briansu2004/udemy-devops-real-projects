@@ -34,13 +34,18 @@ A Kuberentes Dashboard will pop out in our browser immediately. You can explore 
 
 #### 2. Deploy Metrics Server
 
-In order to collect more metrics from the cluster, we should install **metrics server** on the cluster first. You can download the manifest file as follows:
+In order to collect more metrics from the cluster, we should install **metrics server** on the cluster first.
 
-```dos
-wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-```
+<!--
+We will use `components.yaml` to do it.
 
-Then we need to **update the yaml file** by **adding** below section to **turn off the TLS verification** (more detail please see the [**Issue 1**](#issue1) in the **troubleshooting section** below)
+Download the manifest file as follows:
+
+<https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml>
+
+Then we need to **update the yaml file** by **adding** below section to **turn off the TLS verification**.
+
+(more detail please see the [**Issue 1**](#issue1) in the **troubleshooting section** below)
 
 ```dos
 apiVersion: apps/v1
@@ -61,6 +66,18 @@ metadata:
 ```
 
 ```yml
+        # - --kubelet-insecure-tls
+        # - --kubelet-preferred-address-types=InternalIP
+```
+
+==>
+
+```yml
+        - --kubelet-insecure-tls
+        - --kubelet-preferred-address-types=InternalIP
+```
+
+```yml
       - args:
         - --cert-dir=/tmp
         - --secure-port=4443
@@ -69,7 +86,7 @@ metadata:
         - --metric-resolution=15s
 ```
 
-->
+==>
 
 ```yml
       - args:
@@ -81,10 +98,13 @@ metadata:
         - --kubelet-insecure-tls
         - --kubelet-preferred-address-types=InternalIP
 ```
+-->
 
-Lastly, **apply** the manifest:
+Apply the manifest `components.yaml`:
 
 ```dos
+git clone https://github.com/briansu2004/udemy-devops-real-projects.git
+cd udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring
 kubectl -n kube-system apply -f components.yaml
 ```
 
