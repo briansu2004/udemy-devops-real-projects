@@ -368,13 +368,23 @@ We can also change the layout orientation in **Bar gauge** -> **Orientation** se
 
 ![1681177618885](image/01_YN_WindowsOnly/1681177618885.png)
 
+![1681177657632](image/01_YN_WindowsOnly/1681177657632.png)
+
+<!--
 ![Top 5 Memory Intense Pods](images/top-5-memory-intense-pod.png)
+-->
 
 #### 6. Configure Dashboard by Importing Json file
 
 Instead of manually configuring the dashboard, we can also **import the pre-defined dashboard from a json file**.
 
-In the Grafana Home page, go to **Dashboards** and click **Import**. Click **Upload JSON file** and choose **pod-health-status.json** under `devopsdaydayup/010-MinikubeGrafanaPrometheusMonitoring` folder. Then we should see the dashboard imported.
+In the Grafana Home page, go to **Dashboards** and click **Import**.
+
+Click **Upload JSON file** and choose **pod-health-status.json**. Then we should see the dashboard imported.
+
+![1681177812192](image/01_YN_WindowsOnly/1681177812192.png)
+
+![1681177824556](image/01_YN_WindowsOnly/1681177824556.png)
 
 #### 7. Download Dashboard Template
 
