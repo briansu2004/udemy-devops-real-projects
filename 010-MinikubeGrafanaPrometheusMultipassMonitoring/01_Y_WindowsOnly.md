@@ -29,7 +29,7 @@ minikube start --driver=docker --kubernetes-version=v1.26.1
 #### 1. Enable Minikube dashboard
 
 ```dos
-minikube dashboard
+minikube dashboard=
 ```
 
 A Kuberentes Dashboard will pop out in our browser immediately. We can explore all Minikube resources in this UI website.
@@ -352,7 +352,7 @@ Before saving the change, go to **Panel options** section in the right lane and 
 
 ![1681177503995](image/01_YN_WindowsOnly/1681177503995.png)
 
-Next, we will create a **panel** to monitor the **top 5 memory intense Pods**.
+Next, we will create a **panel** to monitor the **Top 5 memory intense Pods**.
 
 Again, click **Add panel** and then choose **Add a new panel**.
 
