@@ -24,7 +24,7 @@ minikube start --driver=docker --kubernetes-version=v1.26.1
 
 ### (Part 1) Monitoring Kuberentes nodes and containers
 
-#### 1. Enable Minikube Dashboard
+#### 1. Enable Minikube dashboard
 
 ```dos
 minikube dashboard
@@ -32,7 +32,7 @@ minikube dashboard
 
 A Kuberentes Dashboard will pop out in our browser immediately. We can explore all Minikube resources in this UI website.
 
-#### 2. Deploy Metrics Server
+#### 2. Deploy metrics server
 
 In order to collect more metrics from the cluster, we should install **metrics server** on the cluster first.
 
@@ -149,22 +149,23 @@ kubectl top node
 We should be able to see below result if it works fine.
 
 ```dos
-$ kubectl top nodes
 NAME       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
-minikube   622m         7%     2411Mi          15%  
+minikube   1737m        21%    2380Mi          9%
 ```
 
-#### 3. Add Helm Repo
+#### 3. Add helm repo
 
 Once Helm is set up properly, **add** the **repo** as follows:
 
 ```dos
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
 helm repo update
+
 helm search repo prometheus-community
 ```
 
-#### 4. Deploy Prometheus Helm Chart
+#### 4. Deploy Prometheus Helm chart
 
 Install Prometheus Helm Chart by running below command:
 
@@ -172,7 +173,23 @@ Install Prometheus Helm Chart by running below command:
 helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
 ```
 
-#### 5. Configure Grafana Dashboard Manually
+<!--
+```dos
+C:\devbox\udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
+NAME: prometheus-grafana
+LAST DEPLOYED: Mon Apr 10 21:04:27 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace default get pods -l "release=prometheus-grafana"
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+```
+-->
+
+#### 5. Configure Grafana Dashboard manually
 
 Once the deployment is settle, we can **port-forward** to the Grafana service to access the portal from our local:
 
@@ -180,15 +197,30 @@ Once the deployment is settle, we can **port-forward** to the Grafana service to
 kubectl -n default port-forward svc/prometheus-grafana 8888:80
 ```
 
-Open our **brower** and then type the URL: [http://localhost:8888](http://localhost:8888). We should see the **Grafana login portal**. We can retrieve the **admin password** by running below command in another terminal:
+Open our **brower** and then type the URL: [http://localhost:8888](http://localhost:8888).
+
+We should see the **Grafana login portal**.
+
+![1681175384791](image/01_YN_WindowsOnly/1681175384791.png)
+
+We can retrieve the **admin password** by running below command in another terminal:
 
 ```dos
 kubectl get secret prometheus-grafana -o=jsonpath="{.data.admin-password}"|base64 -d
 ```
 
-Enter the username (**admin**) and the password we got above (e.g. **prom-operator**), then we should be logged in the Grafana welcome board.
+<!--
+``bash
+$ kubectl get secret prometheus-grafana -o=jsonpath="{.data.admin-password}"|base64 -d
+changeme
+```
+-->
 
-Go to the **Dashboards** section in the left navigation lane, and click **+New dashboard** to open a new dashboard. Follow below steps to add some **variables** before creating a panel.
+Enter the username (**admin**) and the password we got above, then we should be able to log in the Grafana welcome board.
+
+Go to the **Dashboards** section in the left navigation lane, and click **+New dashboard** to open a new dashboard.
+
+Follow below steps to add some **variables** before creating a panel.
 
 a. Click **Dashboard settings**(the gear icon) in the top right
 
@@ -196,11 +228,9 @@ b. Go to **Variables** section
 
 c. Click **Add variable** and add below variables
 
-```dos
 **Node**
 
----
-
+```dos
 - **Select variable type**: Query
 - **Name**: Node
 - Label: <leave it blank>
@@ -213,14 +243,18 @@ c. Click **Add variable** and add below variables
 - Refresh: On dashboard load (Default)
 - Multi-value: Unselect (Default)
 - **Include All option**: Selected
-- **Custom all value**: .\*
+- **Custom all value**: .*
+```
 
 Click **Apply** to save the change
 
+![1681175861842](image/01_YN_WindowsOnly/1681175861842.png)
+
+![1681177262433](image/01_YN_WindowsOnly/1681177262433.png)
+
 **Container**
 
----
-
+```dos
 - **Select variable type**: Query
 - **Name**: Container
 - Label: <leave it blank>
@@ -233,14 +267,18 @@ Click **Apply** to save the change
 - Refresh: On dashboard load (Default)
 - Multi-value: Unselect (Default)
 - **Include All option**: Selected
-- **Custom all value**: .\*
+- **Custom all value**: .*
+```
 
 Click **Apply** to save the change
 
+![1681175941632](image/01_YN_WindowsOnly/1681175941632.png)
+
+![1681177287025](image/01_YN_WindowsOnly/1681177287025.png)
+
 **Namespace**
 
----
-
+```dos
 - **Select variable type**: Query
 - **Name**: Namespace
 - Label: <leave it blank>
@@ -253,44 +291,70 @@ Click **Apply** to save the change
 - Refresh: On dashboard load (Default)
 - Multi-value: Unselect (Default)
 - **Include All option**: Selected
-- **Custom all value**: .\*
+- **Custom all value**: .*
+```
 
 Click **Apply** to save the change
 
+![1681176033749](image/01_YN_WindowsOnly/1681176033749.png)
+
+![1681177307753](image/01_YN_WindowsOnly/1681177307753.png)
+
 **interval**
 
----
-
+```dos
 - **Select variable type**: Interval
 - **Name**: interval
 - Label: <leave it blank>
 - Description: Interval
-- **Data source**: Prometheus
+<!-- - **Data source**: Prometheus -->
 - **Values**: 1m,10m,30m,1h,6h,12h,1d,7d,14d,30d
 - Auto Option: Enable
 - Step count: 1
 - Min interval: 2m
+```
 
 Click **Apply** to save the change
-```
+
+![1681176168568](image/01_YN_WindowsOnly/1681176168568.png)
+
+![1681176233542](image/01_YN_WindowsOnly/1681176233542.png)
 
 Click **Save** to save the dashboard. Name it as **Container Health Status**
 
+![1681176251350](image/01_YN_WindowsOnly/1681176251350.png)
+
 Once we go back to the Dashboard, we will see the **Node**/**Container**/**Namespace**/**Interval** sections are available in the top left with dropdown menu for choosing.
 
-Now we are going to add a new **Panel**. Click **Add Panel** in the top right and click **Add a new panel** area. In the section **A**, type below query in the **Enter a PromQL query** field:
+Now we are going to add a new **Panel**.
+
+Click **Add Panel** in the top right and click **Add a new panel** area.
+
+In the section **A**, click "Code" button (right to the "Builder" button) then type below query in the **Enter a PromQL query** field:
 
 ```dos
 sum(kube_pod_status_phase{pod=~"^$Container.*",namespace=~"default"}) by (phase)
 ```
 
-and click **Run queries** to execute the query. Make sure to choose **All** in top **Container** dropdown menu. We should see a line chart in above display area.
+and click **Run queries** to execute the query.
+
+![1681177404556](image/01_YN_WindowsOnly/1681177404556.png)
+
+Make sure to choose **All** in top **Container** dropdown menu. We should see a line chart in above display area.
 
 In order to make the graph more readable, we can change the type of charts. Just expanding the **Time series** section in the top right and search for **bar gauge** to apply.
 
+![1681177448749](image/01_YN_WindowsOnly/1681177448749.png)
+
 Before saving the change, go to **Panel options** section in the right lane and type the name in **Title** field, for example, **Pod Status in Default Namespace**. And click **Apply** to save the change.
 
-Next, we will create a **panel** to monitor the **top 5 memory intense Pods**. Again, click **Add panel** and then choose **Add a new panel**. Copy and paste below query in the query field:
+![1681177503995](image/01_YN_WindowsOnly/1681177503995.png)
+
+Next, we will create a **panel** to monitor the **top 5 memory intense Pods**.
+
+Again, click **Add panel** and then choose **Add a new panel**.
+
+Copy and paste below query in the query field:
 
 ```dos
 topk(5,avg(container_memory_usage_bytes{}) by (pod) /1024/1024/1024)
@@ -298,7 +362,11 @@ topk(5,avg(container_memory_usage_bytes{}) by (pod) /1024/1024/1024)
 
 and click **Run queries** to execute the query.
 
-Expanding the **Time series** section in the top right and search for **Bar gauge** to apply. We can also change the layout orientation in **Bar gauge** -> **Orientation** section.
+Expanding the **Time series** section in the top right and search for **Bar gauge** to apply.
+
+We can also change the layout orientation in **Bar gauge** -> **Orientation** section.
+
+![1681177618885](image/01_YN_WindowsOnly/1681177618885.png)
 
 ![Top 5 Memory Intense Pods](images/top-5-memory-intense-pod.png)
 
