@@ -13,13 +13,12 @@ In this lab, we will deploy the **Prometheus-Grafana** **Helm** chart on **Minik
 | 3 | Mac only | Y | Y |   |
 | 4 | Mac + Ubuntu | Y | Y |   |
 
-[Windows Only](01_YN_WindowsOnly.md)
-
-[Mac Only](03_Y_MacOnly.md)
+[Windows Only](01_Y_WindowsOnly.md)
 
 <!--
-
 [With_Windows_Ubuntu](02_YN_Windows_Ubuntu.md)
+
+[Mac Only](03_Y_MacOnly.md)
 
 [With_Mac_Ubuntu](04_YN_Mac_Ubuntu.md)
 -->
