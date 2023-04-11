@@ -30,7 +30,7 @@ minikube start --driver=docker --kubernetes-version=v1.26.1
 minikube dashboard
 ```
 
-A Kuberentes Dashboard will pop out in our browser immediately. You can explore all Minikube resources in this UI website.
+A Kuberentes Dashboard will pop out in our browser immediately. We can explore all Minikube resources in this UI website.
 
 #### 2. Deploy Metrics Server
 
@@ -108,13 +108,45 @@ cd udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring
 kubectl -n kube-system apply -f components.yaml
 ```
 
+<!--
+```dos
+C:\devbox\udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>kubectl -n kube-system apply -f components.yaml
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+```
+-->
+
+<!--
+```dos
+C:\devbox\udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>kubectl get pods --all-namespaces
+NAMESPACE              NAME                                        READY   STATUS    RESTARTS      AGE
+kube-system            coredns-787d4945fb-ht7sf                    1/1     Running   1 (18m ago)   10h
+kube-system            etcd-minikube                               1/1     Running   1 (18m ago)   10h
+kube-system            kube-apiserver-minikube                     1/1     Running   1 (18m ago)   10h
+kube-system            kube-controller-manager-minikube            1/1     Running   1 (18m ago)   10h
+kube-system            kube-proxy-kl67r                            1/1     Running   1 (18m ago)   10h
+kube-system            kube-scheduler-minikube                     1/1     Running   1 (18m ago)   10h
+kube-system            metrics-server-986754fb7-ljt59              1/1     Running   0             2m43s
+kube-system            storage-provisioner                         1/1     Running   2 (17m ago)   10h
+kubernetes-dashboard   dashboard-metrics-scraper-5c6664855-9c46c   1/1     Running   1 (18m ago)   10h
+kubernetes-dashboard   kubernetes-dashboard-55c4cbbc7c-mqrzz       1/1     Running   2 (17m ago)   10h
+```
+-->
+
 Once the Pod is ready, we can run below command to test out if the metric server is working.
 
 ```dos
 kubectl top node
 ```
 
-You should be able to see below result if it is working fine
+We should be able to see below result if it works fine.
 
 ```dos
 $ kubectl top nodes
@@ -148,7 +180,7 @@ Once the deployment is settle, we can **port-forward** to the Grafana service to
 kubectl -n default port-forward svc/prometheus-grafana 8888:80
 ```
 
-Open our **brower** and then type the URL: [http://localhost:8888](http://localhost:8888). You should see the **Grafana login portal**. You can retrieve the **admin password** by running below command in another terminal:
+Open our **brower** and then type the URL: [http://localhost:8888](http://localhost:8888). We should see the **Grafana login portal**. We can retrieve the **admin password** by running below command in another terminal:
 
 ```dos
 kubectl get secret prometheus-grafana -o=jsonpath="{.data.admin-password}"|base64 -d
@@ -252,7 +284,7 @@ Now we are going to add a new **Panel**. Click **Add Panel** in the top right an
 sum(kube_pod_status_phase{pod=~"^$Container.*",namespace=~"default"}) by (phase)
 ```
 
-and click **Run queries** to execute the query. Make sure to choose **All** in top **Container** dropdown menu. You should see a line chart in above display area.
+and click **Run queries** to execute the query. Make sure to choose **All** in top **Container** dropdown menu. We should see a line chart in above display area.
 
 In order to make the graph more readable, we can change the type of charts. Just expanding the **Time series** section in the top right and search for **bar gauge** to apply.
 
@@ -266,7 +298,7 @@ topk(5,avg(container_memory_usage_bytes{}) by (pod) /1024/1024/1024)
 
 and click **Run queries** to execute the query.
 
-Expanding the **Time series** section in the top right and search for **Bar gauge** to apply. You can also change the layout orientation in **Bar gauge** -> **Orientation** section.
+Expanding the **Time series** section in the top right and search for **Bar gauge** to apply. We can also change the layout orientation in **Bar gauge** -> **Orientation** section.
 
 ![Top 5 Memory Intense Pods](images/top-5-memory-intense-pod.png)
 
@@ -286,13 +318,13 @@ A variety of dashboard templates are available to meet different needs in [**Gra
 
 #### 8. Find Help from Your AI Friend
 
-You can also take advanage of our AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
+We can also take advanage of our AI friend (e.g. [ChatGPT](https://chat.openai.com/chat)) to generate a query as needed.
 
 ![chatgpg](images/chatgpg.png)
 
 ### (Part 2) Monitoring VMs
 
-You can use Prometheus to monitor VMs outside of the Kubernetes cluster in addition to containers. Below are the steps to do so.
+We can use Prometheus to monitor VMs outside of the Kubernetes cluster in addition to containers. Below are the steps to do so.
 
 #### 1. [Option] Deploy a test VM
 
@@ -316,7 +348,7 @@ ifconfig
 exit
 ```
 
-You can update the **IP address** into `values.prometheus-only.yaml` file under below section:
+We can update the **IP address** into `values.prometheus-only.yaml` file under below section:
 
 ```dos
       - job_name: multipass-vm
