@@ -16,7 +16,7 @@ Windows + Ubuntu
 [Install and Set Up kubectl on Linux](https://www.google.com/search?channel=fs&client=ubuntu&q=install+kubectl+)
 -->
 
-```dos
+```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
 curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
@@ -29,7 +29,7 @@ kubectl version --client --output=yaml
 
 ### 3. Install Kind
 
-```dos
+```bash
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
@@ -43,7 +43,7 @@ sudo mv ./kind /usr/local/bin/kind
 
 Use below command to create a Kubernetes cluster:
 
-```dos
+```bash
 kind create cluster
 ```
 
@@ -69,7 +69,7 @@ vagrant@vagrant:~$
 
 Once it is ready, you can run below command to test it out:
 
-```dos
+```bash
 kubectl get node
 kubectl -n default create deploy test --image=nginx
 ```
@@ -88,19 +88,26 @@ deployment.apps/test created
 
 ### 5. Create a Role ans Service Account
 
-We will use a manifest to create a role and service account in your current context using kubectl.
+We will use a manifest to create a role and service account in our current context using kubectl.
 
 Please make sure to have the correct context before proceeding.
 
 We can check our current context using the following command:
 
-```dos
+```bash
 kubectl config current-context
 ```
 
+<!--
+```bash
+vagrant@vagrant:~$ kubectl config current-context
+kind-kind
+```
+-->
+
 Then create below file as `readonly-manifest.yaml`
 
-```dos
+```bash
 cat > ~/readonly-manifest.yaml <<EOF
 
 ---
@@ -173,9 +180,19 @@ EOF
 
 Apply the manifest file:
 
-```dos
+```bash
 kubectl apply -f readonly-manifest.yaml 
 ```
+
+<!--
+```bash
+vagrant@vagrant:~$ kubectl apply -f readonly-manifest.yaml 
+serviceaccount/readonly created
+secret/readonly-token created
+clusterrole.rbac.authorization.k8s.io/readonly-clusterrole created
+clusterrolebinding.rbac.authorization.k8s.io/readonly-binding created
+```
+-->
 
 <!--
 > Note: As mentioned in this [ticket](https://stackoverflow.com/questions/72256006/service-account-secret-is-not-listed-how-to-fix-it), since 1.24, ServiceAccount token secrets are no longer automatically generated. (See [this note](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.24.md#urgent-upgrade-notes))
@@ -186,7 +203,7 @@ Also, the Secret is no longer used to mount credentials into Pods and you also n
 
 Run the below script to generate a new readonly kubeconfig
 
-```dos
+```bash
 server=$(kubectl config view --minify --output jsonpath='{.clusters[*].cluster.server}')
 ca=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.ca\.crt}')
 token=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.token}' | base64 --decode)
@@ -221,7 +238,7 @@ mv /tmp/merged-config ~/.kube/config
 <!--
 Note: If you are using **AKS**, you should have a **service account** `readonly-sa` already, which has been associated with an existing readonly cluster role. You can just run below script instead:
 
-```dos
+```bash
 api_server=$(kubectl config view -o jsonpath='{.clusters[0].cluster.server}')
 cluster_name=$(kubectl config view -o jsonpath='{.clusters[0].name}')
 serviceaccount_name=$(kubectl -n default get serviceaccount/readonly-sa -o jsonpath='{.secrets[0].name}')
@@ -260,7 +277,7 @@ mv /tmp/merged-config ~/.kube/config
 
 Switch to the new readonly context:
 
-```dos
+```bash
 kubectl config use-context readonly
 kubectl config current-context
 ```
@@ -269,7 +286,7 @@ With the new readonly kubeconfig, we can only **list**/**watch**/**exec** the Po
 
 Let's test it out:
 
-```dos
+```bash
 kubectl get node
 kubectl -n default get pod --watch
 kubectl exec -it $(kubectl get pod --no-headers|awk '{print $1}') -- bash
@@ -277,13 +294,13 @@ kubectl exec -it $(kubectl get pod --no-headers|awk '{print $1}') -- bash
 
 Try creating or deleting an object:
 
-```dos
+```bash
 kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
 kubectl create deploy test2 --image=nginx
 ```
 
 The error below indicates a permission issue, which means the kubeconfig works as expected
 
-```dos
+```bash
 Error from server (Forbidden): pods "test-75d6d47c7f-5dshd" is forbidden: User "system:serviceaccount:default:readonly" cannot delete resource "pods" in API group "" in the namespace "default"
 ```
