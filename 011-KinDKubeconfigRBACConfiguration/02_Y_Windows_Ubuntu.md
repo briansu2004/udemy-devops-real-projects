@@ -236,6 +236,26 @@ mv /tmp/merged-config ~/.kube/config
 ```
 
 <!--
+```bash
+vagrant@vagrant:~$ echo $server
+https://127.0.0.1:33157
+vagrant@vagrant:~$ echo $ca
+LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMvakNDQWVhZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJek1EUXhNakF3TURjd05Wb1hEVE16TURRd09UQXdNRGN3TlZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTVZZCmVpWnQvQmh5UEc2dURiQ2xYd3RKYjV2eE1WMUNIVWpEdDRnMC83d01yUEIwVTNXQWE4Q09YSlROWjUxNXRuQlEKMmV1N1BHTU0rVHRSajBVeCtpWFdkTHp4L0R5SFMvcDk1djFkUVJ4YmFQZlFNeW84SklGZDc0bEYxN0V3ZXpDUQpndTJrVkdENXQzMVdEQkVpM0pEenZDMEhlc1dTRDVGQkhvZ3poT2t3THZRSzNGSm0zNzhSZnNuTGlja2ErUm5MCjdPZ1pRZDhWOEFqd3lYOWZtL2JIZWw1VE90UnAzOVhGZmtqNXBVbzdNODAvbVczemgvMEVxT1ZvWDhqYmY1VkUKMVFYSUxLSXdKK052Mk96TWM0ZkRYZ2R4MFdKR3oyMzAxYzZxeVJxMy8xZ2piRks4aXBJcDFPK25BdzZDZUlyZQpvRGM0MUFkWFFSWkN5a0VCYmRVQ0F3RUFBYU5aTUZjd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZDTGVabGZLTCs0UkcwaDRIcjQ2Sy8rbzlNd2xNQlVHQTFVZEVRUU8KTUF5Q0NtdDFZbVZ5Ym1WMFpYTXdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBQ1RhQXlqb1ZBSFM3OURoRDdwQQphRUt5R1JNb3NhQ2FvS3kwL0lmV0Q0UVJuS2dKR0hDbTRDWFhtdUovREMzaVZ2UzVva0xNSi9QV2hyVHFPQXJECjBjd05FYUR4VTNxcGg5M0haekNIVFJzZnlURFAzdlVrRTl6K1NMcVVIczR0T2hobXhJVUhkb3NhMHpsODFuUk4KaWR0RlVjeVBQR0dBeGxPZGlMdHJKcnF1NWZ0ZEkwNC9rMGNvOFBuZDh6d1ZPNUZ0YVFVS3QrNXdkMVpKZEh1UwpOUzRTYWxtdGZMb0l2MUtpRVBzbVI3SG1SbUgwUFdHdml1em91dmF5TVk5d3BMOVJ6dDE3QlRtS1lUTlZaS3AwCmkwVFNTT2xuVC9jNFJDcnl6VlNYcFROemlEVnNEZWV3a0ZPWnVoRlA0SklFMEpNT3hhSXlDSGxadU5HTmtSQ28KcVJJPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+vagrant@vagrant:~$ echo $token
+eyJhbGciOiJSUzI1NiIsImtpZCI6InRUTmd4d2thVTlUWWxrSGx5U1pLcEFRejhBa21DdDNZdnZuZ3FEUGVaUEUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6InJlYWRvbmx5LXRva2VuIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6InJlYWRvbmx5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiNjAxNjdjYWMtYWY1OS00ZTAxLWI1MGYtZmQ0NjYyODUwMzI0Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6cmVhZG9ubHkifQ.BIjW4TQOqrzae7c1dsInvjk0Xzib3x-ijOozc48Y9_grucmyw6E05iGo0Rz-KpbWPu_qrV-NzC2AlWXf1UtP2BDCExhkF9Q5exUPLX_NFu1pnmP5fMtEyEfCOX789C_t2xmbdLAMp3XCsP3ux5tcf4m71R9HW4SFVVF82R_uOkYGkUKpacS5Y1NOyWRm87u33PV7JL7vXD71HGiiW-epgvUZfl-aStFG8gsm-xXdKP8f14cbSu4bE-gPHAvynklMfHqTbLpH3eSzbEoCTgDhj_GtOVK42ovQKI-t_SoboARsqbv9ore9fGHzEfqJvmzctl_3drQYzBiYe1Mmdcs-Rg
+vagrant@vagrant:~$ echo $namespace
+default
+
+vagrant@vagrant:~$ KUBECONFIG=~/.kube/config:readonly-kubeconfig.yml kubectl config view --flatten > /tmp/merged-config
+vagrant@vagrant:~$
+vagrant@vagrant:~$ echo $KUBECONFIG
+/home/vagrant/.kube/config:readonly-kubeconfig.yml
+vagrant@vagrant:~$
+vagrant@vagrant:~$ mv /tmp/merged-config ~/.kube/config
+```
+-->
+
+<!--
 Note: If you are using **AKS**, you should have a **service account** `readonly-sa` already, which has been associated with an existing readonly cluster role. You can just run below script instead:
 
 ```bash
@@ -282,13 +302,25 @@ kubectl config use-context readonly
 kubectl config current-context
 ```
 
+<!--
+```bash
+vagrant@vagrant:~$ kubectl config use-context readonly
+Switched to context "readonly".
+vagrant@vagrant:~$
+vagrant@vagrant:~$ kubectl config current-context
+readonly
+```
+-->
+
 With the new readonly kubeconfig, we can only **list**/**watch**/**exec** the Pod, but can not **create**/**delete** any Pod.
 
 Let's test it out:
 
 ```bash
 kubectl get node
+
 kubectl -n default get pod --watch
+
 kubectl exec -it $(kubectl get pod --no-headers|awk '{print $1}') -- bash
 ```
 
@@ -296,8 +328,19 @@ Try creating or deleting an object:
 
 ```bash
 kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
+
 kubectl create deploy test2 --image=nginx
 ```
+
+<!--
+```bash
+vagrant@vagrant:~$ kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
+Error from server (Forbidden): pods "test-75d6d47c7f-xbq79" is forbidden: User "system:serviceaccount:default:readonly" cannot delete resource "pods" in API group "" in the namespace "default"
+vagrant@vagrant:~$ 
+vagrant@vagrant:~$ kubectl create deploy test2 --image=nginx
+error: failed to create deployment: deployments.apps is forbidden: User "system:serviceaccount:default:readonly" cannot create resource "deployments" in API group "apps" in the namespace "default"
+```
+-->
 
 The error below indicates a permission issue, which means the kubeconfig works as expected
 
