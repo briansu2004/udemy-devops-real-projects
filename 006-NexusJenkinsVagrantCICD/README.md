@@ -2,7 +2,7 @@
 
 ## Lab goal
 
-In this lab, we will set up a **Nexus** repository and push a war file from **Jenkins Pipeline**, then wewill deploy the war file to a **Tomcat 9** installed in a **Vagrant VM**
+In this lab, we will set up a Nexus repository and push a war file from Jenkins Pipeline, then we will deploy the war file to a Tomcat Server installed in a Vagrant VM.
 
 ## Environments
 
