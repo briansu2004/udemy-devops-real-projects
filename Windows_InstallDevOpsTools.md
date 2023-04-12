@@ -65,3 +65,9 @@ choco install kubernetes-helm
 
 helm version
 ```
+
+## Install Kind in Windows
+
+```bash
+choco install kind
+```

@@ -24,7 +24,6 @@ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-kubectl version --client
 kubectl version --client --output=yaml
 ```
 
