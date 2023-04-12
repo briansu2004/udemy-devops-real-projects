@@ -4,9 +4,13 @@ Windows only
 
 ## Prerequisites
 
-### 1. Install Docker in Windows
+### Install Docker in Windows
 
-### 2. Install kubectl in Windows
+### Install Git Bash in Windows
+
+## Steps
+
+### 1. Install kubectl in Windows
 
 <!--
 [Install and Set Up kubectl on Linux](https://www.google.com/search?channel=fs&client=ubuntu&q=install+kubectl+)
@@ -16,7 +20,7 @@ Windows only
 choco install kubernetes-cli
 ```
 
-### 3. Install Kind
+### 2. Install Kind
 
 ```dos
 choco install kind
@@ -26,9 +30,7 @@ choco install kind
 [The full installation guide](https://kind.sigs.k8s.io/docs/user/quick-start/)
 -->
 
-## Steps
-
-### 1. Create a Cluster
+### 3. Create a Cluster
 
 Use below command to create a Kubernetes cluster:
 
@@ -80,7 +82,7 @@ deployment.apps/test created
 ```
 -->
 
-### 2. Create a Role ans Service Account
+### 4. Create a Role ans Service Account
 
 We will use a manifest to create a role and service account in our current context using kubectl.
 
@@ -193,7 +195,7 @@ clusterrolebinding.rbac.authorization.k8s.io/readonly-binding created
 Also, the Secret is no longer used to mount credentials into Pods and you also need to manually create it. (ref: <https://kubernetes.io/docs/concepts/configuration/secret/#service-account-token-secrets>)
 -->
 
-### 3. Create ReadOnly Kubeconfig
+### 5. Create ReadOnly Kubeconfig
 
 Run the below script to generate a new readonly kubeconfig
 
@@ -231,7 +233,7 @@ KUBECONFIG=~/.kube/config:"/c/devbox/readonly-kubeconfig.yml" kubectl config vie
 mv /tmp/merged-config ~/.kube/config
 ```
 
-### 4. Test
+### 6. Test
 
 Switch to the new readonly context:
 

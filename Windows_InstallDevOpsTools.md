@@ -71,3 +71,27 @@ helm version
 ```bash
 choco install kind
 ```
+
+## Install Git Bash in Windows
+
+Here are the steps to install Git Bash on Windows:
+
+Download the Git for Windows installer from the official website at <https://gitforwindows.org/>.
+
+Run the installer and follow the prompts. When prompted for installation options, keep the default settings and click "Next" to proceed.
+
+On the "Adjusting your PATH environment" screen, select "Use Git and optional Unix tools from the Command Prompt" and click "Next".
+
+On the "Configuring the line ending conversions" screen, select "Checkout Windows-style, commit Unix-style line endings" and click "Next".
+
+On the "Configuring the terminal emulator to use with Git Bash" screen, select "Use Windows' default console window" and click "Next".
+
+On the "Configuring extra options" screen, leave the default settings and click "Next".
+
+On the "Installing" screen, click "Install" to begin the installation process.
+
+Once the installation is complete, click "Finish" to exit the installer.
+
+You can now launch Git Bash by searching for "Git Bash" in the Start menu or by clicking the Git Bash shortcut on your desktop.
+
+Git Bash is now installed on your Windows system, and you can use it to run Git commands and Unix utilities from the command line.
