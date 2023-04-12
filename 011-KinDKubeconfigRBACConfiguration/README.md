@@ -19,7 +19,7 @@ In this lab, we will learn how to generate a kubeconfig file with read-only acce
 
 <!--
 
-[Mac Only](03_YN_MacOnly.md)
+[Mac Only](03_Y_MacOnly.md)
 
 [With_Mac_Ubuntu](04_Y_Mac_Ubuntu.md)
 -->
