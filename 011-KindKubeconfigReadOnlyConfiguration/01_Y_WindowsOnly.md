@@ -257,6 +257,12 @@ mv /tmp/merged-config ~/.kube/config
 ```
 
 <!--
+Lessons learned:
+
+Clean up ~/.kube if needed
+
+Compare `~/.kube/config` and the back up file to see the differences.
+
 Has to be 1 line!!!
 
 `KUBECONFIG=~/.kube/config:"/c/devbox/readonly-kubeconfig.yml" kubectl config view --flatten > /tmp/merged-config`
