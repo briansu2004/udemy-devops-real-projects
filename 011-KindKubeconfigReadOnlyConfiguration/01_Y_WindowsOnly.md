@@ -79,10 +79,14 @@ kind-control-plane   Ready    control-plane   44s   v1.26.3
 
 C:\devbox>kubectl -n default create deploy test --image=nginx
 deployment.apps/test created
+
+PS C:\devbox> kubectl get deployment
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+test   0/1     1            0           9s
 ```
 -->
 
-### 4. Create a Role ans Service Account
+### 4. Create a Role and a Service Account
 
 We will use a manifest to create a role and service account in our current context using kubectl.
 
@@ -104,7 +108,7 @@ kind-kind
 Then create below file as `readonly-manifest.yaml`
 
 ```dos
-cat > ./readonly-manifest.yaml <<EOF
+cat > readonly-manifest.yaml <<EOF
 
 ---
 apiVersion: v1
@@ -204,6 +208,11 @@ server=$(kubectl config view --minify --output jsonpath='{.clusters[*].cluster.s
 ca=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.ca\.crt}')
 token=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.token}' | base64 --decode)
 namespace=$(kubectl get secret/readonly-token --namespace=default -o jsonpath='{.data.namespace}' | base64 --decode)
+
+echo $server
+echo $ca
+echo $token
+echo $namespace
 
 echo "
 apiVersion: v1
