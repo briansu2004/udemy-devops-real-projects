@@ -4,19 +4,21 @@ Enjoy 😀
 
 ## Courses
 
-- [DevOps Labs: 14 Real DevOps Projects](Coming soon)
+- DevOps Labs: 14 Real DevOps Projects]
+
+Coming soon
 
 - [DevOps Labs: 9 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects/)
 
-![DevOps Labs: 9 Real DevOps Projects](course_image_9.jpg)
+<a href="https://www.udemy.com/course/devops-labs-9-real-devops-projects/">![DevOps Labs: 9 Real DevOps Projects](course_image_9.jpg)</a>
 
 - [DevOps Labs: 6 Real DevOps Projects](https://www.udemy.com/course/devops-labs-6-real-devops-projects/)
 
-![DevOps Labs: 6 Real DevOps Projects](course_image_6.jpg)
+<a href="https://www.udemy.com/course/devops-labs-6-real-devops-projects/">![DevOps Labs: 6 Real DevOps Projects](course_image_6.jpg)</a>
 
 - [DevOps Labs: 3 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects-free-version/)
 
-![DevOps Labs: 3 Real DevOps Projects](course_image_3.png)
+<a href="https://www.udemy.com/course/devops-labs-9-real-devops-projects-free-version/">![DevOps Labs: 3 Real DevOps Projects](course_image_3.png)</a>
 
 ## Labs
 
