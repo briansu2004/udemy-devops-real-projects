@@ -83,6 +83,10 @@ deployment.apps/test created
 PS C:\devbox> kubectl get deployment
 NAME   READY   UP-TO-DATE   AVAILABLE   AGE
 test   0/1     1            0           9s
+
+PS C:\devbox> kubectl get pod
+NAME                    READY   STATUS              RESTARTS   AGE
+test-865bcfc74c-zqwdq   0/1     ContainerCreating   0          5s
 ```
 -->
 
@@ -191,6 +195,16 @@ serviceaccount/readonly created
 secret/readonly-token created
 clusterrole.rbac.authorization.k8s.io/readonly-clusterrole created
 clusterrolebinding.rbac.authorization.k8s.io/readonly-binding created
+
+PS C:\devbox> kubectl get ServiceAccount
+NAME       SECRETS   AGE
+default    0         2m6s
+readonly   0         11s
+PS C:\devbox> kubectl get ClusterRole | findstr readonly
+readonly-clusterrole                                                   2023-04-12T20:43:02Z
+
+PS C:\devbox> kubectl get ClusterRoleBinding | findstr readonly
+readonly-binding                                       ClusterRole/readonly-clusterrole                                                   90s
 ```
 -->
 
@@ -242,6 +256,22 @@ KUBECONFIG=~/.kube/config:"/c/devbox/readonly-kubeconfig.yml" kubectl config vie
 mv /tmp/merged-config ~/.kube/config
 ```
 
+<!--
+Has to be 1 line!!!
+
+`KUBECONFIG=~/.kube/config:"/c/devbox/readonly-kubeconfig.yml" kubectl config view --flatten > /tmp/merged-config`
+
+After it, compare config and the backup to see the differences.
+
+```bash
+kubectl config view
+
+kubectl config get-contexts
+
+kubectl get pods --namespace <namespace>
+```
+-->
+
 ### 6. Test
 
 Switch to the new readonly context:
@@ -279,9 +309,6 @@ Try creating or deleting an object:
 
 ```dos
 kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
-
-
-
 ```
 
 <!--
