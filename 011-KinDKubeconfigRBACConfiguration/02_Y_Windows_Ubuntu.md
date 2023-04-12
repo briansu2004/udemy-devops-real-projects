@@ -47,12 +47,44 @@ Use below command to create a Kubernetes cluster:
 kind create cluster
 ```
 
+<!--
+```bash
+vagrant@vagrant:~$ kind create cluster
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.25.3) 🖼 
+ ✓ Preparing nodes 📦  
+ ✓ Writing configuration 📜 
+ ✓ Starting control-plane 🕹️ 
+ ✓ Installing CNI 🔌 
+ ✓ Installing StorageClass 💾 
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Have a nice day! 👋
+vagrant@vagrant:~$ 
+```
+-->
+
 Once it is ready, you can run below command to test it out:
 
 ```dos
 kubectl get node
 kubectl -n default create deploy test --image=nginx
 ```
+
+<!--
+```bash
+vagrant@vagrant:~$ kubectl get node
+NAME                 STATUS   ROLES           AGE   VERSION
+kind-control-plane   Ready    control-plane   53s   v1.25.3
+vagrant@vagrant:~$ 
+vagrant@vagrant:~$
+vagrant@vagrant:~$ kubectl -n default create deploy test --image=nginx
+deployment.apps/test created
+```
+-->
 
 ### 5. Create a Role ans Service Account
 
