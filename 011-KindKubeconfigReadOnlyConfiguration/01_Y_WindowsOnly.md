@@ -296,7 +296,7 @@ With the new readonly kubeconfig, we can only **list**/**watch**/**exec** the Po
 
 Let's try:
 
-```dos
+```bash
 kubectl get node
 
 kubectl -n default get pod --watch
@@ -305,24 +305,26 @@ kubectl exec -it $(kubectl get pod --no-headers|awk '{print $1}') -- script --qu
 exit
 ```
 
-Try creating or deleting an object:
+Try to delete an existing object:
 
-```dos
+```bash
 kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
 ```
-
-<!--
-```dos
-vagrant@vagrant:~$ kubectl delete pod $(kubectl get pod --no-headers|awk '{print $1}')
-Error from server (Forbidden): pods "test-75d6d47c7f-xbq79" is forbidden: User "system:serviceaccount:default:readonly" cannot delete resource "pods" in API group "" in the namespace "default"
-vagrant@vagrant:~$ 
-vagrant@vagrant:~$ kubectl create deploy test2 --image=nginx
-error: failed to create deployment: deployments.apps is forbidden: User "system:serviceaccount:default:readonly" cannot create resource "deployments" in API group "apps" in the namespace "default"
-```
--->
 
 The error below indicates a permission issue, which means the kubeconfig works as expected
 
 ```dos
-Error from server (Forbidden): pods "test-75d6d47c7f-5dshd" is forbidden: User "system:serviceaccount:default:readonly" cannot delete resource "pods" in API group "" in the namespace "default"
+Error from server (Forbidden): pods "test-75d6d47c7f-xbq79" is forbidden: User "system:serviceaccount:default:readonly" cannot delete resource "pods" in API group "" in the namespace "default"
+```
+
+Try to create a new object:
+
+```bash
+kubectl create deploy test2 --image=nginx
+```
+
+The error below indicates a permission issue, which means the kubeconfig works as expected
+
+```dos
+error: failed to create deployment: deployments.apps is forbidden: User "system:serviceaccount:default:readonly" cannot create resource "deployments" in API group "apps" in the namespace "default"
 ```
