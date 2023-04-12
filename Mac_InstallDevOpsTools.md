@@ -84,3 +84,9 @@ brew install helm
 
 helm version
 ```
+
+## Install Kind in Mac
+
+```bash
+brew install kind
+```

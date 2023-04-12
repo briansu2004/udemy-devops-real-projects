@@ -12,7 +12,9 @@ Windows + Ubuntu
 
 ### 2. Install kubectl
 
+<!--
 [Install and Set Up kubectl on Linux](https://www.google.com/search?channel=fs&client=ubuntu&q=install+kubectl+)
+-->
 
 ```dos
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -34,7 +36,9 @@ chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 ```
 
+<!--
 [The full installation guide](https://kind.sigs.k8s.io/docs/user/quick-start/)
+-->
 
 ### 4. Create a Cluster
 
