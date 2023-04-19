@@ -4,9 +4,9 @@ Enjoy 😀
 
 ## Courses
 
-- DevOps Labs: 14 Real DevOps Projects]
+- [DevOps Labs: 14 Real DevOps Projects](https://www.udemy.com/course/devops-labs-14-real-devops-projects/)
 
-Coming soon
+<a href="https://www.udemy.com/course/devops-labs-14-real-devops-projects/">![DevOps Labs: 14 Real DevOps Projects](course_image_14.jpg)</a>
 
 - [DevOps Labs: 9 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects/)
 
