@@ -8,6 +8,10 @@ Enjoy 😀
 
 <a href="https://www.udemy.com/course/devops-labs-14-real-devops-projects/">![DevOps Labs: 14 Real DevOps Projects](course_image_14.jpg)</a>
 
+- [DevOps Labs: 12 Real DevSecOps Projects](https://www.udemy.com/course/devops-labs-12-real-devsecops-projects/)
+
+<a href="https://www.udemy.com/course/devops-labs-12-real-devsecops-projects/">![DevOps Labs: 12 Real DevSecOps Projects](course_image_12.png)</a>
+
 - [DevOps Labs: 9 Real DevOps Projects](https://www.udemy.com/course/devops-labs-9-real-devops-projects/)
 
 <a href="https://www.udemy.com/course/devops-labs-9-real-devops-projects/">![DevOps Labs: 9 Real DevOps Projects](course_image_9.jpg)</a>
