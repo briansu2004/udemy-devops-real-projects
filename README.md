@@ -4,6 +4,10 @@ Enjoy 😀
 
 ## Courses
 
+- [DevOps Labs: 15 Real DevSecOps Projects](Coming soon)
+
+...
+
 - [DevOps Labs: 14 Real DevOps Projects](https://www.udemy.com/course/devops-labs-14-real-devops-projects/)
 
 <a href="https://www.udemy.com/course/devops-labs-14-real-devops-projects/">![DevOps Labs: 14 Real DevOps Projects](course_image_14.jpg)</a>
@@ -51,3 +55,5 @@ Lab 012: Backup Vault in Minio
 Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
 
 Lab 014: Deploy and Use Vault As Agent Sidecar Injector
+
+lab 015: Remove Large File from Git Commit History
