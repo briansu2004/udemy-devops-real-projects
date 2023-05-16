@@ -56,4 +56,4 @@ Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modification
 
 Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 
-lab 015: Remove Large File from Git Commit History
+Lab 015: Remove Large File from Git Commit History
