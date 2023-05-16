@@ -4,9 +4,9 @@ Enjoy 😀
 
 ## Courses
 
-- [DevOps Labs: 15 Real DevSecOps Projects](Coming soon)
+- [DevOps Labs: 15 Real DevSecOps Projects](https://www.udemy.com/course/devops-labs-15-real-devsecops-projects/)
 
-...
+<a href="https://www.udemy.com/course/devops-labs-15-real-devsecops-projects/">![DevOps Labs: 15 Real DevSecOps Projects](course_image_15.png)</a>
 
 - [DevOps Labs: 14 Real DevOps Projects](https://www.udemy.com/course/devops-labs-14-real-devops-projects/)
 
