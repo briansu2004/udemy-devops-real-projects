@@ -4,6 +4,10 @@ Enjoy 😀
 
 ## Courses
 
+- [DevOps Labs: 16 Real DevOps Projects](https://www.udemy.com/course/devops-labs-16-real-devops-projects/)
+
+<a href="https://www.udemy.com/course/devops-labs-16-real-devops-projects/">![DevOps Labs: 16 Real DevOps Projects](course_image_16.jpg)</a>
+
 - [DevOps Labs: 15 Real DevSecOps Projects](https://www.udemy.com/course/devops-labs-15-real-devsecops-projects/)
 
 <a href="https://www.udemy.com/course/devops-labs-15-real-devsecops-projects/">![DevOps Labs: 15 Real DevSecOps Projects](course_image_15.jpg)</a>
@@ -57,3 +61,5 @@ Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modification
 Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 
 Lab 015: Remove Large File from Git Commit History
+
+Lab 016: Deploy an Go API app to Azure With ACR and AKS
