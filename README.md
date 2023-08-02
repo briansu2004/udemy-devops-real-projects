@@ -10,7 +10,7 @@ Enjoy 😀
 
 - [IT Contractor Behavioral Interview Questions (2023)](https://www.udemy.com/course/it-contractor-behavioral-interview-questions-20xx/)
 
-<a href="https://www.udemy.com/course/it-contractor-behavioral-interview-questions-20xx">![IT Contractor Behavioral Interview Questions (2023)](course_logo_iw_Behavioral.jpg)</a>
+<a href="https://www.udemy.com/course/it-contractor-behavioral-interview-questions-20xx">![IT Contractor Behavioral Interview Questions (2023)](course_logo_iw_Behavioral.png)</a>
 
 - [DevOps Interview Questions (2023)](https://www.udemy.com/course/devops-interview-questions-20xx)
 
