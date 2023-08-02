@@ -18,6 +18,10 @@ Enjoy 😀
 
 - [DevOps Labs: 16 Real DevOps Projects](https://www.udemy.com/course/devops-labs-16-real-devops-projects/)
 
+<a href="https://www.udemy.com/course/managing-dask-kubernetes-with-kubectl-python-and-go">![Managing Dask Kubernetes with Kubectl, Python and Go](course_logo_Dask_Backend_Local.png)</a>
+
+- [Managing Dask Kubernetes with Kubectl, Python and Go](https://www.udemy.com/course/managing-dask-kubernetes-with-kubectl-python-and-go)
+
 <a href="https://www.udemy.com/course/devops-labs-16-real-devops-projects/">![DevOps Labs: 16 Real DevOps Projects](course_image_16.jpg)</a>
 
 - [DevOps Labs: 15 Real DevSecOps Projects](https://www.udemy.com/course/devops-labs-15-real-devsecops-projects/)
