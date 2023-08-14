@@ -4,6 +4,10 @@ Enjoy 😀
 
 ## Courses
 
+- [IT Contractor .Net and C# Interview Questions (2023)](https://www.udemy.com/course/it-contractor-net-and-c-interview-questions-20xx)
+
+<a href="https://www.udemy.com/course/it-contractor-net-and-c-interview-questions-20xx">![IT Contractor .Net and C# Interview Questions (2023)](course_logo_iw_NetC#.png)</a>
+
 - [IT Contractor Interview Questions (2023)](https://www.udemy.com/course/it-contractor-interview-questions-20xx)
 
 <a href="https://www.udemy.com/course/it-contractor-interview-questions-20xx">![IT Contractor Interview Questions (2023)](course_logo_iw_IT.jpg)</a>
