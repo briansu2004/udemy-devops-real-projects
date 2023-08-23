@@ -4,6 +4,10 @@ Enjoy 😀
 
 ## Courses
 
+- [IT Contractor Google Cloud (GCP) Interview Questions (2023)](https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx)
+
+<a href="https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx">![IT Contractor Google Cloud (GCP) Interview Questions (2023)](course_logo_iw_GCP.png)</a>
+
 - [IT Contractor Angular Interview Questions (2023)](https://www.udemy.com/course/it-contractor-angular-interview-questions-20xx/)
 
 <a href="https://www.udemy.com/course/it-contractor-angular-interview-questions-20xx/">![IT Contractor Angular Interview Questions (2023)](course_logo_iw_Angular.jpg)</a>
