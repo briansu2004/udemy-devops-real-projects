@@ -8,13 +8,13 @@ Enjoy 😀
 
 <a href="https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx">![Ace Your Google Cloud (GCP) Job Interviews](course_logo_iw_GCP.png)</a>
 
-- [IT Contractor Angular Interview Questions (2023)](https://www.udemy.com/course/it-contractor-angular-interview-questions-20xx/)
+<!-- - [IT Contractor Angular Interview Questions (2023)](https://www.udemy.com/course/it-contractor-angular-interview-questions-20xx/)
 
 <a href="https://www.udemy.com/course/it-contractor-angular-interview-questions-20xx/">![IT Contractor Angular Interview Questions (2023)](course_logo_iw_Angular.jpg)</a>
 
 - [IT Contractor .Net and C# Interview Questions (2023)](https://www.udemy.com/course/it-contractor-net-and-c-interview-questions-20xx)
 
-<a href="https://www.udemy.com/course/it-contractor-net-and-c-interview-questions-20xx">![IT Contractor .Net and C# Interview Questions (2023)](course_logo_iw_NetC.png)</a>
+<a href="https://www.udemy.com/course/it-contractor-net-and-c-interview-questions-20xx">![IT Contractor .Net and C# Interview Questions (2023)](course_logo_iw_NetC.png)</a> -->
 
 - [IT Contractor Interview Questions (2023)](https://www.udemy.com/course/it-contractor-interview-questions-20xx)
 
