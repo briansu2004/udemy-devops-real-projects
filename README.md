@@ -4,9 +4,13 @@ Enjoy 😀
 
 ## Courses
 
-- [Ace Your Google Cloud (GCP) Job Interviews](https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx)
+- [Maven Mastery: Kickstart Your Java Projects](https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx)
 
-<a href="https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx">![Ace Your Google Cloud (GCP) Job Interviews](course_logo_iw_GCP.png)</a>
+<a href="https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx">![Maven Mastery: Kickstart Your Java Projects](course_logo_maven.jpg)</a>
+
+- [Ace Your Google Cloud (GCP) Job Interviews (2023)](https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx)
+
+<a href="https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx">![Ace Your Google Cloud (GCP) Job Interviews (2023)](course_logo_iw_GCP.png)</a>
 
 <!-- - [IT Contractor Angular Interview Questions (2023)](https://www.udemy.com/course/it-contractor-angular-interview-questions-20xx/)
 
