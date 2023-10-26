@@ -4,9 +4,14 @@ Enjoy 😀
 
 ## Courses
 
-- [Maven Mastery: Kickstart Your Java Projects](https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx)
+- [React Mastery: Rapidstart Your Responsive App](https://www.udemy.com/course/react-rapidstart-creating-an-responsive-react-app-in-1-hour)
 
-<a href="https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx">![Maven Mastery: Kickstart Your Java Projects](course_logo_maven.jpg)</a>
+<a href="https://www.udemy.com/course/react-rapidstart-creating-an-responsive-react-app-in-1-hour">![React Mastery: Rapidstart Your Responsive App](course_logo_react.jpg)</a>
+
+
+- [Maven Mastery: Kickstart Your Java Projects](https://www.udemy.com/course/maven-mastery-kickstart-your-java-projects/)
+
+<a href="https://www.udemy.com/course/maven-mastery-kickstart-your-java-projects/">![Maven Mastery: Kickstart Your Java Projects](course_logo_maven.jpg)</a>
 
 - [Ace Your Google Cloud (GCP) Job Interviews (2023)](https://www.udemy.com/course/it-contractor-google-cloud-gcp-interview-questions-20xx)
 
