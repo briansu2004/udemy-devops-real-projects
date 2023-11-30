@@ -4,10 +4,17 @@ Enjoy 😀
 
 ## Courses
 
+- [Spring MVC Mastery: Jumpstart Your Java Projects](https://www.udemy.com/course/spring-mvc-mastery-jumpstart-your-java-projects/)
+
+<a href="https://www.udemy.com/course/spring-mvc-mastery-jumpstart-your-java-projects/">![Spring MVC Mastery: Jumpstart Your Java Projects](course_logo_spring_mvc.png)</a>
+
+- [Struts Savvy: Quickstart Your Java Projects](https://www.udemy.com/course/struts-savvy-quickstart-your-java-projects/)
+
+<a href="https://www.udemy.com/course/struts-savvy-quickstart-your-java-projects/">![Struts Savvy: Quickstart Your Java Projects](course_logo_struts2.jpg)</a>
+
 - [React Mastery: Rapidstart Your Responsive App](https://www.udemy.com/course/react-rapidstart-creating-an-responsive-react-app-in-1-hour)
 
 <a href="https://www.udemy.com/course/react-rapidstart-creating-an-responsive-react-app-in-1-hour">![React Mastery: Rapidstart Your Responsive App](course_logo_react.jpg)</a>
-
 
 - [Maven Mastery: Kickstart Your Java Projects](https://www.udemy.com/course/maven-mastery-kickstart-your-java-projects/)
 
