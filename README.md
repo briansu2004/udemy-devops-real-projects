@@ -4,6 +4,10 @@ Enjoy 😀
 
 ## Courses
 
+- [Guru Golang Job Interviews](https://www.udemy.com/course/guru-golang/)
+
+<a href="https://www.udemy.com/course/guru-golang/">![Guru Golang Job Interviews](image/course_logo_go.jpg)</a>
+
 - [Mendix Magic: Mobilize Your Responsive Apps with No Code](https://www.udemy.com/course/mendix-magic/)
 
 <a href="https://www.udemy.com/course/mendix-magic/">![Mendix Magic: Mobilize Your Responsive Apps with No Code](image/course_logo_mendix.png)</a>
