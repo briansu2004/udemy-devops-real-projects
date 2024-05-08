@@ -10,7 +10,7 @@ Enjoy 😀
 
 - [Nail Node.js Job Interviews](https://www.udemy.com/course/nail-nodejs)
 
-<a href="https://www.udemy.com/course/nail-nodejs">![Nail Node.js Job Interviews](image/course_logo_nodejs.jpg)</a>
+<a href="https://www.udemy.com/course/nail-nodejs">![Nail Node.js Job Interviews](image/course_logo_nodejs.png)</a>
 
 - [Guru Golang Job Interviews](https://www.udemy.com/course/guru-golang/)
 
