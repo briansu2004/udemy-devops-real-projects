@@ -6,15 +6,15 @@ Enjoy 😀
 
 - [Perfect Python Job Interviews](https://www.udemy.com/course/perfect-python/)
 
-<a href="https://www.udemy.com/course/perfect-python/">![Perfect Python Job Interviews](course_logo_py.png)</a>
+<a href="https://www.udemy.com/course/perfect-python/">![Perfect Python Job Interviews](image/course_logo_py.png)</a>
 
 - [Crack C# .NET Job Interviews](https://www.udemy.com/course/crack-csharop-dotnet/)
 
-<a href="https://www.udemy.com/course/crack-csharop-dotnet/">![Crack C# .NET Job Interviews](image/course_logo_c#.jpg)</a>
+<a href="https://www.udemy.com/course/crack-csharop-dotnet/">![Crack C# .NET Job Interviews](image/course_logo_csharp.jpg)</a>
 
 - [Ace Angular Job Interviews](https://www.udemy.com/course/ace-angular)
 
-<a href="https://www.udemy.com/course/ace-angular">![Ace Angular Job Interviews](image/course_logo_angular.jpg)</a>
+<a href="https://www.udemy.com/course/ace-angular">![Ace Angular Job Interviews](image/course_logo_angular.png)</a>
 
 - [Nail Node.js Job Interviews](https://www.udemy.com/course/nail-nodejs)
 
