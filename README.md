@@ -4,6 +4,10 @@ Enjoy 😀
 
 ## Courses
 
+- [Pass PHP Job Interviews](https://www.udemy.com/course/pass-php-job-interviews/)
+
+<a target="_blank" href="https://www.udemy.com/course/pass-php-job-interviews/">![Pass PHP Job Interviews](image/course_logo_php.jpg)</a>
+
 - [Perfect Python Job Interviews](https://www.udemy.com/course/perfect-python/)
 
 <a target="_blank" href="https://www.udemy.com/course/perfect-python/">![Perfect Python Job Interviews](image/course_logo_py.png)</a>
